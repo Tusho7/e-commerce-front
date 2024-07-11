@@ -4,6 +4,7 @@ import { ErrorResponse, Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { registerUser } from "../services/api/Auth";
 import VerificationCodeInput from "../components/VerificationCodeInput";
+import shoesPicture from "../assets/shoes.jpg";
 
 const Registration = () => {
   const [email, setEmail] = useState("");
@@ -70,15 +71,19 @@ const Registration = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-gray-400">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-[#0E1028]">
       {loading && <Loading />}
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-6">
-          რეგისტრაცია
-        </h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <label htmlFor="email" className="sr-only">
+      <div className="max-w-lg w-full bg-[#1A1E46] p-10 rounded-[10%] shadow-lg space-y-8 text-white">
+        <section className="flex flex-col justify-center items-center">
+          <h2 className="text-3xl font-bold text-center">რეგისტრაცია</h2>
+          <img src={shoesPicture} alt="shoes" className="w-20 h-20" />
+        </section>
+        <form
+          className="space-y-6 flex flex-col gap-3 justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <div className="relative w-full">
+            <label htmlFor="email" className="block text-sm font-medium">
               ელ-ფოსტა
             </label>
             <input
@@ -89,12 +94,12 @@ const Registration = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="ელ-ფოსტა"
             />
           </div>
-          <div className="space-y-2">
-            <label htmlFor="password" className="sr-only">
+          <div className="relative w-full">
+            <label htmlFor="password" className="block text-sm font-medium">
               პაროლი
             </label>
             <input
@@ -105,12 +110,12 @@ const Registration = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="პაროლი"
             />
           </div>
-          <div className="space-y-2">
-            <label htmlFor="firstName" className="sr-only">
+          <div className="relative w-full">
+            <label htmlFor="firstName" className="block text-sm font-medium">
               სახელი
             </label>
             <input
@@ -121,12 +126,12 @@ const Registration = () => {
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="სახელი"
             />
           </div>
-          <div className="space-y-2">
-            <label htmlFor="lastName" className="sr-only">
+          <div className="relative w-full">
+            <label htmlFor="lastName" className="block text-sm font-medium">
               გვარი
             </label>
             <input
@@ -137,13 +142,16 @@ const Registration = () => {
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="გვარი"
             />
           </div>
-          <div className="space-y-2">
-            <label htmlFor="profilePicture" className="sr-only">
-              Profile Picture
+          <div className="relative w-full">
+            <label
+              htmlFor="profilePicture"
+              className="block text-sm font-medium"
+            >
+              პროფილის სურათი
             </label>
             <input
               id="profilePicture"
@@ -151,24 +159,28 @@ const Registration = () => {
               type="file"
               accept="image/png, image/jpeg, image/jpg"
               onChange={handleFileChange}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
             />
           </div>
+          {loading && <Loading />}
           <button
             type="submit"
-            className="w-full py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="mx-auto w-2/3 py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300 ease-in-out"
           >
             რეგისტრაცია
           </button>
-          <div className="mt-4 text-sm text-center">
+        </form>
+        <div className="text-center">
+          <p className="hover:underline cursor-pointer text-sm mt-4">
+            გაქვთ ექაუნთი?{" "}
             <Link
               to="/"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              გაქვთ ექაუნთი ?
+              შესვლა
             </Link>
-          </div>
-        </form>
+          </p>
+        </div>
       </div>
     </div>
   );

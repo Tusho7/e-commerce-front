@@ -5,6 +5,7 @@ import { loginUser } from "../services/api/Auth";
 import { useUser } from "../contexts/UseUser";
 import Loading from "../components/Loading";
 import { ErrorResponse } from "../types/error";
+import shoesPicture from "../assets/shoes.jpg";
 
 interface LoginProps {
   onForgotPassword: () => void;
@@ -54,16 +55,19 @@ const Login = ({ onForgotPassword }: LoginProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-gray-400">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-[#0E1028]">
       {loading && <Loading />}
-      <div className="max-w-lg w-full bg-white p-10 rounded-xl shadow-lg space-y-8">
-        <h2 className="text-3xl font-bold text-center text-gray-900">შესვლა</h2>
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="relative">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
+      <div className="max-w-lg w-full bg-[#1A1E46] p-10 rounded-[10%] shadow-lg space-y-8 text-white">
+        <section className="flex flex-col justify-center items-center">
+          <h2 className="text-3xl font-bold text-center">შესვლა</h2>
+          <img src={shoesPicture} alt="shoes" className="w-20 h-20 " />
+        </section>
+        <form
+          className="space-y-6 flex flex-col gap-3 justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <div className="relative w-full">
+            <label htmlFor="username" className="block text-sm font-medium ">
               ელ-ფოსტა
             </label>
             <input
@@ -72,15 +76,12 @@ const Login = ({ onForgotPassword }: LoginProps) => {
               type="text"
               autoComplete="username"
               required
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="ელ-ფოსტა"
             />
           </div>
-          <div className="relative">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+          <div className="relative w-full">
+            <label htmlFor="password" className="block text-sm font-medium ">
               პაროლი
             </label>
             <input
@@ -89,21 +90,21 @@ const Login = ({ onForgotPassword }: LoginProps) => {
               type="password"
               autoComplete="current-password"
               required
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="პაროლი"
             />
           </div>
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button
             type="submit"
-            className="w-full py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="mx-auto w-2/4 py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300 ease-in-out"
           >
             შესვლა
           </button>
         </form>
         <div className="text-center">
           <p
-            className="text-indigo-600 hover:underline cursor-pointer text-sm mt-4"
+            className=" hover:underline cursor-pointer text-sm mt-4"
             onClick={onForgotPassword}
           >
             დაგავიწყდა პაროლი?
@@ -114,15 +115,20 @@ const Login = ({ onForgotPassword }: LoginProps) => {
             <div className="w-full border-t border-gray-300"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">ან</span>
+            <span className="px-2 bg-[#1A1E46]">ან</span>
           </div>
         </div>
-        <div className="mt-6">
-          <Link to="/register">
-            <button className="w-full py-3 px-4 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              ახალი ანგარიშის შექმნა
-            </button>
-          </Link>
+
+        <div className="text-center">
+          <p className="hover:underline cursor-pointer text-sm mt-4">
+            არ გაქვთ ექაუნთი?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              რეგისტრაცია
+            </Link>
+          </p>
         </div>
       </div>
     </div>
