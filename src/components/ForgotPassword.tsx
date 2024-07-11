@@ -37,15 +37,18 @@ const ForgotPassword = ({ onSuccess }: ForgotPasswordProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-[#0E1028]">
       {loading && <Loading />}
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-6">
+      <div className="max-w-md w-full bg-[#1A1E46] text-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-3xl font-extrabold  text-center mb-6">
           დაგავიწყდა პაროლი?
         </h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="space-y-2">
-            <label htmlFor="email" className="sr-only">
+        <form
+          className="space-y-4 flex flex-col gap-2 justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <div className="space-y-2 w-full">
+            <label htmlFor="email" className="block text-sm font-medium">
               ელ-ფოსტა
             </label>
             <input
@@ -56,13 +59,13 @@ const ForgotPassword = ({ onSuccess }: ForgotPasswordProps) => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="mt-1 block w-full px-4 py-3 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-indigo-500 placeholder-gray-500 text-white"
               placeholder="ელ-ფოსტა"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="mx-auto w-2/4 py-3 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300 ease-in-out"
           >
             გაგზავნა
           </button>
@@ -70,7 +73,7 @@ const ForgotPassword = ({ onSuccess }: ForgotPasswordProps) => {
         <div className="mt-4 text-sm text-center">
           <span
             onClick={onSuccess}
-            className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer hover:underline"
+            className="font-medium cursor-pointer hover:underline"
           >
             უკან დაბრუნება
           </span>
