@@ -4,6 +4,7 @@ import { getUser } from "../services/api/getUser";
 import { loginUser } from "../services/api/Auth";
 import { useUser } from "../contexts/UseUser";
 import Loading from "../components/Loading";
+import { ErrorResponse } from "../types/error";
 
 interface LoginProps {
   onForgotPassword: () => void;
@@ -33,14 +34,19 @@ const Login = ({ onForgotPassword }: LoginProps) => {
       setUser(data);
       navigate("/home");
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
+      if (error instanceof Error) {
+        const errorResponse = error as ErrorResponse;
+        if (
+          errorResponse.response &&
+          errorResponse.response.data &&
+          errorResponse.response.data.message
+        ) {
+          setError(errorResponse.response.data.message);
+        } else {
+          setError("Server Error. Please try again later.");
+        }
       } else {
-        setError("Server Error. Please try again later.");
+        setError("Unexpected Error. Please try again later.");
       }
     } finally {
       setLoading(false);
