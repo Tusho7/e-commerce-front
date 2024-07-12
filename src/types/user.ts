@@ -1,12 +1,14 @@
 export interface User {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  profilePicture: File;
-  isVerified?: boolean;
-  password?: string;
-  isBlocked: boolean;
+  user: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    profilePicture: File;
+    isVerified?: boolean;
+    password?: string;
+    isBlocked: boolean;
+  };
 }
 
 export interface UserContextType {
