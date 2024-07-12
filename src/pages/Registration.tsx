@@ -73,13 +73,13 @@ const Registration = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-[#0E1028]">
       {loading && <Loading />}
-      <div className="max-w-lg w-full bg-[#1A1E46] p-10 rounded-[10%] shadow-lg space-y-8 text-white">
+      <div className="max-w-lg md:w-full bg-[#1A1E46] p-10 rounded-lg shadow-lg text-white">
         <section className="flex flex-col justify-center items-center">
           <h2 className="text-3xl font-bold text-center">რეგისტრაცია</h2>
           <img src={shoesPicture} alt="shoes" className="w-20 h-20" />
         </section>
         <form
-          className="space-y-6 flex flex-col gap-3 justify-center items-center"
+          className="flex flex-col gap-3 justify-center items-center"
           onSubmit={handleSubmit}
         >
           <div className="relative w-full">
