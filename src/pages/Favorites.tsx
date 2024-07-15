@@ -8,14 +8,14 @@ import DropDown from "../components/DropDown";
 import { Link } from "react-router-dom";
 import { truncateDescription } from "../utils/tuncateDesc";
 import Wishlisted from "../assets/wishlisted.png";
-import { useWishlist } from "../utils/toggleWishlist";
+import { WishlistItem } from "../types/produtct";
 
 const Favorites = () => {
   const { user } = useUser();
   const userId = user?.user.id;
 
   const [dropdown, setDropdown] = useState(false);
-  const { wishlistsData, setWishlistsData } = useWishlist();
+  const [wishlistsData, setWishlistsData] = useState<WishlistItem[]>([]);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -30,7 +30,7 @@ const Favorites = () => {
     if (userId) {
       fetchWishlist();
     }
-  }, [userId, setWishlistsData]);
+  }, [userId]);
 
   const handleDropdown = () => {
     setDropdown((prev) => !prev);
@@ -40,7 +40,7 @@ const Favorites = () => {
     try {
       await removeWishlist(productId, userId);
       const updatedWishlist = await getWishlistByUserId(userId);
-      setWishlistsData(updatedWishlist.data);
+      setWishlistsData(updatedWishlist.data.wishlist);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -61,60 +61,56 @@ const Favorites = () => {
       {dropdown && <DropDown />}
       <div className="flex flex-wrap gap-2 py-4 px-4">
         {wishlistsData.length > 0 ? (
-          <React.Fragment>
-            {wishlistsData.map((item) => (
-              <div
-                key={item.id}
-                className="flex-none w-[135px] max-w-[135px] text-white "
-              >
-                <div className="aspect-w-3 aspect-h-2 h-[100px] bg-white flex justify-center items-center p-1 mb-2 rounded-lg">
-                  <img
-                    src={`${import.meta.env.VITE_API_STORAGE}${
-                      item.product?.images?.set[0]
-                    }`}
-                    alt={item.product?.name}
-                    className="object-cover"
-                  />
-                </div>
-                <div className="text-white flex flex-col gap-[1px]">
-                  <h3 className="text-base font-semibold">
-                    {removeQuotes(item.product?.name)}
-                  </h3>
-                  <p className="text-sm mb-2">
-                    {truncateDescription(
-                      removeQuotes(item.product?.description)
-                    )}
-                  </p>
-                  <p className="text-base font-bold">
-                    {removeQuotes(item.product?.price)}
-                  </p>
-                  <p className="text-sm">Stock: {item.product?.stock}</p>
-
-                  <section className="flex justify-between items-center gap-5 mt-3">
-                    <button className="bg-black text-white text-xs px-2 py-[10px] rounded-md">
-                      Add to Cart
-                    </button>
-
-                    <div
-                      className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"
-                      onClick={() => removeFromWishlist(item.product.id)}
-                    >
-                      <img
-                        src={Wishlisted}
-                        className="w-6 h-6"
-                        alt="Wishlisted"
-                      />
-                    </div>
-                  </section>
-                </div>
+          wishlistsData.map((item) => (
+            <div
+              key={item.productId}
+              className="flex-none w-[135px] max-w-[135px]"
+            >
+              <div className="aspect-w-3 aspect-h-2 h-[100px] bg-white flex justify-center items-center p-1 mb-2 rounded-lg">
+                <img
+                  src={`${import.meta.env.VITE_API_STORAGE}${
+                    item.product.images.set[0]
+                  }`}
+                  alt={removeQuotes(item.product.name)}
+                />
               </div>
-            ))}
-          </React.Fragment>
+
+              <div className="text-white flex flex-col gap-[1px]">
+                <h3 className="text-base font-semibold">
+                  {removeQuotes(item.product.name)}
+                </h3>
+                <p className="text-sm mb-2">
+                  {truncateDescription(removeQuotes(item.product.description))}
+                </p>
+                <p className="text-base font-bold">
+                  {removeQuotes(item.product.price)}
+                </p>
+                <p className="text-sm">Stock: {item.product.stock}</p>
+
+                <section className="flex justify-between items-center gap-5 mt-3">
+                  <button className="bg-black text-white text-xs px-2 py-[10px] rounded-md">
+                    Add to Cart
+                  </button>
+
+                  <div
+                    className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"
+                    onClick={() => removeFromWishlist(item.productId)}
+                  >
+                    <img
+                      src={Wishlisted}
+                      className="w-6 h-6"
+                      alt="Wishlisted"
+                    />
+                  </div>
+                </section>
+              </div>
+            </div>
+          ))
         ) : (
           <div className="text-white flex flex-col items-center py-10">
             <p className="text-lg mb-2">Your wishlist is empty!</p>
             <p className="text-sm mb-4">
-              Add items to your wishlist to keep track of your favorites.
+              Start adding products to your wishlist.
             </p>
             <Link
               to="/home"

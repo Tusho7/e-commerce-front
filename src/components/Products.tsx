@@ -1,10 +1,77 @@
 import WishListIcon from "../assets/wishlist.jpg";
+import { createWishlist, removeWishlist } from "../services/wishlist";
+import { useUser } from "../contexts/UseUser";
+import Swal from "sweetalert2";
+import { ProductContextType, Product, WishlistItem } from "../types/produtct";
 import Wishlisted from "../assets/wishlisted.png";
-import { ProductContextType } from "../types/produtct";
-import { removeQuotes } from "../utils/removeQuotes";
-import { truncateDescription } from "../utils/tuncateDesc";
 
-const Products = ({ products, toggleWishlist }: ProductContextType) => {
+const Products = ({ products, setProducts }: ProductContextType) => {
+  const { user } = useUser();
+
+  const removeQuotes = (str: string | undefined) => {
+    if (!str) return "";
+    return str.replace(/^"(.*)"$/, "$1");
+  };
+
+  const truncateDescription = (str: string | undefined) => {
+    if (!str) return "";
+    if (str.length > 15) {
+      return str.substring(0, 15) + "...";
+    }
+    return str;
+  };
+
+  const toggleWishlist = async (product: Product) => {
+    try {
+      const userId = user?.user.id;
+      if (userId) {
+        const isWishlisted = product.wishlist.some(
+          (item: WishlistItem) => item.userId === userId
+        );
+
+        if (isWishlisted) {
+          await removeWishlist(product.id, userId);
+          Swal.fire({
+            icon: "success",
+            title: "Product removed from wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          const updatedProducts = products.map((p) =>
+            p.id === product.id
+              ? {
+                  ...p,
+                  wishlist: p.wishlist.filter(
+                    (item) => item.userId !== userId
+                  ) as WishlistItem[],
+                }
+              : p
+          );
+          setProducts(updatedProducts);
+        } else {
+          await createWishlist(product.id, userId);
+          Swal.fire({
+            icon: "success",
+            title: "Product added to wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          const updatedProducts = products.map((p) =>
+            p.id === product.id
+              ? { ...p, wishlist: [...p.wishlist, { userId }] }
+              : p
+          );
+          //@ts-expect-error This is necessary because the 'setProducts' function may not be available in all cases.
+          setProducts(updatedProducts);
+        }
+      }
+    } catch (error) {
+      console.log("Failed to update wishlist: ", error);
+    }
+  };
+
   return (
     <div className="flex overflow-x-auto gap-4 py-4 pl-4">
       {products.map((product) => (
@@ -39,7 +106,7 @@ const Products = ({ products, toggleWishlist }: ProductContextType) => {
                 onClick={() => toggleWishlist(product)}
               >
                 {product.wishlist.length > 0 ? (
-                  <img src={Wishlisted} className="w-6 h-6" alt="Wishlisted" />
+                  <img src={Wishlisted} className="w-6 h-6" alt="wishlisted" />
                 ) : (
                   <img src={WishListIcon} className="w-6 h-6" alt="Wishlist" />
                 )}

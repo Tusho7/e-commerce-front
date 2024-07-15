@@ -1,23 +1,10 @@
 export interface WishlistItem {
   id: number;
-  productId: number;
   userId: number;
+  productId: number;
   createdAt: string;
   updatedAt: string;
-  product: {
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-    colors: string;
-    sizes: string;
-    stock: number;
-    isOnSale: boolean;
-    shipping: string;
-    images: {
-      set: string[];
-    };
-  };
+  product: Product;
 }
 
 export interface Product {
@@ -36,10 +23,10 @@ export interface Product {
     set: string[];
   };
   wishlist: WishlistItem[];
-  userId: number;
 }
 
 export interface ProductContextType {
   products: Product[];
   toggleWishlist: (product: Product) => Promise<void>;
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 }

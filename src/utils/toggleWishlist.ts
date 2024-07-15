@@ -1,10 +1,6 @@
 import { useUser } from "../contexts/UseUser";
 import { getProducts } from "../services/products";
-import {
-  removeWishlist,
-  createWishlist,
-  getWishlistByUserId,
-} from "../services/wishlist";
+import { removeWishlist, createWishlist } from "../services/wishlist";
 import Swal from "sweetalert2";
 import { useState } from "react";
 import { Product, WishlistItem } from "../types/produtct";
@@ -12,7 +8,6 @@ import { Product, WishlistItem } from "../types/produtct";
 export const useWishlist = () => {
   const user = useUser();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [wishlistsData, setWishlistsData] = useState<WishlistItem[]>([]);
 
   const toggleWishlist = async (product: Product) => {
     try {
@@ -39,9 +34,7 @@ export const useWishlist = () => {
           });
         }
         const updatedProducts = await getProducts();
-        const updatedWishlist = await getWishlistByUserId(userId);
         setFilteredProducts(updatedProducts.data);
-        setWishlistsData(updatedWishlist.data);
       }
     } catch (error) {
       console.log("Failed to update wishlist: ", error);
@@ -50,8 +43,6 @@ export const useWishlist = () => {
 
   return {
     filteredProducts,
-    wishlistsData,
-    setWishlistsData,
     setFilteredProducts,
     toggleWishlist,
   };

@@ -63,7 +63,7 @@ const Header = () => {
             ))}
         </div>
 
-        <div onClick={handleDropdown}>
+        <div onClick={handleDropdown} className="cursor-pointer">
           <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
         </div>
       </div>
@@ -71,7 +71,11 @@ const Header = () => {
       {dropdown && <DropDown />}
 
       {filteredProducts.length > 0 ? (
-        <Products products={filteredProducts} toggleWishlist={toggleWishlist} />
+        <Products
+          products={filteredProducts}
+          toggleWishlist={toggleWishlist}
+          setProducts={setFilteredProducts}
+        />
       ) : (
         <p className="text-white mt-5 px-4">Products not found</p>
       )}
