@@ -36,12 +36,23 @@ const Header = () => {
         const productsData = await getProducts();
         setProducts(productsData.data);
         setCategories(response.data);
+        const defaultCategory = response.data.find(
+          (category: { name: string }) => category.name === "MEN"
+        );
+        if (defaultCategory) {
+          const filtered = productsData.data.filter(
+            (product: { categoryId: number; isOnSale: boolean }) =>
+              product.categoryId === defaultCategory.id ||
+              product.isOnSale === true
+          );
+          setFilteredProducts(filtered);
+        }
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }
     };
     fetch();
-  }, []);
+  }, [setFilteredProducts]);
 
   return (
     <div>
