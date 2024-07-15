@@ -4,22 +4,11 @@ import { useUser } from "../contexts/UseUser";
 import Swal from "sweetalert2";
 import { ProductContextType, Product, WishlistItem } from "../types/product";
 import Wishlisted from "../assets/wishlisted.png";
+import { removeQuotes } from "../utils/removeQuotes";
+import { truncateDescription } from "../utils/tuncateDesc";
 
 const Products = ({ products, setProducts }: ProductContextType) => {
   const { user } = useUser();
-
-  const removeQuotes = (str: string | undefined) => {
-    if (!str) return "";
-    return str.replace(/^"(.*)"$/, "$1");
-  };
-
-  const truncateDescription = (str: string | undefined) => {
-    if (!str) return "";
-    if (str.length > 15) {
-      return str.substring(0, 15) + "...";
-    }
-    return str;
-  };
 
   const toggleWishlist = async (product: Product) => {
     try {
