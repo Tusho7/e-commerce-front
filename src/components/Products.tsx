@@ -1,21 +1,10 @@
 import WishListIcon from "../assets/wishlist.jpg";
 import Wishlisted from "../assets/wishlisted.png";
 import { ProductContextType } from "../types/produtct";
+import { removeQuotes } from "../utils/removeQuotes";
+import { truncateDescription } from "../utils/tuncateDesc";
 
 const Products = ({ products, toggleWishlist }: ProductContextType) => {
-  const removeQuotes = (str: string | undefined) => {
-    if (!str) return "";
-    return str.replace(/^"(.*)"$/, "$1");
-  };
-
-  const truncateDescription = (str: string | undefined) => {
-    if (!str) return "";
-    if (str.length > 15) {
-      return str.substring(0, 15) + "...";
-    }
-    return str;
-  };
-
   return (
     <div className="flex overflow-x-auto gap-4 py-4 pl-4">
       {products.map((product) => (

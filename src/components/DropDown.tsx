@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useUser } from "../contexts/UseUser";
 
 const Dropdown = () => {
@@ -20,12 +21,12 @@ const Dropdown = () => {
       >
         Profile
       </a>
-      <a
-        href="#favorites"
+      <Link
+        to="/favorites"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >
         My Favorites
-      </a>
+      </Link>
       <a
         href="#cart"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

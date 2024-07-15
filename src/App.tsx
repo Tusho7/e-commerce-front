@@ -3,6 +3,7 @@ import Auth from "./components/Auth";
 import Registration from "./pages/Registration";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
 
 function App() {
   return (
@@ -16,6 +17,14 @@ function App() {
           element={
             <PrivateRoute>
               <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <PrivateRoute>
+              <Favorites />
             </PrivateRoute>
           }
         />

@@ -1,9 +1,23 @@
 export interface WishlistItem {
   id: number;
-  userId: number;
   productId: number;
+  userId: number;
   createdAt: string;
   updatedAt: string;
+  product: {
+    id: number;
+    name: string;
+    description: string;
+    price: string;
+    colors: string;
+    sizes: string;
+    stock: number;
+    isOnSale: boolean;
+    shipping: string;
+    images: {
+      set: string[];
+    };
+  };
 }
 
 export interface Product {

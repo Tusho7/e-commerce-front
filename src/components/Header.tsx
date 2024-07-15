@@ -5,18 +5,16 @@ import { getCategories } from "../services/categories";
 import { Category } from "../types/category";
 import Products from "./Products";
 import { getProducts } from "../services/products";
-import { Product, WishlistItem } from "../types/produtct";
-import Swal from "sweetalert2";
-import { removeWishlist, createWishlist } from "../services/wishlist";
-import { useUser } from "../contexts/UseUser";
+import { Product } from "../types/produtct";
+import { useWishlist } from "../utils/toggleWishlist";
 
 const Header = () => {
-  const user = useUser();
   const [active, setActive] = useState("MEN");
   const [dropdown, setDropdown] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const { filteredProducts, setFilteredProducts, toggleWishlist } =
+    useWishlist();
 
   const handleClick = (category: Category) => {
     setActive(category.name);
@@ -44,38 +42,6 @@ const Header = () => {
     };
     fetch();
   }, []);
-
-  const toggleWishlist = async (product: Product) => {
-    try {
-      const userId = user?.user?.user?.id;
-      if (userId) {
-        const isWishlisted = product.wishlist.some(
-          (item: WishlistItem) => item.userId === userId
-        );
-        if (isWishlisted) {
-          await removeWishlist(product.id, userId);
-          Swal.fire({
-            icon: "success",
-            title: "Product removed from wishlist",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          await createWishlist(product.id, userId);
-          Swal.fire({
-            icon: "success",
-            title: "Product added to wishlist",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-        const updatedProducts = await getProducts();
-        setFilteredProducts(updatedProducts.data);
-      }
-    } catch (error) {
-      console.log("Failed to update wishlist: ", error);
-    }
-  };
 
   return (
     <div>
