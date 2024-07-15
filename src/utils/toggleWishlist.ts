@@ -3,7 +3,7 @@ import { getProducts } from "../services/products";
 import { removeWishlist, createWishlist } from "../services/wishlist";
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { Product, WishlistItem } from "../types/produtct";
+import { Product, WishlistItem } from "../types/product";
 
 export const useWishlist = () => {
   const user = useUser();

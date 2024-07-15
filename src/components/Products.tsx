@@ -2,7 +2,7 @@ import WishListIcon from "../assets/wishlist.jpg";
 import { createWishlist, removeWishlist } from "../services/wishlist";
 import { useUser } from "../contexts/UseUser";
 import Swal from "sweetalert2";
-import { ProductContextType, Product, WishlistItem } from "../types/produtct";
+import { ProductContextType, Product, WishlistItem } from "../types/product";
 import Wishlisted from "../assets/wishlisted.png";
 
 const Products = ({ products, setProducts }: ProductContextType) => {

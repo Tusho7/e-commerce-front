@@ -8,7 +8,7 @@ import DropDown from "../components/DropDown";
 import { Link } from "react-router-dom";
 import { truncateDescription } from "../utils/tuncateDesc";
 import Wishlisted from "../assets/wishlisted.png";
-import { WishlistItem } from "../types/produtct";
+import { WishlistItem } from "../types/product";
 
 const Favorites = () => {
   const { user } = useUser();

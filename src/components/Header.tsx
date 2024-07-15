@@ -5,7 +5,7 @@ import { getCategories } from "../services/categories";
 import { Category } from "../types/category";
 import Products from "./Products";
 import { getProducts } from "../services/products";
-import { Product } from "../types/produtct";
+import { Product } from "../types/product";
 import { useWishlist } from "../utils/toggleWishlist";
 
 const Header = () => {
