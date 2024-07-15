@@ -5,9 +5,13 @@ import { getCategories } from "../services/categories";
 import { Category } from "../types/category";
 import Products from "./Products";
 import { getProducts } from "../services/products";
-import { Product } from "../types/produtct";
+import { Product, WishlistItem } from "../types/produtct";
+import Swal from "sweetalert2";
+import { removeWishlist, createWishlist } from "../services/wishlist";
+import { useUser } from "../contexts/UseUser";
 
 const Header = () => {
+  const user = useUser();
   const [active, setActive] = useState("MEN");
   const [dropdown, setDropdown] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -41,7 +45,38 @@ const Header = () => {
     fetch();
   }, []);
 
-  console.log(products);
+  const toggleWishlist = async (product: Product) => {
+    try {
+      const userId = user?.user?.user?.id;
+      if (userId) {
+        const isWishlisted = product.wishlist.some(
+          (item: WishlistItem) => item.userId === userId
+        );
+        if (isWishlisted) {
+          await removeWishlist(product.id, userId);
+          Swal.fire({
+            icon: "success",
+            title: "Product removed from wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          await createWishlist(product.id, userId);
+          Swal.fire({
+            icon: "success",
+            title: "Product added to wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+        const updatedProducts = await getProducts();
+        setFilteredProducts(updatedProducts.data);
+      }
+    } catch (error) {
+      console.log("Failed to update wishlist: ", error);
+    }
+  };
+
   return (
     <div>
       <div className="text-white p-4 flex justify-between items-center">
@@ -70,7 +105,7 @@ const Header = () => {
       {dropdown && <DropDown />}
 
       {filteredProducts.length > 0 ? (
-        <Products products={filteredProducts} />
+        <Products products={filteredProducts} toggleWishlist={toggleWishlist} />
       ) : (
         <p className="text-white mt-5 px-4">Products not found</p>
       )}

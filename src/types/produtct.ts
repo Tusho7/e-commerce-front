@@ -1,3 +1,11 @@
+export interface WishlistItem {
+  id: number;
+  userId: number;
+  productId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -9,9 +17,15 @@ export interface Product {
   shipping: string;
   categoryId: number;
   isOnSale: boolean;
-  salePercentage: number;
-
+  salePercentage: number | null;
   images: {
     set: string[];
   };
+  wishlist: WishlistItem[];
+  userId: number;
+}
+
+export interface ProductContextType {
+  products: Product[];
+  toggleWishlist: (product: Product) => Promise<void>;
 }

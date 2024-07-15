@@ -1,7 +1,8 @@
 import WishListIcon from "../assets/wishlist.jpg";
-import { Product } from "../types/produtct";
+import Wishlisted from "../assets/wishlisted.png";
+import { ProductContextType } from "../types/produtct";
 
-const Products = ({ products }: { products: Product[] }) => {
+const Products = ({ products, toggleWishlist }: ProductContextType) => {
   const removeQuotes = (str: string | undefined) => {
     if (!str) return "";
     return str.replace(/^"(.*)"$/, "$1");
@@ -13,10 +14,6 @@ const Products = ({ products }: { products: Product[] }) => {
       return str.substring(0, 15) + "...";
     }
     return str;
-  };
-
-  const addToWishlist = (productId: number) => {
-    console.log(`Added product with ID ${productId} to wishlist`);
   };
 
   return (
@@ -49,10 +46,14 @@ const Products = ({ products }: { products: Product[] }) => {
               </button>
 
               <div
-                className="border-black flex justify-center rounded-md items-center p-[6px] bg-white"
-                onClick={() => addToWishlist(product.id)}
+                className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"
+                onClick={() => toggleWishlist(product)}
               >
-                <img src={WishListIcon} className="w-6 h-6" alt="Wishlist" />
+                {product.wishlist.length > 0 ? (
+                  <img src={Wishlisted} className="w-6 h-6" alt="Wishlisted" />
+                ) : (
+                  <img src={WishListIcon} className="w-6 h-6" alt="Wishlist" />
+                )}
               </div>
             </section>
           </div>
