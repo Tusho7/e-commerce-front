@@ -7,13 +7,6 @@ export const createWishlist = async (productId: number, userId: number) => {
   });
 };
 
-export const checkWishlist = async (productId: number, userId: number) => {
-  return await axiosInstance.post("/check_wishlist/", {
-    productId,
-    userId,
-  });
-};
-
 export const removeWishlist = async (productId: number, userId: number) => {
   return await axiosInstance.delete("/delete_wishlist/", {
     data: { productId, userId },
