@@ -27,6 +27,26 @@ export interface Product {
   wishlist: WishlistItem[];
 }
 
+export interface WishlistProduct {
+  productId: number;
+  id: number;
+  inCart: boolean;
+  product: {
+    id: number;
+    name: string;
+    description: string;
+    price: string;
+    stock: number;
+    images: {
+      set: string[];
+    };
+    colors: string;
+    sizes: string;
+  };
+  stock: number;
+  cart: Product[];
+}
+
 export interface ProductContextType {
   products: Product[];
   toggleWishlist: (product: Product) => Promise<void>;

@@ -1,35 +1,32 @@
-import { useState } from "react";
-import { AddToCartModalProps } from "../types/cartModal";
+import React, { useState } from "react";
+import { AddToCartFromWishlistProps } from "../types/cartModal";
 import { removeQuotes } from "../utils/removeQuotes";
 
-const AddToCartModal = ({
+const AddToCartFromWishlistModal = ({
   product,
   isOpen,
   onClose,
   onAddToCart,
-}: AddToCartModalProps) => {
-  console.log(product);
+}: AddToCartFromWishlistProps) => {
   const [quantity, setQuantity] = useState(1);
-  //@ts-expect-error Description: Ignoring type error because the 'colors' property is expected to be a string.
-  const colorsArray = product?.colors?.replace(/"/g, "").split(",");
-  //@ts-expect-error Description: Ignoring type error because the 'colors' property is expected to be a string.
-  const sizesArray = product?.sizes?.replace(/"/g, "").split(",");
+  const colorsArray = product.product.colors.replace(/"/g, "").split(",");
+  const sizesArray = product.product.sizes.replace(/"/g, "").split(",");
   const [selectedColor, setSelectedColor] = useState(colorsArray[0]);
   const [selectedSize, setSelectedSize] = useState(sizesArray[0]);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    if (value >= 1 && value <= product.stock) {
+    if (value >= 1 && value <= product.product.stock) {
       setQuantity(value);
     }
   };
 
   const handleAddToCart = () => {
-    onAddToCart(product.id, quantity, selectedColor, selectedSize);
+    onAddToCart(product.product.id, quantity, selectedColor, selectedSize);
     onClose();
   };
 
-  const price = parseFloat(removeQuotes(product.price));
+  const price = parseFloat(removeQuotes(product.product.price));
   const totalPrice = (price * quantity).toFixed(2);
 
   return (
@@ -40,8 +37,10 @@ const AddToCartModal = ({
             Add to Cart
           </h2>
           <img
-            src={`${import.meta.env.VITE_API_STORAGE}${product.images.set[0]}`}
-            alt={product.name}
+            src={`${import.meta.env.VITE_API_STORAGE}${
+              product.product.images.set[0]
+            }`}
+            alt={product.product.name}
             className="w-24 h-24 object-cover mx-auto rounded-md shadow-md"
           />
 
@@ -54,7 +53,9 @@ const AddToCartModal = ({
               className="border border-gray-300 rounded-lg p-2 w-full mt-1 transition duration-150 ease-in-out focus:outline-none focus:ring focus:ring-blue-300"
               min="1"
             />
-            <p className="text-gray-500 mt-2">Available: {product.stock}</p>
+            <p className="text-gray-500 mt-2">
+              Available: {product.product.stock}
+            </p>
           </div>
 
           <div className="mt-4">
@@ -108,4 +109,4 @@ const AddToCartModal = ({
   );
 };
 
-export default AddToCartModal;
+export default AddToCartFromWishlistModal;

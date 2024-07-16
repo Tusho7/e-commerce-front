@@ -8,14 +8,22 @@ import DropDown from "../components/DropDown";
 import { Link } from "react-router-dom";
 import { truncateDescription } from "../utils/tuncateDesc";
 import Wishlisted from "../assets/wishlisted.png";
-import { WishlistItem } from "../types/product";
+import { addToCart, removeFromCart } from "../services/cart";
+import Swal from "sweetalert2";
+import AddToCartFromWishlistModal from "../modals/AddToCartFromWishlist";
+import { WishlistProduct } from "../types/product";
 
 const Favorites = () => {
   const { user } = useUser();
   const userId = user?.user.id;
 
   const [dropdown, setDropdown] = useState(false);
-  const [wishlistsData, setWishlistsData] = useState<WishlistItem[]>([]);
+  const [wishlistsData, setWishlistsData] = useState<WishlistProduct[]>([]);
+
+  const [modalProduct, setModalProduct] = useState<WishlistProduct | null>(
+    null
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -43,6 +51,65 @@ const Favorites = () => {
       setWishlistsData(updatedWishlist.data.wishlist);
     } catch (error) {
       console.error("Error:", error);
+    }
+  };
+
+  const openModal = (product: WishlistProduct) => {
+    setModalProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalProduct(null);
+    setIsModalOpen(false);
+  };
+
+  const handleAddToCart = async (
+    productId: number,
+    quantity: number,
+    colors: string,
+    sizes: string
+  ) => {
+    try {
+      const isInCart = wishlistsData.some(
+        (p) => p.id === productId && p.inCart
+      );
+
+      if (isInCart) {
+        await removeFromCart(userId, productId);
+        Swal.fire({
+          icon: "success",
+          title: "Product removed from cart",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        const updatedProducts = wishlistsData.map((product) =>
+          product.id === productId ? { ...product, inCart: false } : product
+        );
+        setWishlistsData(updatedProducts);
+      } else {
+        await addToCart(userId, productId, quantity, colors, sizes);
+        Swal.fire({
+          icon: "success",
+          title: "Product added to cart",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        const updatedProducts = wishlistsData.map((product) =>
+          product.id === productId
+            ? { ...product, inCart: true, stock: product.stock - quantity }
+            : product
+        );
+        setWishlistsData(updatedProducts);
+      }
+    } catch (error) {
+      console.log("Failed to update cart: ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to update cart",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
@@ -91,7 +158,16 @@ const Favorites = () => {
                   <p className="text-sm">Stock: {item.product.stock}</p>
 
                   <section className="flex justify-between items-center gap-5 mt-3">
-                    <button className="bg-black text-white text-xs px-2 py-[10px] rounded-md">
+                    <button
+                      className="bg-black text-white text-xs px-2 py-[10px] rounded-md"
+                      onClick={() => {
+                        if (!item.inCart) {
+                          openModal(item);
+                        } else if (item.inCart || item.cart.length > 0) {
+                          handleAddToCart(item.id, 1, "", "");
+                        }
+                      }}
+                    >
                       Add to Cart
                     </button>
 
@@ -125,6 +201,15 @@ const Favorites = () => {
           </div>
         )}
       </div>
+
+      {modalProduct && (
+        <AddToCartFromWishlistModal
+          product={modalProduct}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onAddToCart={handleAddToCart}
+        />
+      )}
     </React.Fragment>
   );
 };
