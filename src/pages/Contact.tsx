@@ -1,5 +1,6 @@
 import React from "react";
 import ContactUs from "../components/ContactUs";
+import Footer from "../components/Footer";
 
 const ContactPage: React.FC = () => {
   return (
@@ -12,12 +13,7 @@ const ContactPage: React.FC = () => {
       <main className="my-8">
         <ContactUs />
       </main>
-      <footer className="bg-gray-800 text-white p-4 mt-8">
-        <div className="container mx-auto text-center">
-          &copy; {new Date().getFullYear()} Shoes E-Commerce. All rights
-          reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
