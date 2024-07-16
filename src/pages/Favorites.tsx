@@ -72,7 +72,7 @@ const Favorites = () => {
   ) => {
     try {
       const isInCart = wishlistsData.some(
-        (p) => p.id === productId && p.inCart
+        (p) => p.productId === productId && p.inCart
       );
 
       if (isInCart) {
@@ -83,10 +83,6 @@ const Favorites = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        const updatedProducts = wishlistsData.map((product) =>
-          product.id === productId ? { ...product, inCart: false } : product
-        );
-        setWishlistsData(updatedProducts);
       } else {
         await addToCart(userId, productId, quantity, colors, sizes);
         Swal.fire({
@@ -95,13 +91,19 @@ const Favorites = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        const updatedProducts = wishlistsData.map((product) =>
-          product.id === productId
-            ? { ...product, inCart: true, stock: product.stock - quantity }
-            : product
-        );
-        setWishlistsData(updatedProducts);
       }
+
+      const updatedProducts = wishlistsData.map((product) =>
+        product.productId === productId
+          ? {
+              ...product,
+              inCart: !isInCart,
+              stock: product.product.stock - quantity,
+            }
+          : product
+      );
+
+      setWishlistsData(updatedProducts);
     } catch (error) {
       console.log("Failed to update cart: ", error);
       Swal.fire({
@@ -158,18 +160,33 @@ const Favorites = () => {
                   <p className="text-sm">Stock: {item.product.stock}</p>
 
                   <section className="flex justify-between items-center gap-5 mt-3">
-                    <button
-                      className="bg-black text-white text-xs px-2 py-[10px] rounded-md"
-                      onClick={() => {
-                        if (!item.inCart) {
-                          openModal(item);
-                        } else if (item.inCart || item.cart.length > 0) {
-                          handleAddToCart(item.id, 1, "", "");
-                        }
-                      }}
-                    >
-                      Add to Cart
-                    </button>
+                    {item.Cart.length > 0 ? (
+                      <div>
+                        <Link
+                          className="bg-black text-white text-xs px-2 py-[10px] rounded-md"
+                          to="/cart"
+                        >
+                          See Cart
+                        </Link>
+                      </div>
+                    ) : (
+                      <button
+                        className={`bg-black text-white text-xs px-2 py-[10px] rounded-md ${
+                          item.inCart ? "opacity-50" : ""
+                        }`}
+                        onClick={() => {
+                          if (!item.inCart) {
+                            openModal(item);
+                          } else if (item.inCart || item.Cart.length > 0) {
+                            handleAddToCart(item.id, 1, "", "");
+                          }
+                        }}
+                      >
+                        {item.inCart || item.Cart.length > 0
+                          ? "Remove"
+                          : "Add to Cart"}
+                      </button>
+                    )}
 
                     <div
                       className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"

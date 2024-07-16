@@ -42,9 +42,10 @@ export interface WishlistProduct {
     };
     colors: string;
     sizes: string;
+    inCart?: boolean;
   };
   stock: number;
-  cart: Product[];
+  Cart: Product[];
 }
 
 export interface ProductContextType {
