@@ -8,7 +8,6 @@ const AddToCartModal = ({
   onClose,
   onAddToCart,
 }: AddToCartModalProps) => {
-  console.log(product);
   const [quantity, setQuantity] = useState(1);
   //@ts-expect-error Description: Ignoring type error because the 'colors' property is expected to be a string.
   const colorsArray = product?.colors?.replace(/"/g, "").split(",");

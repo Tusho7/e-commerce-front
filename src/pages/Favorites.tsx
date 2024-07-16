@@ -19,7 +19,6 @@ const Favorites = () => {
 
   const [dropdown, setDropdown] = useState(false);
   const [wishlistsData, setWishlistsData] = useState<WishlistProduct[]>([]);
-
   const [modalProduct, setModalProduct] = useState<WishlistProduct | null>(
     null
   );
@@ -74,7 +73,6 @@ const Favorites = () => {
       const isInCart = wishlistsData.some(
         (p) => p.productId === productId && p.inCart
       );
-
       if (isInCart) {
         await removeFromCart(userId, productId);
         Swal.fire({
@@ -178,7 +176,7 @@ const Favorites = () => {
                           if (!item.inCart) {
                             openModal(item);
                           } else if (item.inCart || item.Cart.length > 0) {
-                            handleAddToCart(item.id, 1, "", "");
+                            handleAddToCart(item.productId, 1, "", "");
                           }
                         }}
                       >
