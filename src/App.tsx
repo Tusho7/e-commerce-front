@@ -5,6 +5,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Cart from "./pages/Cart";
+import FaqPage from "./pages/Faq";
+import ContactPage from "./pages/Contact";
 
 function App() {
   return (
@@ -34,6 +36,24 @@ function App() {
           element={
             <PrivateRoute>
               <Cart />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/faq"
+          element={
+            <PrivateRoute>
+              <FaqPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/contact"
+          element={
+            <PrivateRoute>
+              <ContactPage />
             </PrivateRoute>
           }
         />

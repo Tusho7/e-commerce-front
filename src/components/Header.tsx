@@ -7,6 +7,7 @@ import Products from "./Products";
 import { getProducts } from "../services/products";
 import { Product } from "../types/product";
 import { useWishlist } from "../utils/toggleWishlist";
+import Footer from "./Footer";
 
 const Header = () => {
   const [active, setActive] = useState("MEN");
@@ -90,6 +91,8 @@ const Header = () => {
       ) : (
         <p className="text-white mt-5 px-4">Products not found</p>
       )}
+
+      <Footer />
     </div>
   );
 };
