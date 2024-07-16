@@ -15,6 +15,11 @@ const Footer = () => {
             <h2 className="text-lg font-semibold mb-4">Customer Service</h2>
             <ul>
               <li className="mb-2">
+                <Link to="/home" className="hover:underline">
+                  Home
+                </Link>
+              </li>
+              <li className="mb-2">
                 <Link to="/contact" className="hover:underline">
                   Contact Us
                 </Link>
