@@ -19,6 +19,8 @@ export interface Product {
   categoryId: number;
   isOnSale: boolean;
   salePercentage: number | null;
+  inCart: boolean;
+  cart: Product[];
   images: {
     set: string[];
   };

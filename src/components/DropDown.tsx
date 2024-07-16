@@ -27,12 +27,12 @@ const Dropdown = () => {
       >
         My Favorites
       </Link>
-      <a
-        href="#cart"
+      <Link
+        to="/cart"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >
         Cart
-      </a>
+      </Link>
       <a
         href="#settings"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

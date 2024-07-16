@@ -4,6 +4,7 @@ import Registration from "./pages/Registration";
 import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
           element={
             <PrivateRoute>
               <Favorites />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <Cart />
             </PrivateRoute>
           }
         />
