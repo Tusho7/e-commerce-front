@@ -17,13 +17,12 @@ const ContactUs: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate sending data (e.g., to an API)
     Swal.fire("Success!", "Your message has been sent.", "success");
-    setFormData({ name: "", email: "", message: "" }); // Reset form
+    setFormData({ name: "", email: "", message: "" });
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="h-[100vh] mx-auto p-6 text-white">
       <h1 className="text-2xl font-semibold mb-6">Contact Us</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -34,7 +33,7 @@ const ContactUs: React.FC = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border rounded-md"
+            className="mt-1 block w-full p-2 border rounded-md text-black"
           />
         </div>
         <div>
@@ -45,7 +44,7 @@ const ContactUs: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border rounded-md"
+            className="mt-1 block w-full p-2 border rounded-md text-black"
           />
         </div>
         <div>
@@ -55,7 +54,7 @@ const ContactUs: React.FC = () => {
             value={formData.message}
             onChange={handleChange}
             required
-            className="mt-1 block w-full p-2 border rounded-md"
+            className="mt-1 block w-full p-2 border rounded-md text-black"
             rows={4}
           />
         </div>
