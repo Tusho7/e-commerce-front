@@ -28,7 +28,7 @@ const ContactUs: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 text-white">
+    <div className="container mx-auto p-6 text-white min-h-screen">
       <h1 className="text-2xl font-semibold mb-6">Contact Us</h1>
       {loading && <Loading />}
       <form onSubmit={handleSubmit} className="space-y-4">

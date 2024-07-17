@@ -6,9 +6,7 @@ const ContactPage: React.FC = () => {
   return (
     <div>
       <header className="bg-gray-800 text-white p-4">
-        <div className="container mx-auto">
-          <h1 className="text-3xl">Shoes E-Commerce</h1>
-        </div>
+        <div className="container mx-auto"></div>
       </header>
       <main className="my-8">
         <ContactUs />
