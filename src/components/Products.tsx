@@ -124,7 +124,7 @@ const Products = ({ products, setProducts }: ProductContextType) => {
   };
 
   return (
-    <div className="flex overflow-x-auto gap-4 py-4 pl-4">
+    <div className="flex overflow-x-auto gap-4 py-4 pl-4 min-h-screen">
       {products.map((product) => (
         <div key={product.id} className="flex-none w-[135px] max-w-[135px]">
           <div className="aspect-w-3 aspect-h-2 h-[100px] bg-white flex justify-center items-center p-1 mb-2 rounded-lg">
