@@ -11,12 +11,17 @@ import AddToCartModal from "../modals/AddToCart";
 import { addToCart, removeFromCart } from "../services/cart";
 import { Link } from "react-router-dom";
 
-const Products = ({ products, setProducts }: ProductContextType) => {
+const Products = ({
+  products,
+  toggleWishlist,
+  setProducts,
+}: ProductContextType) => {
   const { user } = useUser();
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userId = user?.user.id;
-  const toggleWishlist = async (product: Product) => {
+
+  const handleWishlistToggle = async (product: Product) => {
     try {
       if (userId) {
         const isWishlisted = product.wishlist.some(
@@ -31,18 +36,6 @@ const Products = ({ products, setProducts }: ProductContextType) => {
             showConfirmButton: false,
             timer: 1500,
           });
-
-          const updatedProducts = products.map((p) =>
-            p.id === product.id
-              ? {
-                  ...p,
-                  wishlist: p.wishlist.filter(
-                    (item) => item.userId !== userId
-                  ) as WishlistItem[],
-                }
-              : p
-          );
-          setProducts(updatedProducts);
         } else {
           await createWishlist(product.id, userId);
           Swal.fire({
@@ -51,15 +44,8 @@ const Products = ({ products, setProducts }: ProductContextType) => {
             showConfirmButton: false,
             timer: 1500,
           });
-
-          const updatedProducts = products.map((p) =>
-            p.id === product.id
-              ? { ...p, wishlist: [...p.wishlist, { userId }] }
-              : p
-          );
-          //@ts-expect-error This is necessary because the 'setProducts' function may not be available in all cases.
-          setProducts(updatedProducts);
         }
+        toggleWishlist(product);
       }
     } catch (error) {
       console.log("Failed to update wishlist: ", error);
@@ -182,7 +168,7 @@ const Products = ({ products, setProducts }: ProductContextType) => {
 
                 <div
                   className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"
-                  onClick={() => toggleWishlist(product)}
+                  onClick={() => handleWishlistToggle(product)}
                 >
                   {product.wishlist.length > 0 ? (
                     <img
