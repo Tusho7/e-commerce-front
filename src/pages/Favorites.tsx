@@ -12,6 +12,7 @@ import { addToCart, removeFromCart } from "../services/cart";
 import Swal from "sweetalert2";
 import AddToCartFromWishlistModal from "../modals/AddToCartFromWishlist";
 import { WishlistProduct } from "../types/product";
+import Footer from "../components/Footer";
 
 const Favorites = () => {
   const { user } = useUser();
@@ -126,7 +127,7 @@ const Favorites = () => {
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
-      <div className="py-4 px-4">
+      <div className="py-4 px-4 min-h-screen">
         {wishlistsData.length > 0 ? (
           <div className="flex flex-wrap justify-between">
             {wishlistsData.map((item) => (
@@ -216,6 +217,8 @@ const Favorites = () => {
           </div>
         )}
       </div>
+
+      <Footer />
 
       {modalProduct && (
         <AddToCartFromWishlistModal
