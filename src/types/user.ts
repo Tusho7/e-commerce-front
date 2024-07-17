@@ -8,6 +8,7 @@ export interface User {
     isVerified?: boolean;
     password?: string;
     isBlocked: boolean;
+    createdAt: string;
   };
 }
 

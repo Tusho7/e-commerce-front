@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import ProductList from "../components/ProductList";
 import { UseDropdown } from "../contexts/UseDropdown";
 import { useWishlist } from "../utils/toggleWishlist";
+import Reviews from "./Reviews";
 
 const Home = () => {
   const {
@@ -31,6 +32,7 @@ const Home = () => {
         toggleWishlist={toggleWishlist}
         setFilteredProducts={setFilteredProducts}
       />
+      <Reviews />
       <Footer />
     </>
   );

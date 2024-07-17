@@ -7,6 +7,8 @@ import Favorites from "./pages/Favorites";
 import Cart from "./pages/Cart";
 import FaqPage from "./pages/Faq";
 import ContactPage from "./pages/Contact";
+import Reviews from "./pages/Reviews";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -24,6 +26,14 @@ function App() {
           }
         />
         <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/favorites"
           element={
             <PrivateRoute>
@@ -36,6 +46,14 @@ function App() {
           element={
             <PrivateRoute>
               <Cart />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/reviews"
+          element={
+            <PrivateRoute>
+              <Reviews />
             </PrivateRoute>
           }
         />
