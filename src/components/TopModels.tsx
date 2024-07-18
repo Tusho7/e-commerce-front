@@ -3,7 +3,6 @@ import { removeQuotes } from "../utils/removeQuotes";
 import { truncateDescription } from "../utils/tuncateDesc";
 
 const TopModels = ({ products }: TopModelsProps) => {
-  console.log(products);
   return (
     <div>
       {products ? (
