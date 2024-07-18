@@ -1,7 +1,7 @@
 import WishListIcon from "../assets/wishlist.jpg";
 import { useUser } from "../contexts/UseUser";
 import Swal from "sweetalert2";
-import { ProductContextType, Product } from "../types/product";
+import { ProductContextType, Product, WishlistItem } from "../types/product";
 import Wishlisted from "../assets/wishlisted.png";
 import { removeQuotes } from "../utils/removeQuotes";
 import { truncateDescription } from "../utils/tuncateDesc";
@@ -9,11 +9,12 @@ import { useState } from "react";
 import AddToCartModal from "../modals/AddToCart";
 import { addToCart, removeFromCart } from "../services/cart";
 import { Link } from "react-router-dom";
+import { getProducts } from "../services/products";
+import { removeWishlist, createWishlist } from "../services/wishlist";
 
 const Products = ({
   filteredProducts,
-  toggleWishlist,
-  setProducts,
+  setFilteredProducts,
 }: ProductContextType) => {
   const { user } = useUser();
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
@@ -42,7 +43,7 @@ const Products = ({
         const updatedProducts = filteredProducts.map((product) =>
           product.id === productId ? { ...product, inCart: false } : product
         );
-        setProducts(updatedProducts);
+        setFilteredProducts(updatedProducts);
       } else {
         await addToCart(userId, productId, quantity, colors, sizes);
         Swal.fire({
@@ -54,7 +55,7 @@ const Products = ({
         const updatedProducts = filteredProducts.map((product) =>
           product.id === productId ? { ...product, inCart: true } : product
         );
-        setProducts(updatedProducts);
+        setFilteredProducts(updatedProducts);
       }
     } catch (error) {
       console.log("Failed to update cart: ", error);
@@ -75,6 +76,38 @@ const Products = ({
   const closeModal = () => {
     setModalProduct(null);
     setIsModalOpen(false);
+  };
+
+  const handleWishlist = async (product: Product) => {
+    try {
+      const userId = user?.user?.id;
+      if (userId) {
+        const isWishlisted = product.wishlist.some(
+          (item: WishlistItem) => item.userId === userId
+        );
+        if (isWishlisted) {
+          await removeWishlist(product.id, userId);
+          Swal.fire({
+            icon: "success",
+            title: "Product removed from wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          await createWishlist(product.id, userId);
+          Swal.fire({
+            icon: "success",
+            title: "Product added to wishlist",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+        const updatedProducts = await getProducts();
+        setFilteredProducts(updatedProducts.data);
+      }
+    } catch (error) {
+      console.log("Failed to update wishlist: ", error);
+    }
   };
 
   return (
@@ -136,7 +169,7 @@ const Products = ({
 
                 <div
                   className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"
-                  onClick={() => toggleWishlist(product)}
+                  onClick={() => handleWishlist(product)}
                 >
                   {product.wishlist.length > 0 ? (
                     <img

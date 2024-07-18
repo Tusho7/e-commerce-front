@@ -4,15 +4,13 @@ import Products from "./Products";
 const ProductList = ({
   filteredProducts,
   setFilteredProducts,
-  toggleWishlist,
 }: ProductListProps) => {
   return (
     <div>
       {filteredProducts.length > 0 ? (
         <Products
           filteredProducts={filteredProducts}
-          toggleWishlist={toggleWishlist}
-          setProducts={setFilteredProducts}
+          setFilteredProducts={setFilteredProducts}
         />
       ) : (
         <div className="min-h-screen">

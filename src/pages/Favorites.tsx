@@ -49,6 +49,7 @@ const Favorites = () => {
       await removeWishlist(productId, userId);
       const updatedWishlist = await getWishlistByUserId(userId);
       setWishlistsData(updatedWishlist.data.wishlist);
+      location.reload();
     } catch (error) {
       console.error("Error:", error);
     }

@@ -50,6 +50,5 @@ export interface WishlistProduct {
 
 export interface ProductContextType {
   filteredProducts: Product[];
-  toggleWishlist: (product: Product) => Promise<void>;
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  setFilteredProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 }

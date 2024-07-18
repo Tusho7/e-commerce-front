@@ -13,5 +13,4 @@ export interface HeaderProps {
 export interface ProductListProps {
   filteredProducts: Product[];
   setFilteredProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-  toggleWishlist: (product: Product) => Promise<void>;
 }
