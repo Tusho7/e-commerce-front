@@ -43,6 +43,7 @@ const Home = () => {
         dropdown={dropdown}
       />
       <ProductList
+        active={active}
         filteredProducts={filteredProducts}
         setFilteredProducts={setFilteredProducts}
         updateTopModels={setTopModelsData}

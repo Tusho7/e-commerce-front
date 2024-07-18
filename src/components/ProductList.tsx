@@ -5,6 +5,7 @@ const ProductList = ({
   filteredProducts,
   setFilteredProducts,
   updateTopModels,
+  active,
 }: ProductListProps) => {
   return (
     <div>
@@ -15,8 +16,10 @@ const ProductList = ({
           updateTopModels={updateTopModels}
         />
       ) : (
-        <div className="min-h-screen">
-          <p className="text-white mt-5 px-4">Products not found</p>
+        <div className="text-white mt-4 px-4">
+          <h1 className="text-2xl mb-3">Product List</h1>
+          <p>Products not found in the {active} category.</p>
+          <p>Check back later for new products.</p>
         </div>
       )}
     </div>

@@ -30,7 +30,7 @@ const Header = ({ categories, active, handleClick }: HeaderProps) => {
 
   return (
     <div>
-      <div className="text-white p-4 flex justify-between items-center">
+      <div className="text-white p-4 flex justify-between items-center bg-gray-900">
         <div className="flex justify-between items-center gap-10 text-sm">
           {categories &&
             categories.map((category) => (
