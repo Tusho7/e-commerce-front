@@ -10,7 +10,7 @@ const ProductList = ({
     <div>
       {filteredProducts.length > 0 ? (
         <Products
-          products={filteredProducts}
+          filteredProducts={filteredProducts}
           toggleWishlist={toggleWishlist}
           setProducts={setFilteredProducts}
         />

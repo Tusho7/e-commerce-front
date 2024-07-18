@@ -1,8 +1,7 @@
 import WishListIcon from "../assets/wishlist.jpg";
-import { createWishlist, removeWishlist } from "../services/wishlist";
 import { useUser } from "../contexts/UseUser";
 import Swal from "sweetalert2";
-import { ProductContextType, Product, WishlistItem } from "../types/product";
+import { ProductContextType, Product } from "../types/product";
 import Wishlisted from "../assets/wishlisted.png";
 import { removeQuotes } from "../utils/removeQuotes";
 import { truncateDescription } from "../utils/tuncateDesc";
@@ -12,7 +11,7 @@ import { addToCart, removeFromCart } from "../services/cart";
 import { Link } from "react-router-dom";
 
 const Products = ({
-  products,
+  filteredProducts,
   toggleWishlist,
   setProducts,
 }: ProductContextType) => {
@@ -21,37 +20,6 @@ const Products = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userId = user?.user.id;
 
-  const handleWishlistToggle = async (product: Product) => {
-    try {
-      if (userId) {
-        const isWishlisted = product.wishlist.some(
-          (item: WishlistItem) => item.userId === userId
-        );
-
-        if (isWishlisted) {
-          await removeWishlist(product.id, userId);
-          Swal.fire({
-            icon: "success",
-            title: "Product removed from wishlist",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        } else {
-          await createWishlist(product.id, userId);
-          Swal.fire({
-            icon: "success",
-            title: "Product added to wishlist",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-        toggleWishlist(product);
-      }
-    } catch (error) {
-      console.log("Failed to update wishlist: ", error);
-    }
-  };
-
   const handleAddToCart = async (
     productId: number,
     quantity: number,
@@ -59,7 +27,9 @@ const Products = ({
     sizes: string
   ) => {
     try {
-      const isInCart = products.some((p) => p.id === productId && p.inCart);
+      const isInCart = filteredProducts.some(
+        (p) => p.id === productId && p.inCart
+      );
 
       if (isInCart) {
         await removeFromCart(userId, productId);
@@ -69,7 +39,7 @@ const Products = ({
           showConfirmButton: false,
           timer: 1500,
         });
-        const updatedProducts = products.map((product) =>
+        const updatedProducts = filteredProducts.map((product) =>
           product.id === productId ? { ...product, inCart: false } : product
         );
         setProducts(updatedProducts);
@@ -81,10 +51,8 @@ const Products = ({
           showConfirmButton: false,
           timer: 1500,
         });
-        const updatedProducts = products.map((product) =>
-          product.id === productId
-            ? { ...product, inCart: true, stock: product.stock - quantity }
-            : product
+        const updatedProducts = filteredProducts.map((product) =>
+          product.id === productId ? { ...product, inCart: true } : product
         );
         setProducts(updatedProducts);
       }
@@ -113,7 +81,7 @@ const Products = ({
     <div className="py-4 pl-4 flex flex-col gap-5 text-white">
       <h1>Product List</h1>
       <div className="flex overflow-x-auto gap-4 ">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <div key={product.id} className="flex-none w-[135px] max-w-[135px]">
             <div className="aspect-w-3 aspect-h-2 h-[100px] bg-white flex justify-center items-center p-1 mb-2 rounded-lg">
               <img
@@ -168,7 +136,7 @@ const Products = ({
 
                 <div
                   className="border-black flex justify-center rounded-md items-center p-[6px] bg-white cursor-pointer"
-                  onClick={() => handleWishlistToggle(product)}
+                  onClick={() => toggleWishlist(product)}
                 >
                   {product.wishlist.length > 0 ? (
                     <img

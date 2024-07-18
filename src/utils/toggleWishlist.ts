@@ -35,6 +35,7 @@ export const useWishlist = () => {
         }
         const updatedProducts = await getProducts();
         setFilteredProducts(updatedProducts.data);
+        location.reload();
       }
     } catch (error) {
       console.log("Failed to update wishlist: ", error);

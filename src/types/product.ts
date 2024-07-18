@@ -49,7 +49,7 @@ export interface WishlistProduct {
 }
 
 export interface ProductContextType {
-  products: Product[];
+  filteredProducts: Product[];
   toggleWishlist: (product: Product) => Promise<void>;
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 }

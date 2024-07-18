@@ -33,7 +33,7 @@ const AddToCartModal = ({
 
   return (
     isOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 text-black">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 text-black z-10">
         <div className="bg-white p-6 rounded-lg shadow-lg transition-transform transform scale-100 hover:scale-105 w-[330px] md:w-[500px]">
           <h2 className="text-2xl font-semibold text-center mb-4">
             Add to Cart
