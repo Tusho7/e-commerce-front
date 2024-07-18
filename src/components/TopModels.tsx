@@ -6,15 +6,15 @@ const TopModels = ({ products }: TopModelsProps) => {
   return (
     <div>
       {products ? (
-        <div className="py-4 pl-4 flex flex-col gap-5 text-white">
-          <h1>Top Models</h1>
+        <div className="py-4 pl-4 flex flex-col gap-2 text-white">
+          <h1 className="text-2xl">Top Models</h1>
           <div className="flex overflow-x-auto gap-4 ">
             {products.map((product) => (
               <div
                 key={product.id}
                 className="flex-none w-[135px] max-w-[135px]"
               >
-                <div className="aspect-w-3 aspect-h-2 h-[100px] flex justify-center items-center p-1 mb-2 rounded-lg">
+                <div className="aspect-w-3 aspect-h-2 h-[100px] flex justify-center items-center  mb-2 rounded-lg">
                   <img
                     src={`${import.meta.env.VITE_API_STORAGE}${
                       product.images.set[0]
