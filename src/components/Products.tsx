@@ -105,8 +105,7 @@ const Products = ({
         const updatedProducts = await getProducts();
 
         const filtered = updatedProducts.data.filter(
-          (p: Product) =>
-            p.categoryId === product.categoryId || p.isOnSale === true
+          (p: Product) => p.categoryId === product.categoryId
         );
         setFilteredProducts(filtered);
       }
