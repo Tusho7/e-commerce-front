@@ -49,7 +49,7 @@ const Favorites = () => {
       await removeWishlist(productId, userId);
       const updatedWishlist = await getWishlistByUserId(userId);
       setWishlistsData(updatedWishlist.data.wishlist);
-      location.reload();
+      window.location.reload();
       Swal.fire({
         icon: "success",
         title: "Product removed from wishlist",

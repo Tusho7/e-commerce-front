@@ -50,7 +50,7 @@ const Cart = () => {
         setCartItems((prev) =>
           prev.filter((item) => item.product.id !== productId)
         );
-        location.reload();
+        window.location.reload();
         Swal.fire(
           "Removed!",
           "Your item has been removed from the cart.",
