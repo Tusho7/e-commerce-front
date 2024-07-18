@@ -1,16 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserIcon from "../assets/user.png";
 import { HeaderProps } from "../services/headerAndProductList";
 import DropDown from "./DropDown";
 
-const Header = ({
-  categories,
-  active,
-  handleClick,
-  handleDropdown,
-  dropdown,
-}: HeaderProps) => {
+const Header = ({ categories, active, handleClick }: HeaderProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const closeDropdown = (e: MouseEvent) => {
@@ -18,7 +13,7 @@ const Header = ({
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target as Node)
       ) {
-        handleDropdown();
+        setIsOpen(false);
       }
     };
 
@@ -27,7 +22,12 @@ const Header = ({
     return () => {
       document.removeEventListener("click", closeDropdown);
     };
-  }, [handleDropdown]);
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div>
       <div className="text-white p-4 flex justify-between items-center">
@@ -50,14 +50,14 @@ const Header = ({
 
         <div
           ref={dropdownRef}
-          onClick={handleDropdown}
+          onClick={toggleDropdown}
           className="cursor-pointer"
         >
           <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
         </div>
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
-      {dropdown && <DropDown />}
+      {isOpen && <DropDown />} {/* Render dropdown based on isOpen state */}
     </div>
   );
 };
