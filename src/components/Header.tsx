@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import UserIcon from "../assets/user.png";
 import { HeaderProps } from "../services/headerAndProductList";
 import DropDown from "./DropDown";
@@ -9,6 +10,24 @@ const Header = ({
   handleDropdown,
   dropdown,
 }: HeaderProps) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const closeDropdown = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        handleDropdown();
+      }
+    };
+
+    document.addEventListener("click", closeDropdown);
+
+    return () => {
+      document.removeEventListener("click", closeDropdown);
+    };
+  }, [handleDropdown]);
   return (
     <div>
       <div className="text-white p-4 flex justify-between items-center">
@@ -29,7 +48,11 @@ const Header = ({
             ))}
         </div>
 
-        <div onClick={handleDropdown} className="cursor-pointer">
+        <div
+          ref={dropdownRef}
+          onClick={handleDropdown}
+          className="cursor-pointer"
+        >
           <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
         </div>
       </div>
