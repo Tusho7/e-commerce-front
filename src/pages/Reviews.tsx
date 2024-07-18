@@ -24,6 +24,7 @@ const Reviews = () => {
 
   const settings = {
     dots: false,
+    arrows: false,
     infinite: true,
     speed: 10000,
     slidesToShow: 3,
