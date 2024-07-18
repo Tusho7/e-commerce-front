@@ -110,7 +110,7 @@ const Products = ({
   };
 
   return (
-    <div className="py-4 pl-4 min-h-screen flex flex-col gap-5 text-white">
+    <div className="py-4 pl-4 flex flex-col gap-5 text-white">
       <h1>Product List</h1>
       <div className="flex overflow-x-auto gap-4 ">
         {products.map((product) => (

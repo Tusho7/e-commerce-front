@@ -9,7 +9,6 @@ const Reviews = () => {
     const fetch = async () => {
       try {
         const response = await getReviews();
-        console.log(response);
         setReviews(response.data);
       } catch (error) {
         console.error("Failed to fetch reviews:", error);
