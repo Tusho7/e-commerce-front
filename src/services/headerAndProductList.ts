@@ -13,4 +13,5 @@ export interface HeaderProps {
 export interface ProductListProps {
   filteredProducts: Product[];
   setFilteredProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  updateTopModels: (newTopModels: Product[]) => void;
 }

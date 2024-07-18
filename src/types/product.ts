@@ -51,4 +51,9 @@ export interface WishlistProduct {
 export interface ProductContextType {
   filteredProducts: Product[];
   setFilteredProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  updateTopModels: (newTopModels: Product[]) => void;
+}
+
+export interface TopModelsProps {
+  products: Product[];
 }

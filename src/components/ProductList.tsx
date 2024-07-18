@@ -4,6 +4,7 @@ import Products from "./Products";
 const ProductList = ({
   filteredProducts,
   setFilteredProducts,
+  updateTopModels,
 }: ProductListProps) => {
   return (
     <div>
@@ -11,6 +12,7 @@ const ProductList = ({
         <Products
           filteredProducts={filteredProducts}
           setFilteredProducts={setFilteredProducts}
+          updateTopModels={updateTopModels}
         />
       ) : (
         <div className="min-h-screen">

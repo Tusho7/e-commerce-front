@@ -11,10 +11,12 @@ import { addToCart, removeFromCart } from "../services/cart";
 import { Link } from "react-router-dom";
 import { getProducts } from "../services/products";
 import { removeWishlist, createWishlist } from "../services/wishlist";
+import { topModels } from "../services/topModels";
 
 const Products = ({
   filteredProducts,
   setFilteredProducts,
+  updateTopModels,
 }: ProductContextType) => {
   const { user } = useUser();
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
@@ -108,6 +110,9 @@ const Products = ({
           (p: Product) => p.categoryId === product.categoryId
         );
         setFilteredProducts(filtered);
+
+        const topModelsData = await topModels();
+        updateTopModels(topModelsData.data);
       }
     } catch (error) {
       console.log("Failed to update wishlist: ", error);
