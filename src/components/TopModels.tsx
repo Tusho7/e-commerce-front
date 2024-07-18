@@ -14,24 +14,24 @@ const TopModels = ({ products }: TopModelsProps) => {
                 key={product.id}
                 className="flex-none w-[135px] max-w-[135px]"
               >
-                <div className="aspect-w-3 aspect-h-2 h-[100px] bg-white flex justify-center items-center p-1 mb-2 rounded-lg">
+                <div className="aspect-w-3 aspect-h-2 h-[100px] flex justify-center items-center p-1 mb-2 rounded-lg">
                   <img
                     src={`${import.meta.env.VITE_API_STORAGE}${
                       product.images.set[0]
                     }`}
                     alt={product.name}
-                    className=""
+                    className="w-full h-full rounded-lg"
                   />
                 </div>
 
                 <div className="text-white flex flex-col gap-[1px]">
-                  <h3 className="text-base font-semibold">
+                  <h3 className="text-xs font-semibold">
                     {removeQuotes(product.name)}
                   </h3>
                   <p className="text-sm mb-2">
                     {truncateDescription(removeQuotes(product.description))}
                   </p>
-                  <p className="text-base font-bold">
+                  <p className="text-xs font-bold">
                     {removeQuotes(product.price)}
                   </p>
                   <p className="text-sm">Stock: {product.stock}</p>

@@ -50,8 +50,20 @@ const Favorites = () => {
       const updatedWishlist = await getWishlistByUserId(userId);
       setWishlistsData(updatedWishlist.data.wishlist);
       location.reload();
+      Swal.fire({
+        icon: "success",
+        title: "Product removed from wishlist",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to remove product from wishlist",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
