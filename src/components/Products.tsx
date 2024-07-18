@@ -103,7 +103,12 @@ const Products = ({
           });
         }
         const updatedProducts = await getProducts();
-        setFilteredProducts(updatedProducts.data);
+
+        const filtered = updatedProducts.data.filter(
+          (p: Product) =>
+            p.categoryId === product.categoryId || p.isOnSale === true
+        );
+        setFilteredProducts(filtered);
       }
     } catch (error) {
       console.log("Failed to update wishlist: ", error);
