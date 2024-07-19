@@ -1,59 +1,70 @@
-import { useState } from "react";
-
-const faqData = [
-  {
-    question: "What is your return policy?",
-    answer:
-      "We accept returns within 30 days of purchase. The product must be in its original condition with all tags attached.",
-  },
-  {
-    question: "How do I track my order?",
-    answer:
-      "You can track your order using the tracking link provided in your order confirmation email or by logging into your account on our website.",
-  },
-  {
-    question: "Do you offer international shipping?",
-    answer:
-      "Yes, we offer international shipping to many countries. Shipping fees and delivery times vary based on the destination.",
-  },
-  {
-    question: "How can I contact customer support?",
-    answer:
-      "You can contact our customer support team via email at support@shoestore.com or by phone at (123) 456-7890.",
-  },
-  {
-    question: "Can I cancel or modify my order?",
-    answer:
-      "You can cancel or modify your order within 1 hour of placing it. After this period, we cannot guarantee any changes.",
-  },
-];
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import UserIcon from "../assets/user.png";
+import Footer from "../components/Footer";
+import DropDown from "../components/DropDown";
+import { getFaqs } from "../services/faqs";
+import { Faq } from "../types/faq";
 
 const FaqPage = () => {
+  const [faqData, setFaqData] = useState<Faq[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [dropdown, setDropdown] = useState(false);
+
+  const handleDropdown = () => {
+    setDropdown((prev) => !prev);
+  };
 
   const toggleAnswer = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const response = await getFaqs();
+        setFaqData(response.data);
+        console.log(response);
+      } catch (error) {
+        console.error("Error fetching FAQs:", error);
+      }
+    };
+    fetchFaqs();
+  }, []);
+
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-6">
-        Frequently Asked Questions
-      </h1>
-      <div className="space-y-4">
-        {faqData.map((faq, index) => (
-          <div
-            key={index}
-            className="border-b border-gray-200 pb-4 mb-4 cursor-pointer"
-            onClick={() => toggleAnswer(index)}
-          >
-            <h2 className="text-lg font-medium">{faq.question}</h2>
-            {activeIndex === index && (
-              <p className="mt-2 text-gray-700">{faq.answer}</p>
-            )}
-          </div>
-        ))}
+    <div>
+      <div className="text-white p-4 flex justify-between items-center">
+        <div className="flex justify-between items-center gap-10 text-sm">
+          <Link to="/home">Home</Link>
+        </div>
+
+        <div onClick={handleDropdown}>
+          <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
+        </div>
       </div>
+
+      <div className="w-full h-[1px] bg-gray-700"></div>
+      <h1 className="text-white my-5 px-4">FAQS</h1>
+
+      {dropdown && <DropDown />}
+      <div className="max-w-4xl mx-auto mb-10 px-4 text-white">
+        {faqData &&
+          faqData.map((faq, index) => (
+            <div
+              key={index}
+              className="border-b border-gray-200 pb-4 mb-4 cursor-pointer"
+              onClick={() => toggleAnswer(index)}
+            >
+              <h2 className="text-lg font-medium">{faq.question}</h2>
+              {activeIndex === index && (
+                <p className="mt-2 text-gray-500">{faq.answer}</p>
+              )}
+            </div>
+          ))}
+      </div>
+
+      <Footer />
     </div>
   );
 };
