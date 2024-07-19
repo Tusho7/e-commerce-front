@@ -18,7 +18,7 @@ const AboutUs = () => {
   };
 
   useEffect(() => {
-    const fetchFaqs = async () => {
+    const fetchAboutUs = async () => {
       try {
         const response = await getAboutUsData();
         const contactUsData = await getContactUsData();
@@ -28,7 +28,7 @@ const AboutUs = () => {
         console.error("Error fetching FAQs:", error);
       }
     };
-    fetchFaqs();
+    fetchAboutUs();
   }, []);
 
   return (
