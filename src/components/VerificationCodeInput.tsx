@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Logout, verifyUser } from "../services/api/Auth";
+import { logoutUser, verifyUser } from "../services/api/Auth";
 
 interface VerificationCodeProps {
   email: string;
@@ -29,7 +29,7 @@ const VerificationCodeInput = ({
         text: "ვერიფიკაცია წარმატებით გაიარეთ !",
       });
       if (logout) {
-        Logout();
+        logoutUser();
         localStorage.clear();
         window.location.href = "/";
       } else {

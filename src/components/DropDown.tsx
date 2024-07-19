@@ -1,8 +1,19 @@
 import { Link } from "react-router-dom";
 import { useUser } from "../contexts/UseUser";
+import { logoutUser } from "../services/api/Auth";
 
 const Dropdown = () => {
   const { user } = useUser();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="absolute right-4 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
@@ -47,12 +58,12 @@ const Dropdown = () => {
       >
         Settings
       </Link>
-      <a
-        href="#logout"
+      <button
+        onClick={handleLogout}
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >
         Logout
-      </a>
+      </button>
     </div>
   );
 };
