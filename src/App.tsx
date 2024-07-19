@@ -10,10 +10,13 @@ import ContactPage from "./pages/Contact";
 import Reviews from "./pages/Reviews";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import AboutUs from "./pages/AboutUs";
+import ScrollToTop from "./utils/scrollToTop";
 
 function App() {
   return (
     <div>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/register" element={<Registration />} />
@@ -23,6 +26,14 @@ function App() {
           element={
             <PrivateRoute>
               <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <PrivateRoute>
+              <AboutUs />
             </PrivateRoute>
           }
         />
