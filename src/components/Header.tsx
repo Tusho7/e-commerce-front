@@ -57,7 +57,7 @@ const Header = ({ categories, active, handleClick }: HeaderProps) => {
         </div>
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
-      {isOpen && <DropDown />} {/* Render dropdown based on isOpen state */}
+      {isOpen && <DropDown />}
     </div>
   );
 };
