@@ -9,6 +9,7 @@ import FaqPage from "./pages/Faq";
 import ContactPage from "./pages/Contact";
 import Reviews from "./pages/Reviews";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -72,6 +73,15 @@ function App() {
           element={
             <PrivateRoute>
               <ContactPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <Settings />
             </PrivateRoute>
           }
         />

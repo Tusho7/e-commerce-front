@@ -1,4 +1,5 @@
 import axiosInstance, { formDataInstance } from "../../plugins/axios/index";
+import { UserUpdate } from "../../types/user";
 
 export const InitializeCSRFProtection = async () => {
   return await axiosInstance.get("/sanctum/csrf-cookie");
@@ -28,4 +29,11 @@ export const verifyUser = async (email: string, verificationCode: string) => {
     },
   });
   return response.data;
+};
+
+export const UpdateUser = async (
+  userId: number | undefined,
+  formData: UserUpdate
+) => {
+  return await axiosInstance.put(`/api/auth/update_user/${userId}`, formData);
 };

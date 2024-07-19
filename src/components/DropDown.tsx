@@ -41,12 +41,12 @@ const Dropdown = () => {
       >
         Cart
       </Link>
-      <a
-        href="#settings"
+      <Link
+        to="/settings"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
       >
         Settings
-      </a>
+      </Link>
       <a
         href="#logout"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
