@@ -15,7 +15,7 @@ const Dropdown = () => {
           className="rounded-full w-10 h-10"
         />
         <p className="text-center  text-sm text-gray-700">
-          Welcome,
+          Hi,
           <span className="font-semibold text-gray-00">
             {user?.user?.firstName} {user?.user.lastName}
           </span>
