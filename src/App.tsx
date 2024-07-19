@@ -14,6 +14,7 @@ import AboutUs from "./pages/AboutUs";
 import ScrollToTop from "./utils/scrollToTop";
 import Careers from "./pages/Careers";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/Terms";
 
 function App() {
   return (
@@ -104,6 +105,15 @@ function App() {
           element={
             <PrivateRoute>
               <PrivacyPolicy />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/terms"
+          element={
+            <PrivateRoute>
+              <TermsConditions />
             </PrivateRoute>
           }
         />
