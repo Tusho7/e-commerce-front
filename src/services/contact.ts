@@ -11,3 +11,7 @@ export const contact = async ({
 }) => {
   return await axiosInstance.post("/contact", { name, email, message });
 };
+
+export const getContactUsData = async () => {
+  return await axiosInstance.get("/get_contact_us");
+};

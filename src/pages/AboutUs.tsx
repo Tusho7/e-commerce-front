@@ -1,14 +1,36 @@
 import { Link } from "react-router-dom";
 import DropDown from "../components/DropDown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserIcon from "../assets/user.png";
 import Footer from "../components/Footer";
+import { AboutUsProps } from "../types/aboutUs";
+import { getAboutUsData } from "../services/aboutUs";
+import { getContactUsData } from "../services/contact";
+import { ContactUsProps } from "../types/contactUs";
+
 const AboutUs = () => {
+  const [aboutUsData, setFaqDataAboutUsData] = useState<AboutUsProps[]>([]);
+  const [contactUsData, setContactUsData] = useState<ContactUsProps[]>([]);
   const [dropdown, setDropdown] = useState(false);
 
   const handleDropdown = () => {
     setDropdown((prev) => !prev);
   };
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const response = await getAboutUsData();
+        const contactUsData = await getContactUsData();
+        setFaqDataAboutUsData(response.data);
+        setContactUsData(contactUsData.data);
+      } catch (error) {
+        console.error("Error fetching FAQs:", error);
+      }
+    };
+    fetchFaqs();
+  }, []);
+
   return (
     <div>
       <div className="text-white p-4 flex justify-between items-center">
@@ -28,40 +50,29 @@ const AboutUs = () => {
           <h1 className="text-3xl font-bold">About Us</h1>
         </div>
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Company Overview</h2>
-          <p>
-            Welcome to our e-commerce website, your go-to destination for the
-            latest and greatest in footwear. Our mission is to provide
-            top-quality shoes that combine style, comfort, and affordability.
-            With a wide range of options for every occasion, we are committed to
-            helping you find the perfect pair to match your needs and
-            personality.
-          </p>
-        </section>
+        <div className="flex flex-col gap-10">
+          {aboutUsData.length > 0 ? (
+            aboutUsData.map((section) => (
+              <section key={section.id} className="flex flex-col gap-2">
+                <h2 className="text-2xl font-semibold ">{section.title}</h2>
+                <p>{section.content}</p>
+              </section>
+            ))
+          ) : (
+            <div>No content available</div>
+          )}
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
-          <p>
-            Our e-commerce journey began with a simple vision: to revolutionize
-            the way people shop for shoes. What started as a small venture has
-            grown into a thriving online platform with a global reach. Along the
-            way, we have celebrated many milestones and achievements, all thanks
-            to the support of our loyal customers and dedicated team.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
-          <p>
-            Have questions or need support? Feel free to reach out to us at:
-          </p>
-          <p>Email: support@example.com</p>
-          <p>Phone: (123) 456-7890</p>
-          <Link to="/contact" className="text-indigo-600 hover:underline">
-            Contact Page
-          </Link>
-        </section>
+          {contactUsData &&
+            contactUsData.map((contact) => (
+              <section key={contact.id} className="mb-8">
+                <p>Email: {contact.email}</p>
+                <p>Phone: {contact.phone}</p>
+                <Link to="/contact" className="text-indigo-600 hover:underline">
+                  Contact Page
+                </Link>
+              </section>
+            ))}
+        </div>
       </div>
 
       <Footer />
