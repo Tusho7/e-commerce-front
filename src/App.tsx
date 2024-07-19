@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import AboutUs from "./pages/AboutUs";
 import ScrollToTop from "./utils/scrollToTop";
 import Careers from "./pages/Careers";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   return (
@@ -94,6 +95,15 @@ function App() {
           element={
             <PrivateRoute>
               <Careers />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/privacy"
+          element={
+            <PrivateRoute>
+              <PrivacyPolicy />
             </PrivateRoute>
           }
         />
