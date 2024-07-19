@@ -56,8 +56,6 @@ const Profile = () => {
     fetch();
   }, [userId]);
 
-  console.log(reviewData);
-
   return (
     <div>
       <header className="flex justify-between items-center p-4">
@@ -133,26 +131,25 @@ const Profile = () => {
                   Submit Review
                 </button>
               </form>
-
               <div className="mt-4">
                 <p className="text-white mb-2">
                   If you want to update your personal information, go to the
                   settings.
                 </p>
+              </div>
+              <section className="flex justify-between items-center">
                 <Link to="/settings">
                   <button className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">
                     Go to Settings
                   </button>
                 </Link>
-              </div>
-              <div className="mt-4">
                 <button
                   onClick={() => setShowMyReviews(true)}
                   className="bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300"
                 >
                   Go to My Reviews
                 </button>
-              </div>
+              </section>
             </div>
           </section>
         )}
