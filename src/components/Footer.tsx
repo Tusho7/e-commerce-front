@@ -29,12 +29,6 @@ const Footer = () => {
                   FAQ
                 </Link>
               </li>
-
-              <li className="mb-2">
-                <Link to="/shipping" className="hover:underline">
-                  Shipping Info
-                </Link>
-              </li>
             </ul>
           </div>
           <div>
