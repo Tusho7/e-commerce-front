@@ -57,7 +57,7 @@ const Login = ({ onForgotPassword }: LoginProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-[#0E1028]">
       {loading && <Loading />}
-      <div className="max-w-lg bg-[#1A1E46] p-10 rounded-lg shadow-lg text-white w-full">
+      <div className="w-full max-w-[340px] bg-[#1A1E46] p-5 rounded-lg shadow-lg text-white ">
         <section className="flex flex-col justify-center items-center">
           <h2 className="text-3xl font-bold text-center">შესვლა</h2>
           <img src={shoesPicture} alt="shoes" className="w-20 h-20 " />
