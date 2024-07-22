@@ -1,15 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserIcon from "../assets/user.png";
 import Footer from "../components/Footer";
 import DropDown from "../components/DropDown";
+import { getCareerData } from "../services/careers";
+import { CareerProps } from "../types/careerProps";
 
 const Careers = () => {
+  const [careerData, setCareerData] = useState<CareerProps[]>([]);
   const [dropdown, setDropdown] = useState(false);
 
   const handleDropdown = () => {
     setDropdown((prev) => !prev);
   };
+
+  useEffect(() => {
+    const fetchCareers = async () => {
+      try {
+        const response = await getCareerData();
+        setCareerData(response.data);
+      } catch (error) {
+        console.error("Error fetching Careers:", error);
+      }
+    };
+    fetchCareers();
+  }, []);
+
   return (
     <div>
       <div className="text-white p-4 flex justify-between items-center">
@@ -26,44 +42,26 @@ const Careers = () => {
       {dropdown && <DropDown />}
 
       <div className="max-w-4xl mx-auto my-10 px-4 text-white">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold">Careers</h1>
-        </div>
-
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Join Our Team</h2>
-          <p>
-            We are always looking for talented individuals to join our team. If
-            you are passionate about footwear and have a drive to succeed, we
-            would love to hear from you. Check out our current job openings
-            below and apply today!
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Current Openings</h2>
-          <p>
-            - <strong>Customer Service Representative</strong>: Provide
-            excellent service to our customers and resolve their inquiries.
-            <br />- <strong>Product Curator</strong>: Select and manage our
-            product offerings.
-            <br />- <strong>Marketing Specialist</strong>: Develop and execute
-            marketing campaigns to drive sales.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">How to Apply</h2>
-          <p>
-            Interested candidates should send their resume and cover letter to{" "}
-            <a
-              href="mailto:careers@example.com"
-              className="text-indigo-600 hover:underline"
-            >
-              careers@example.com
-            </a>
-            . We look forward to hearing from you!
-          </p>
+          <h2 className="text-2xl font-semibold mb-4 text-center">Careers</h2>
+          {careerData.length > 0 ? (
+            careerData.map((career) => (
+              <div key={career.id}>
+                <h3 className="text-xl font-bold">{career.title}</h3>
+                {career.id === 2 ? (
+                  career.content.split("- ").map((sentence, index) => (
+                    <p key={index} className="mb-2">
+                      {index === 0 ? sentence.trim() : `- ${sentence.trim()}`}
+                    </p>
+                  ))
+                ) : (
+                  <p className="mb-4">{career.content}</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No current openings available.</p>
+          )}
         </section>
       </div>
 
