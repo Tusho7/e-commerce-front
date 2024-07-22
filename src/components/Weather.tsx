@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SunIcon from "../assets/dynamicIons/Sun";
-import { weather } from "../services/admin/api/weather";
 import { WeatherData } from "../types/weather";
+import { weather } from "../services/admin/weather";
 
 const WeatherComponent = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
