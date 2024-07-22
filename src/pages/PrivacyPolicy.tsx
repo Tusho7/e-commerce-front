@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
-    const fetchCareers = async () => {
+    const fetchprivacyPolicy = async () => {
       try {
         const response = await getprivacyPolicy();
         setPrivacyPolicyData(response.data);
@@ -21,7 +21,7 @@ const PrivacyPolicy = () => {
         console.error("Error fetching Careers:", error);
       }
     };
-    fetchCareers();
+    fetchprivacyPolicy();
   }, []);
 
   const handleDropdown = () => {
