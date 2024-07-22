@@ -23,3 +23,30 @@ export interface UserUpdate {
   firstName: string;
   lastName: string;
 }
+
+export interface UserForAdmin {
+  id: number;
+  firstName: string;
+  lastName: string;
+  password: string;
+  email: string;
+  profilePicture: string;
+  isVerified: boolean;
+  isBlocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdateUserData {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  isVerified?: boolean;
+}
+
+export interface UserEditModalProps {
+  user: UserForAdmin;
+  onClose: () => void;
+  onSave: () => void;
+}

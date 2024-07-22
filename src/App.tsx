@@ -19,6 +19,7 @@ import PrivateAdminRoutes from "./components/PrivateAdminRoutes";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFoundPage from "./pages/NotFoundPage";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 function App() {
   return (
@@ -35,6 +36,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminDashboard />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin_users"
+          element={
+            <PrivateAdminRoutes>
+              <AdminUsers />
             </PrivateAdminRoutes>
           }
         />
