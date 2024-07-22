@@ -48,7 +48,7 @@ const FaqPage = () => {
       <h1 className="text-white my-5 px-4">FAQS</h1>
 
       {dropdown && <DropDown />}
-      <div className="max-w-4xl mx-auto mb-10 px-4 text-white">
+      <div className="max-w-4xl mx-auto mb-10 px-4 text-white min-h-screen">
         {faqData &&
           faqData.map((faq, index) => (
             <div

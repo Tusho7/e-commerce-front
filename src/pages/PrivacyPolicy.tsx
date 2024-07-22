@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="max-w-4xl mx-auto my-10 px-4 text-white flex flex-col gap-8">
+      <div className="max-w-4xl mx-auto my-10 px-4 text-white flex flex-col gap-8 min-h-screen">
         {privacyPolicyData.length > 0 ? (
           privacyPolicyData.map((section) => (
             <section key={section.id} className="flex flex-col gap-2">

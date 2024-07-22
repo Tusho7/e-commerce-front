@@ -41,7 +41,7 @@ const Careers = () => {
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="max-w-4xl mx-auto my-10 px-4 text-white">
+      <div className="max-w-4xl mx-auto my-10 px-4 text-white min-h-screen">
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-center">Careers</h2>
           {careerData.length > 0 ? (

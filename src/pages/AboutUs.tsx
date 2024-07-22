@@ -45,7 +45,7 @@ const AboutUs = () => {
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="max-w-4xl mx-auto px-4 py-6 text-white">
+      <div className="max-w-4xl mx-auto px-4 py-6 text-white min-h-screen">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold">About Us</h1>
         </div>
