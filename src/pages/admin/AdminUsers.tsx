@@ -9,6 +9,7 @@ import Loading from "../../components/Loading";
 import Dropdown from "./AdminDropdown";
 import UserEditModal from "./modals/UserEdit";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState<UserForAdmin[]>([]);
@@ -126,9 +127,15 @@ const AdminUsers = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 py-8">
-      <h1 className="text-4xl text-center mb-8 mt-6 font-bold text-white">
-        All Users
-      </h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold text-white">All Users</h1>
+        <Link
+          to="/admin_dashboard"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Go to Main Page
+        </Link>
+      </div>
       <div className="relative">
         <div className="overflow-x-auto rounded-lg">
           <table className="min-w-full bg-white shadow-md rounded-lg">
