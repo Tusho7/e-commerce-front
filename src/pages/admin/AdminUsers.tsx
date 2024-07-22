@@ -126,87 +126,70 @@ const AdminUsers = () => {
   });
 
   return (
-    <div className="max-w-[1200px] mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold text-white">All Users</h1>
+    <div className="max-w-screen-xl mx-auto px-6 py-12">
+      <div className="flex justify-between items-center mb-12">
+        <h1 className="text-5xl font-extrabold text-gray-300">All Users</h1>
         <Link
-          to="/admin_dashboard"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          to="/"
+          className="bg-indigo-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
         >
           Go to Main Page
         </Link>
       </div>
       <div className="relative">
-        <div className="overflow-x-auto rounded-lg">
-          <table className="min-w-full bg-white shadow-md rounded-lg">
-            <thead className="bg-gray-200">
+        <div className="overflow-x-auto bg-white shadow-lg rounded-lg border border-gray-200">
+          <table className="min-w-full">
+            <thead className="bg-gray-100 border-b border-gray-300">
               <tr>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  ID
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  First Name
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Last Name
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Email
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Profile Picture
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Verified
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Blocked
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Created At
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Updated At
-                </th>
-                <th className="py-3 px-4 border-b-2 border-gray-300 text-left">
-                  Actions
-                </th>
+                <th className="py-3 px-5 text-left">ID</th>
+                <th className="py-3 px-5 text-left">First Name</th>
+                <th className="py-3 px-5 text-left">Last Name</th>
+                <th className="py-3 px-5 text-left">Email</th>
+                <th className="py-3 px-5 text-left">Profile Picture</th>
+                <th className="py-3 px-5 text-left">Verified</th>
+                <th className="py-3 px-5 text-left">Blocked</th>
+                <th className="py-3 px-5 text-left">Created At</th>
+                <th className="py-3 px-5 text-left">Updated At</th>
+                <th className="py-3 px-5 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {sortedUsers.map((user) => (
-                <tr key={user.id} className="border-b">
+                <tr
+                  key={user.id}
+                  className="border-b hover:bg-gray-50 transition-colors"
+                >
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {user.id}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {user.firstName}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {user.lastName}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {user.email}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     <img
@@ -214,38 +197,38 @@ const AdminUsers = () => {
                         user?.profilePicture
                       }`}
                       alt={user.firstName}
-                      className="h-10 w-10 rounded-full object-cover"
+                      className="h-12 w-12 rounded-full object-cover"
                     />
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {user.isVerified ? "Yes" : "No"}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {user.isBlocked ? "Yes" : "No"}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {new Date(user.createdAt).toLocaleDateString("ka-GE")}
                   </td>
                   <td
-                    className={`py-2 px-4 ${
-                      user.isBlocked ? "text-red-500" : "text-black"
+                    className={`py-3 px-5 ${
+                      user.isBlocked ? "text-red-600" : "text-gray-800"
                     }`}
                   >
                     {new Date(user.updatedAt).toLocaleDateString("ka-GE")}
                   </td>
-                  <td className="py-2 px-4">
+                  <td className="py-3 px-5">
                     <Dropdown
                       onEdit={() => handleEditUser(user)}
                       onDelete={() => handleDeleteUser(user.id)}
