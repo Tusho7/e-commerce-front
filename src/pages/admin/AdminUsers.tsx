@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { blockUserById, getAllUsers } from "../../services/admin/users";
+import {
+  blockUserById,
+  deleteUserById,
+  getAllUsers,
+} from "../../services/admin/users";
 import { UserForAdmin } from "../../types/user";
 import Loading from "../../components/Loading";
 import Dropdown from "./AdminDropdown";
@@ -49,7 +53,28 @@ const AdminUsers = () => {
   };
 
   const handleDeleteUser = async (userId: number) => {
-    console.log("Delete user with ID:", userId);
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to delete this user?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!",
+      });
+
+      if (result.isConfirmed) {
+        await deleteUserById(userId);
+
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+
+        Swal.fire("Deleted!", "User has been deleted.", "success");
+      }
+    } catch (err) {
+      console.error("Error deleting user:", err);
+      Swal.fire("Error", "There was an error deleting the user.", "error");
+    }
   };
 
   const handleBlockUser = async (userId: number) => {

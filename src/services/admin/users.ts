@@ -20,3 +20,7 @@ export const blockUserById = async (id: number): Promise<UserForAdmin> => {
   );
   return response.data;
 };
+
+export const deleteUserById = async (id: number): Promise<void> => {
+  await axiosInstance.delete(`/api/auth/delete_user/${id}`);
+};
