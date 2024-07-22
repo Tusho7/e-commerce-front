@@ -15,6 +15,10 @@ import ScrollToTop from "./utils/scrollToTop";
 import Careers from "./pages/Careers";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/Terms";
+import PrivateAdminRoutes from "./components/PrivateAdminRoutes";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -23,6 +27,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/register" element={<Registration />} />
+
+        <Route path="/admin_login" element={<AdminLogin />} />
+
+        <Route
+          path="/admin_dashboard"
+          element={
+            <PrivateAdminRoutes>
+              <AdminDashboard />
+            </PrivateAdminRoutes>
+          }
+        />
 
         <Route
           path="/home"
@@ -123,6 +138,15 @@ function App() {
           element={
             <PrivateRoute>
               <Settings />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <PrivateRoute>
+              <NotFoundPage />
             </PrivateRoute>
           }
         />
