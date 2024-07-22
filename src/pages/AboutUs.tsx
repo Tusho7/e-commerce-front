@@ -7,6 +7,7 @@ import { AboutUsProps } from "../types/aboutUs";
 import { getAboutUsData } from "../services/aboutUs";
 import { getContactUsData } from "../services/contact";
 import { ContactUsProps } from "../types/contactUs";
+import { logoutUser } from "../services/api/Auth";
 
 const AboutUs = () => {
   const [aboutUsData, setFaqDataAboutUsData] = useState<AboutUsProps[]>([]);
@@ -31,21 +32,39 @@ const AboutUs = () => {
     fetchAboutUs();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <div className="text-white p-4 flex justify-between items-center">
-        <div className="flex justify-between items-center gap-10 text-sm">
+      <div className="text-white p-4 flex justify-between items-center md:px-8 max-w-[1200px] mx-auto">
+        <div className="flex justify-between items-center gap-10 text-sm md:text-base">
           <Link to="/home">Home</Link>
         </div>
 
-        <div onClick={handleDropdown}>
+        <div onClick={handleDropdown} className="md:hidden">
           <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
+        </div>
+
+        <div className="hidden md:flex md:gap-4 md:items-center">
+          <Link to="/profile">Profile</Link>
+          <Link to="/favorites">My Favorites</Link>
+          <Link to="/cart">Cart</Link>
+          <Link to="/settings">Settings</Link>
+          <p onClick={handleLogout}>Logout</p>
         </div>
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="max-w-4xl mx-auto px-4 py-6 text-white min-h-screen">
+      <div className="max-w-[1200px] mx-auto px-4 py-6 text-white min-h-screen md:px-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold">About Us</h1>
         </div>

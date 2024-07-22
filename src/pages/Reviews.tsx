@@ -50,7 +50,9 @@ const Reviews = () => {
 
   return (
     <div>
-      <h1 className="text-white text-2xl px-4 mt-10">Reviews</h1>
+      <h1 className="text-white text-2xl px-4 mt-10 md:px-8 max-w-[1200px] mx-auto">
+        Reviews
+      </h1>
       <Slider {...settings}>
         {reviews.map((review) => (
           <div key={review.id} className="my-10">

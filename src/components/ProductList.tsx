@@ -16,7 +16,7 @@ const ProductList = ({
           updateTopModels={updateTopModels}
         />
       ) : (
-        <div className="text-white mt-4 px-4">
+        <div className="text-white mt-4 px-4 md:px-8 max-w-[1200px] mx-auto">
           <h1 className="text-2xl mb-3">Product List</h1>
           <p>Products not found in the {active} category.</p>
           <p>Check back later for new products.</p>

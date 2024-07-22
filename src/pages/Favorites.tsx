@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import AddToCartFromWishlistModal from "../modals/AddToCartFromWishlist";
 import { WishlistProduct } from "../types/product";
 import Footer from "../components/Footer";
+import { logoutUser } from "../services/api/Auth";
 
 const Favorites = () => {
   const { user } = useUser();
@@ -127,20 +128,38 @@ const Favorites = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <React.Fragment>
-      <div className="text-white p-4 flex justify-between items-center">
-        <div className="flex justify-between items-center gap-10 text-sm">
+      <div className="text-white p-4 flex justify-between items-center md:px-8  max-w-[1200px] mx-auto">
+        <div className="flex justify-between items-center gap-10 text-sm md:text-base ">
           <Link to="/home">Home</Link>
         </div>
 
-        <div onClick={handleDropdown}>
+        <div className="hidden md:flex md:gap-4 md:items-center">
+          <Link to="/profile">Profile</Link>
+          <Link to="/favorites">My Favorites</Link>
+          <Link to="/cart">Cart</Link>
+          <Link to="/settings">Settings</Link>
+          <p onClick={handleLogout}>Logout</p>
+        </div>
+
+        <div onClick={handleDropdown} className="md:hidden">
           <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
         </div>
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
-      <div className="py-4 px-4 min-h-screen">
+      <div className="py-4 px-4 min-h-screen md:px-8 max-w-[1200px] mx-auto">
         {wishlistsData.length > 0 ? (
           <div className="flex flex-wrap justify-between gap-10">
             {wishlistsData.map((item) => (

@@ -7,6 +7,7 @@ import DropDown from "../components/DropDown";
 import { removeQuotes } from "../utils/removeQuotes";
 import { CartItem } from "../types/cartItem";
 import Swal from "sweetalert2";
+import Footer from "../components/Footer";
 
 const Cart = () => {
   const { user } = useUser();
@@ -70,7 +71,7 @@ const Cart = () => {
 
   return (
     <React.Fragment>
-      <div className="text-white p-4 flex justify-between items-center  shadow-md">
+      <div className="text-white p-4 flex justify-between items-center  shadow-md max-w-[1200px] mx-auto">
         <Link to="/home" className="text-sm hover:underline">
           Home
         </Link>
@@ -82,17 +83,17 @@ const Cart = () => {
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="container mx-auto py-8 px-4">
+      <div className="container max-w-[1200px] mx-auto py-8 px-4">
         <h2 className="text-4xl mb-6 text-center text-white font-bold">
           Your Cart
         </h2>
         {cartItems.length > 0 ? (
-          <div className="text-white">
+          <div className="text-white min-h-screen">
             <ul className="space-y-4">
               {cartItems.map((item) => (
                 <li
                   key={item.id}
-                  className="flex flex-col gap-3 border rounded-lg bg-gray-900 border-gray-700 shadow-lg transition-transform transform hover:scale-105"
+                  className="flex flex-col items-center justify-center gap-3 border rounded-lg bg-[#1F2937] border-gray-700 shadow-lg transition-transform transform hover:scale-105 max-w-[500px] mx-auto"
                 >
                   <section className="flex justify-between items-center p-4">
                     <div className="flex gap-4 items-center">
@@ -136,10 +137,10 @@ const Cart = () => {
                 </li>
               ))}
             </ul>
-            <div className="mt-4 text-lg font-bold text-right">
+            <div className="mt-4 text-lg font-bold text-right max-w-[500px] mx-auto">
               <span>Total Price: {totalPrice.toFixed(2)}</span>
             </div>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-center max-w-[500px] mx-auto">
               <Link
                 to="/checkout"
                 className="bg-blue-600 text-white px-6 py-3 w-full text-center rounded-lg shadow-lg hover:bg-blue-700 transition"
@@ -149,7 +150,7 @@ const Cart = () => {
             </div>
           </div>
         ) : (
-          <div className="text-white flex flex-col items-center py-10">
+          <div className="text-white flex flex-col items-center py-10 max-w-[1200px] mx-auto">
             <p className="text-lg mb-2">Your Cart is empty!</p>
             <p className="text-sm mb-4">Start adding products to your Cart.</p>
             <Link
@@ -161,6 +162,7 @@ const Cart = () => {
           </div>
         )}
       </div>
+      <Footer />
     </React.Fragment>
   );
 };

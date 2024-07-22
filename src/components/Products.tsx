@@ -120,12 +120,15 @@ const Products = ({
   };
 
   return (
-    <div className="pt-4 mb-10 pl-4 flex flex-col gap-2 text-white">
-      <h1 className="text-2xl">Product List</h1>
-      <div className="flex overflow-x-auto gap-4 ">
+    <div className="pt-4 mb-10 pl-4 flex flex-col gap-2 text-white md:px-8 md:gap-7 max-w-[1200px] mx-auto">
+      <h1 className="text-2xl md:text-3xl">Product List</h1>
+      <div className="flex overflow-x-auto gap-4 md:overscroll-x-none md:flex-wrap md:gap-6 md:justify-between">
         {filteredProducts.map((product) => (
-          <div key={product.id} className="flex-none w-[135px] max-w-[135px]">
-            <div className="aspect-w-3 aspect-h-2 h-[100px] flex justify-center items-center mb-2 rounded-lg">
+          <div
+            key={product.id}
+            className="flex-none w-[135px] max-w-[135px] md:w-[180px] md:max-w-[180px]"
+          >
+            <div className="aspect-w-3 aspect-h-2 h-[100px] flex justify-center items-center mb-2 rounded-lg md:h-[120px]">
               <img
                 src={`${import.meta.env.VITE_API_STORAGE}${
                   product.images.set[0]
@@ -136,14 +139,16 @@ const Products = ({
             </div>
 
             <div className="text-white flex flex-col gap-[1px]">
-              <h3 className="text-sm font-semibold">
-                {removeQuotes(product.name)}
+              <h3 className="text-sm font-semibold md:text-base">
+                {truncateDescription(removeQuotes(product.name))}
               </h3>
-              <p className="text-xs mb-2">
+              <p className="text-xs mb-2 md:text-sm">
                 {truncateDescription(removeQuotes(product.description))}
               </p>
-              <p className="text-xs font-bold">{removeQuotes(product.price)}</p>
-              <p className="text-sm">Stock: {product.stock}</p>
+              <p className="text-xs font-bold md:text-sm text-center">
+                {removeQuotes(product.price)}
+              </p>
+              <p className="text-xs md:text-sm">Stock: {product.stock}</p>
 
               <section className="flex justify-between items-center gap-5 mt-3">
                 {product.cart.length > 0 ? (

@@ -8,8 +8,8 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-10">
-      <div className="container mx-auto px-4">
+    <footer className="bg-gray-900 text-white py-10 ">
+      <div className="container mx-auto px-4 md:px-8 max-w-[1200px]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h2 className="text-lg font-semibold mb-4">Customer Service</h2>
