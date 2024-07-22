@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserIcon from "../assets/user.png";
 import Footer from "../components/Footer";
 import DropDown from "../components/DropDown";
+import { getTermsData } from "../services/terms";
+import { TermsProps } from "../types/terms";
 
 const TermsConditions = () => {
+  const [termsData, setTermsData] = useState<TermsProps[]>([]);
   const [dropdown, setDropdown] = useState(false);
+
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const response = await getTermsData();
+        setTermsData(response.data);
+      } catch (error) {
+        console.error("Error fetching Careers:", error);
+      }
+    };
+    fetchTerms();
+  }, []);
 
   const handleDropdown = () => {
     setDropdown((prev) => !prev);
@@ -25,45 +40,17 @@ const TermsConditions = () => {
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="max-w-4xl mx-auto my-10 px-4 text-white">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold">Terms & Conditions</h1>
-        </div>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
-          <p>
-            Welcome to our website. By accessing or using our website, you agree
-            to comply with and be bound by the following terms and conditions.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Use of Our Site</h2>
-          <p>
-            You agree to use our site for lawful purposes only and in a manner
-            that does not infringe on the rights of others.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Intellectual Property</h2>
-          <p>
-            All content and materials on our site are the property of our
-            company or our licensors and are protected by intellectual property
-            laws.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">
-            Limitation of Liability
-          </h2>
-          <p>
-            We are not liable for any damages arising from the use or inability
-            to use our site or services.
-          </p>
-        </section>
+      <div className="max-w-4xl mx-auto my-10 px-4 text-white flex flex-col gap-8 min-h-screen">
+        {termsData.length > 0 ? (
+          termsData.map((section) => (
+            <section key={section.id} className="flex flex-col gap-2">
+              <h2 className="text-2xl font-semibold ">{section.title}</h2>
+              <p>{section.content}</p>
+            </section>
+          ))
+        ) : (
+          <div>No content available</div>
+        )}
       </div>
 
       <Footer />
