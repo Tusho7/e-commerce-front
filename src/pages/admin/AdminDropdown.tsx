@@ -8,7 +8,12 @@ import React, {
 import ReactDOM from "react-dom";
 import { DropdownProps } from "../../types/dropDown";
 
-const Dropdown: React.FC<DropdownProps> = ({ onEdit, onDelete, onBlock }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  onEdit,
+  onDelete,
+  onBlock,
+  isBlocked,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState<{
     top: number;
@@ -94,7 +99,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onEdit, onDelete, onBlock }) => {
                 }}
                 className="block px-4 py-2 hover:bg-slate-700 cursor-pointer"
               >
-                Block User
+                {isBlocked ? "Unblock User" : "Block User"}
               </li>
             </ul>
           </div>,

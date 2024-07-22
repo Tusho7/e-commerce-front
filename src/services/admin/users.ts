@@ -13,3 +13,10 @@ export const updateUserById = async (
   const response = await axiosInstance.put(`/update_user/${userId}`, data);
   return response.data;
 };
+
+export const blockUserById = async (id: number): Promise<UserForAdmin> => {
+  const response = await axiosInstance.patch(
+    `/api/auth/toggle_block_user/${id}`
+  );
+  return response.data;
+};

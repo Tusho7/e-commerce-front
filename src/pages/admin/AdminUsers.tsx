@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../services/admin/users";
+import { blockUserById, getAllUsers } from "../../services/admin/users";
 import { UserForAdmin } from "../../types/user";
 import Loading from "../../components/Loading";
 import Dropdown from "./AdminDropdown";
@@ -53,7 +53,32 @@ const AdminUsers = () => {
   };
 
   const handleBlockUser = async (userId: number) => {
-    console.log("Block user with ID:", userId);
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to block/unblock this user?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, toggle!",
+      });
+
+      if (result.isConfirmed) {
+        await blockUserById(userId);
+
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === userId ? { ...user, isBlocked: !user.isBlocked } : user
+          )
+        );
+
+        Swal.fire("Success", "User blocked/unblocked success", "success");
+      }
+    } catch (err) {
+      console.error("Error blocking user:", err);
+      Swal.fire("Error", "Error toggling user status", "error");
+    }
   };
 
   if (loading) {
@@ -63,6 +88,16 @@ const AdminUsers = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  const sortedUsers = [...users].sort((a, b) => {
+    if (a.isBlocked && !b.isBlocked) {
+      return -1;
+    } else if (!a.isBlocked && b.isBlocked) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 py-8">
@@ -107,13 +142,41 @@ const AdminUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {sortedUsers.map((user) => (
                 <tr key={user.id} className="border-b">
-                  <td className="py-2 px-4">{user.id}</td>
-                  <td className="py-2 px-4">{user.firstName}</td>
-                  <td className="py-2 px-4">{user.lastName}</td>
-                  <td className="py-2 px-4">{user.email}</td>
-                  <td className="py-2 px-4">
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
+                    {user.id}
+                  </td>
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
+                    {user.firstName}
+                  </td>
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
+                    {user.lastName}
+                  </td>
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
+                    {user.email}
+                  </td>
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
                     <img
                       src={`${import.meta.env.VITE_API_STORAGE}${
                         user?.profilePicture
@@ -122,14 +185,32 @@ const AdminUsers = () => {
                       className="h-10 w-10 rounded-full object-cover"
                     />
                   </td>
-                  <td className="py-2 px-4">
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
                     {user.isVerified ? "Yes" : "No"}
                   </td>
-                  <td className="py-2 px-4">{user.isBlocked ? "Yes" : "No"}</td>
-                  <td className="py-2 px-4">
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
+                    {user.isBlocked ? "Yes" : "No"}
+                  </td>
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
                     {new Date(user.createdAt).toLocaleDateString("ka-GE")}
                   </td>
-                  <td className="py-2 px-4">
+                  <td
+                    className={`py-2 px-4 ${
+                      user.isBlocked ? "text-red-500" : "text-black"
+                    }`}
+                  >
                     {new Date(user.updatedAt).toLocaleDateString("ka-GE")}
                   </td>
                   <td className="py-2 px-4">
@@ -137,6 +218,7 @@ const AdminUsers = () => {
                       onEdit={() => handleEditUser(user)}
                       onDelete={() => handleDeleteUser(user.id)}
                       onBlock={() => handleBlockUser(user.id)}
+                      isBlocked={user.isBlocked}
                     />
                   </td>
                 </tr>
