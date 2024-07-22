@@ -7,7 +7,7 @@ const TopModels = ({ products }: TopModelsProps) => {
     <div>
       {products ? (
         <div className="py-4 pl-4 flex flex-col gap-2 text-white">
-          <h1 className="text-2xl">Top Models</h1>
+          <h1 className="text-2xl">What Users Like Most</h1>
           <div className="flex overflow-x-auto gap-4 ">
             {products.map((product) => (
               <div
