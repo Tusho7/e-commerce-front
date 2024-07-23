@@ -6,6 +6,7 @@ import { UserProvider } from "./contexts/UserContext.tsx";
 import { BrowserRouter as Router } from "react-router-dom";
 import { DropdownProvider } from "./contexts/DropDownContext.tsx";
 import { AdminProvider } from "./contexts/AdminContext.tsx";
+import "regenerator-runtime/runtime";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

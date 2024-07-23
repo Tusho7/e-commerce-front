@@ -20,6 +20,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFoundPage from "./pages/NotFoundPage";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminProducts from "./pages/admin/AdminProducts";
 
 function App() {
   return (
@@ -36,6 +37,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminDashboard />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin_products"
+          element={
+            <PrivateAdminRoutes>
+              <AdminProducts />
             </PrivateAdminRoutes>
           }
         />

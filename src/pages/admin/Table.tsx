@@ -1,0 +1,125 @@
+import {
+  TableInstance,
+  TableState,
+  useGlobalFilter,
+  UseGlobalFiltersInstanceProps,
+  useSortBy,
+  useTable,
+  UseSortByInstanceProps,
+} from "react-table";
+import { Product } from "../../types/product";
+import GlobalFilter from "./components/GlobalFilter";
+import { TableProps } from "../../types/tableProps";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSort,
+  faSortUp,
+  faSortDown,
+} from "@fortawesome/free-solid-svg-icons";
+
+function Table({ columns, data }: TableProps) {
+  //@ts-expect-error - TypeScript does not recognize the getTableProps method
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+    preGlobalFilteredRows,
+  }: TableInstance<Product> &
+    UseGlobalFiltersInstanceProps<Product> &
+    UseSortByInstanceProps<Product> & {
+      state: TableState<Product> & { globalFilter: string };
+      preGlobalFilteredRows: Product[];
+    } = useTable<Product>(
+    {
+      columns,
+      data,
+    },
+    useGlobalFilter,
+    useSortBy
+  );
+
+  return (
+    <div className="overflow-x-auto rounded">
+      <GlobalFilter
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        globalFilter={state.globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+      <div className="min-w-full overflow-x-auto">
+        <table
+          {...getTableProps()}
+          className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
+        >
+          <thead className="bg-gradient-to-r from-blue-500 to-teal-500 text-white sticky top-0 z-10">
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    //@ts-expect-error - TypeScript does not recognize the getSortByToggleProps method
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className={`px-2 py-1 text-left  font-medium text-xs sm:text-sm uppercase tracking-wider cursor-pointer w-[150px] max-w-[150px] ${
+                      column.id === "name" ||
+                      column.id === "price" ||
+                      column.id === "Actions"
+                        ? "block"
+                        : "hidden lg:table-cell"
+                    }`}
+                  >
+                    {column.render("Header")}
+                    <span className="ml-1">
+                      {
+                        //@ts-expect-error - TypeScript does not recognize the isSorted property
+                        column.isSorted ? (
+                          //@ts-expect-error - TypeScript does not recognize the isSortedDesc property
+                          column.isSortedDesc ? (
+                            <FontAwesomeIcon icon={faSortDown} />
+                          ) : (
+                            <FontAwesomeIcon icon={faSortUp} />
+                          )
+                        ) : (
+                          <FontAwesomeIcon icon={faSort} />
+                        )
+                      }
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()} className="bg-white">
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr
+                  {...row.getRowProps()}
+                  className="transition-transform duration-300 transform hover:scale-95 hover:bg-gray-50 hover:rounded-lg "
+                >
+                  {row.cells.map((cell) => (
+                    <td
+                      {...cell.getCellProps()}
+                      className={`px-2 py-1 text-gray-800 text-xs sm:text-sm flex justify-center items-center w-[100px] h-[100px] ${
+                        cell.column.id === "name" ||
+                        cell.column.id === "price" ||
+                        cell.column.id === "Actions"
+                          ? "block"
+                          : "hidden lg:table-cell"
+                      }`}
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+export default Table;

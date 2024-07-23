@@ -126,7 +126,7 @@ const AdminUsers = () => {
   });
 
   return (
-    <div className="max-w-screen-xl mx-auto px-6 py-12">
+    <div className="max-w-[1300px] mx-auto py-12">
       <div className="flex justify-between items-center mb-12">
         <h1 className="text-5xl font-extrabold text-gray-300">All Users</h1>
         <Link
