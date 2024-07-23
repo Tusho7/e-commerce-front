@@ -48,6 +48,7 @@ function Table({ columns, data }: TableProps) {
     {
       columns,
       data,
+      initialState: { pageSize: 5 },
     },
     useGlobalFilter,
     useSortBy,
