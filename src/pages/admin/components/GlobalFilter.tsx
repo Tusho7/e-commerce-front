@@ -28,7 +28,7 @@ function GlobalFilter({
             onChange(e.target.value);
           }}
           placeholder={`Search ${count} records...`}
-          className="w-[90%] md:w-[20%] px-1 py-1 lg:px-4 lg:py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="w-[90%] md:w-[20%] text-black px-1 py-1 lg:px-4 lg:py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           aria-label="Search"
         />
         {value && (
