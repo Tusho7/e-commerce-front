@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck - TypeScript does not recognize the getTableProps method
 import {
   TableInstance,
   TableState,
@@ -6,6 +8,7 @@ import {
   useSortBy,
   useTable,
   UseSortByInstanceProps,
+  usePagination,
 } from "react-table";
 import { Product } from "../../types/product";
 import GlobalFilter from "./components/GlobalFilter";
@@ -18,16 +21,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function Table({ columns, data }: TableProps) {
-  //@ts-expect-error - TypeScript does not recognize the getTableProps method
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
     state,
     setGlobalFilter,
     preGlobalFilteredRows,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
   }: TableInstance<Product> &
     UseGlobalFiltersInstanceProps<Product> &
     UseSortByInstanceProps<Product> & {
@@ -39,7 +49,8 @@ function Table({ columns, data }: TableProps) {
       data,
     },
     useGlobalFilter,
-    useSortBy
+    useSortBy,
+    usePagination
   );
 
   return (
@@ -61,7 +72,7 @@ function Table({ columns, data }: TableProps) {
                   <th
                     //@ts-expect-error - TypeScript does not recognize the getSortByToggleProps method
                     {...column.getHeaderProps(column.getSortByToggleProps())}
-                    className={`px-2 py-1 text-left  font-medium text-xs sm:text-sm uppercase tracking-wider cursor-pointer w-[150px] max-w-[150px] ${
+                    className={`px-2 py-1 text-left font-medium text-xs sm:text-sm uppercase tracking-wider cursor-pointer w-[150px] max-w-[150px] ${
                       column.id === "name" ||
                       column.id === "price" ||
                       column.id === "Actions"
@@ -91,12 +102,12 @@ function Table({ columns, data }: TableProps) {
             ))}
           </thead>
           <tbody {...getTableBodyProps()} className="bg-white">
-            {rows.map((row) => {
+            {page.map((row) => {
               prepareRow(row);
               return (
                 <tr
                   {...row.getRowProps()}
-                  className="transition-transform duration-300 transform hover:scale-95 hover:bg-gray-50 hover:rounded-lg "
+                  className="transition-transform duration-300 transform hover:scale-95 hover:bg-gray-50 hover:rounded-lg"
                 >
                   {row.cells.map((cell) => (
                     <td
@@ -117,6 +128,55 @@ function Table({ columns, data }: TableProps) {
             })}
           </tbody>
         </table>
+        <div className="pagination flex justify-between items-center p-4 bg-white border-t border-gray-200">
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => gotoPage(0)}
+              disabled={!canPreviousPage}
+              className="px-2 py-1 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {"<<"}
+            </button>
+            <button
+              onClick={() => previousPage()}
+              disabled={!canPreviousPage}
+              className="px-2 py-1 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {"<"}
+            </button>
+            <button
+              onClick={() => nextPage()}
+              disabled={!canNextPage}
+              className="px-2 py-1 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {">"}
+            </button>
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+              className="px-2 py-1 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {">>"}
+            </button>
+          </div>
+          <span className="text-gray-700">
+            Page{" "}
+            <strong>
+              {state.pageIndex + 1} of {pageOptions.length}
+            </strong>{" "}
+          </span>
+          <select
+            value={state.pageSize}
+            onChange={(e) => setPageSize(Number(e.target.value))}
+            className="text-gray-700 border-gray-300 rounded-md cursor-pointer"
+          >
+            {[5, 10, 20].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Show {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );
