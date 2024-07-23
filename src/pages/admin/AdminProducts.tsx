@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../../services/products";
+import { deleteProductById, getProducts } from "../../services/products";
 import Table from "./Table";
 import { Product } from "../../types/product";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
+import EditProductModal from "./modals/EditProduct";
+import Swal from "sweetalert2";
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -18,13 +22,39 @@ const AdminProducts = () => {
   }, []);
 
   const handleEdit = (product: Product) => {
-    console.log("Edit product", product);
-    // Implement your edit logic here
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
-  const handleDelete = (productId: number) => {
+  const handleDelete = async (productId: number) => {
     console.log("Delete product", productId);
-    // Implement your delete logic here
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteProductById(productId);
+        Swal.fire("Deleted!", "The product has been deleted.", "success");
+        setProducts((prev) =>
+          prev.filter((product) => product.id !== productId)
+        );
+      } catch (error) {
+        Swal.fire("Error!", "Failed to delete the product.", "error");
+        console.error("Delete product error:", error);
+      }
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   const columns = React.useMemo(
@@ -105,6 +135,10 @@ const AdminProducts = () => {
       <div>
         <Table columns={columns as never} data={data as never} />
       </div>
+
+      {isModalOpen && selectedProduct && (
+        <EditProductModal product={selectedProduct} onClose={closeModal} />
+      )}
     </div>
   );
 };
