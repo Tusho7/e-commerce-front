@@ -67,63 +67,74 @@ function Table({ columns, data }: TableProps) {
           className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
         >
           <thead className="bg-gradient-to-r from-blue-500 to-teal-500 text-white sticky top-0 z-10">
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    //@ts-expect-error - TypeScript does not recognize the getSortByToggleProps method
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    className={`px-2 py-1 text-left font-medium text-xs sm:text-sm uppercase tracking-wider cursor-pointer w-[150px] max-w-[150px] ${
-                      column.id === "name" ||
-                      column.id === "price" ||
-                      column.id === "Actions"
-                        ? "block"
-                        : "hidden lg:table-cell"
-                    }`}
-                  >
-                    {column.render("Header")}
-                    <span className="ml-1">
-                      {
-                        //@ts-expect-error - TypeScript does not recognize the isSorted property
-                        column.isSorted ? (
-                          //@ts-expect-error - TypeScript does not recognize the isSortedDesc property
-                          column.isSortedDesc ? (
-                            <FontAwesomeIcon icon={faSortDown} />
+            {headerGroups.map((headerGroup) => {
+              const { key, ...restHeaderGroupProps } =
+                headerGroup.getHeaderGroupProps();
+              return (
+                <tr key={key} {...restHeaderGroupProps}>
+                  {headerGroup.headers.map((column) => {
+                    const { key: columnKey, ...restColumnProps } =
+                      column.getHeaderProps(column.getSortByToggleProps());
+                    return (
+                      <th
+                        key={columnKey}
+                        {...restColumnProps}
+                        className={`px-2 py-1 text-left font-medium text-xs sm:text-sm uppercase tracking-wider cursor-pointer w-[150px] max-w-[150px] ${
+                          column.id === "name" ||
+                          column.id === "price" ||
+                          column.id === "Actions"
+                            ? "block"
+                            : "hidden lg:table-cell"
+                        }`}
+                      >
+                        {column.render("Header")}
+                        <span className="ml-1">
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <FontAwesomeIcon icon={faSortDown} />
+                            ) : (
+                              <FontAwesomeIcon icon={faSortUp} />
+                            )
                           ) : (
-                            <FontAwesomeIcon icon={faSortUp} />
-                          )
-                        ) : (
-                          <FontAwesomeIcon icon={faSort} />
-                        )
-                      }
-                    </span>
-                  </th>
-                ))}
-              </tr>
-            ))}
+                            <FontAwesomeIcon icon={faSort} />
+                          )}
+                        </span>
+                      </th>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </thead>
           <tbody {...getTableBodyProps()} className="bg-white">
             {page.map((row) => {
               prepareRow(row);
+              const { key, ...restRowProps } = row.getRowProps();
               return (
                 <tr
-                  {...row.getRowProps()}
+                  key={key}
+                  {...restRowProps}
                   className="transition-transform duration-300 transform hover:scale-95 hover:bg-gray-50 hover:rounded-lg"
                 >
-                  {row.cells.map((cell) => (
-                    <td
-                      {...cell.getCellProps()}
-                      className={`px-2 py-1 text-gray-800 text-xs sm:text-sm flex justify-center items-center w-[100px] h-[100px] ${
-                        cell.column.id === "name" ||
-                        cell.column.id === "price" ||
-                        cell.column.id === "Actions"
-                          ? "block"
-                          : "hidden lg:table-cell"
-                      }`}
-                    >
-                      {cell.render("Cell")}
-                    </td>
-                  ))}
+                  {row.cells.map((cell) => {
+                    const { key: cellKey, ...restCellProps } =
+                      cell.getCellProps();
+                    return (
+                      <td
+                        key={cellKey}
+                        {...restCellProps}
+                        className={`px-2 py-1 text-gray-800 text-xs sm:text-sm flex justify-center items-center w-[100px] h-[100px] ${
+                          cell.column.id === "name" ||
+                          cell.column.id === "price" ||
+                          cell.column.id === "Actions"
+                            ? "block"
+                            : "hidden lg:table-cell"
+                        }`}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    );
+                  })}
                 </tr>
               );
             })}
