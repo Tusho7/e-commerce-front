@@ -11,3 +11,7 @@ export const updateAboutUsData = async (
 ) => {
   return axiosInstance.put(`/update_aboutus/${id}`, updatedData);
 };
+
+export const createAboutUs = async (newData: AboutUsProps) => {
+  return await axiosInstance.post("/add_aboutus", newData);
+};

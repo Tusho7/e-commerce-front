@@ -35,7 +35,7 @@ const AdminAbout = () => {
       );
       Swal.fire({
         title: "Success!",
-        text: "About us information updated successfully",
+        text: "About Us information updated successfully",
         icon: "success",
         timer: 1500,
         showConfirmButton: false,
@@ -43,7 +43,6 @@ const AdminAbout = () => {
       setIsEditAboutUsModalOpen(null);
     } catch (error) {
       console.error("Failed to update about us data:", error);
-
       Swal.fire({
         title: "Error!",
         text: "Failed to update About Us information",
@@ -52,6 +51,10 @@ const AdminAbout = () => {
         showConfirmButton: false,
       });
     }
+  };
+
+  const handleAddAboutUs = (newData: AboutUsProps) => {
+    setAboutUsData((prevData) => [...prevData, newData]);
   };
 
   return (
@@ -76,36 +79,40 @@ const AdminAbout = () => {
         </div>
       </div>
       <div className="space-y-6">
-        {aboutUsData &&
-          aboutUsData.map((section) => (
-            <div key={section.id} className="bg-white p-6 rounded-lg shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold">{section.title}</h2>
-                <img
-                  src={EditIcon}
-                  alt="edit_icon"
-                  className="w-7 h-7 cursor-pointer"
-                  onClick={() => setIsEditAboutUsModalOpen(section)}
-                />
-              </div>
-              <p className="text-gray-700">{section.content}</p>
-              {section.title === "Contact Us" && (
-                <div className="mt-4">
-                  <h1 className="text-lg font-bold">
-                    Contact Info is on the Contact Page
-                  </h1>
-                  <Link to="/contact_page">
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 mt-2">
-                      Go to Contact Page
-                    </button>
-                  </Link>
-                </div>
-              )}
+        {aboutUsData.map((section) => (
+          <div key={section.id} className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold">{section.title}</h2>
+              <img
+                src={EditIcon}
+                alt="edit_icon"
+                className="w-7 h-7 cursor-pointer"
+                onClick={() => setIsEditAboutUsModalOpen(section)}
+              />
             </div>
-          ))}
+            <p className="text-gray-700">{section.content}</p>
+            {section.title === "Contact Us" && (
+              <div className="mt-4">
+                <h1 className="text-lg font-bold">
+                  Contact Info is on the Contact Page
+                </h1>
+                <Link to="/contact_page">
+                  <button className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 mt-2">
+                    Go to Contact Page
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
 
-      {isAboutUsModalOpen && <AddAboutUs />}
+      {isAboutUsModalOpen && (
+        <AddAboutUs
+          onClose={() => setIsAboutUsModalOpen(false)}
+          onAdd={handleAddAboutUs}
+        />
+      )}
       {isEditAboutUsModalOpen && (
         <EditAboutUs
           product={isEditAboutUsModalOpen}
