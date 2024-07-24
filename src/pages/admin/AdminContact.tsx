@@ -9,11 +9,14 @@ import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import Swal from "sweetalert2";
 import EditContact from "./modals/EditContact";
+import AddContactUs from "./modals/AddContactUs";
+import { Link } from "react-router-dom";
 
 const AdminContact = () => {
   const [contactData, setContactData] = useState<ContactUsProps[]>([]);
   const [isEditContactModalOpen, setIsEditContactModalOpen] =
     useState<ContactUsProps | null>(null);
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchContactData = async () => {
@@ -70,11 +73,31 @@ const AdminContact = () => {
     }
   };
 
+  const handleAddContact = (newContact: ContactUsProps) => {
+    setContactData((prevData) => [...prevData, newContact]);
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
-      <h1 className="text-2xl lg:text-5xl font-extrabold text-gray-300 mb-12">
-        Contact Us Information
-      </h1>
+      <div className="flex justify-between items-center mb-12">
+        <h1 className="text-2xl lg:text-5xl font-extrabold text-gray-300 w-[160px] lg:w-[670px]">
+          Contact Us Information
+        </h1>
+        <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
+          <button
+            onClick={() => setIsAddContactModalOpen(true)}
+            className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4"
+          >
+            Add Contact Us
+          </button>
+          <Link
+            to="/admin_dashboard"
+            className="bg-indigo-600 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
+          >
+            Go to Main Page
+          </Link>
+        </div>
+      </div>
       <div className="space-y-6">
         {contactData.map((contact) => (
           <div
@@ -107,6 +130,12 @@ const AdminContact = () => {
           contact={isEditContactModalOpen}
           onClose={() => setIsEditContactModalOpen(null)}
           onSave={handleEditContact}
+        />
+      )}
+      {isAddContactModalOpen && (
+        <AddContactUs
+          onClose={() => setIsAddContactModalOpen(false)}
+          onSave={handleAddContact}
         />
       )}
     </div>
