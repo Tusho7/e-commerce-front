@@ -1,4 +1,4 @@
-import axiosInstance, { formDataInstance } from "../../plugins/axios/index";
+import axiosInstance from "../../plugins/axios/index";
 import { UserUpdate } from "../../types/user";
 
 export const InitializeCSRFProtection = async () => {
@@ -6,7 +6,7 @@ export const InitializeCSRFProtection = async () => {
 };
 
 export const registerUser = async (formData: FormData) => {
-  return await formDataInstance.post("/api/auth/register_user", formData);
+  return await axiosInstance.post("/api/auth/register_user", formData);
 };
 
 export const loginUser = async (email: string, password: string) => {

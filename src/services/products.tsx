@@ -11,3 +11,7 @@ export const updateProduct = async (id: number, data: FormData) => {
 export const deleteProductById = async (id: number) => {
   return await axiosInstance.delete(`/delete_product/${id}`);
 };
+
+export const createProduct = async (data: FormData) => {
+  return await axiosInstance.post("/create_product", data);
+};
