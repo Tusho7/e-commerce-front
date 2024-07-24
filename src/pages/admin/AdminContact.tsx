@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
-import { getContactUsData, deleteContact } from "../../services/contact";
+import {
+  getContactUsData,
+  deleteContact,
+  editContacUs,
+} from "../../services/contact";
 import { ContactUsProps } from "../../types/contactUs";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import Swal from "sweetalert2";
+import EditContact from "./modals/EditContact";
 
 const AdminContact = () => {
   const [contactData, setContactData] = useState<ContactUsProps[]>([]);
+  const [isEditContactModalOpen, setIsEditContactModalOpen] =
+    useState<ContactUsProps | null>(null);
 
   useEffect(() => {
     const fetchContactData = async () => {
@@ -47,6 +54,22 @@ const AdminContact = () => {
     }
   };
 
+  const handleEditContact = async (updatedData: ContactUsProps) => {
+    try {
+      await editContacUs(updatedData.id, updatedData);
+      setContactData((prevData) =>
+        prevData.map((contact) =>
+          contact.id === updatedData.id ? updatedData : contact
+        )
+      );
+      setIsEditContactModalOpen(null);
+      Swal.fire("Success!", "Contact information has been updated.", "success");
+    } catch (error) {
+      console.error("Failed to edit contact:", error);
+      Swal.fire("Error!", "Failed to update contact information.", "error");
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <h1 className="text-2xl lg:text-5xl font-extrabold text-gray-300 mb-12">
@@ -67,6 +90,7 @@ const AdminContact = () => {
                 src={EditIcon}
                 alt="Edit"
                 className="w-6 h-6 cursor-pointer"
+                onClick={() => setIsEditContactModalOpen(contact)}
               />
               <img
                 src={DeleteIcon}
@@ -78,6 +102,13 @@ const AdminContact = () => {
           </div>
         ))}
       </div>
+      {isEditContactModalOpen && (
+        <EditContact
+          contact={isEditContactModalOpen}
+          onClose={() => setIsEditContactModalOpen(null)}
+          onSave={handleEditContact}
+        />
+      )}
     </div>
   );
 };
