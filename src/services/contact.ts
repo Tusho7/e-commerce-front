@@ -24,3 +24,7 @@ export const deleteContact = async (id: number) => {
 export const editContacUs = async (id: number, data: ContactUsProps) => {
   return await axiosInstance.put(`/edit_contact_us/${id}`, data);
 };
+
+export const addContactUs = async (data: ContactUsProps) => {
+  return await axiosInstance.post("/create_contact_us", data);
+};
