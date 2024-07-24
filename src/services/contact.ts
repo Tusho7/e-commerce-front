@@ -15,3 +15,7 @@ export const contact = async ({
 export const getContactUsData = async () => {
   return await axiosInstance.get("/get_contact_us");
 };
+
+export const deleteContact = async (id: number) => {
+  return await axiosInstance.delete(`/delete_contact/${id}`);
+};
