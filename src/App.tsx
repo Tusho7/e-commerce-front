@@ -21,6 +21,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFoundPage from "./pages/NotFoundPage";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminProducts from "./pages/admin/AdminProducts";
+import AdminAbout from "./pages/admin/AdminAbout";
 
 function App() {
   return (
@@ -55,6 +56,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminUsers />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin_about"
+          element={
+            <PrivateAdminRoutes>
+              <AdminAbout />
             </PrivateAdminRoutes>
           }
         />
