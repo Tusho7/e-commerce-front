@@ -24,6 +24,17 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryId, setCategoryId] = useState<number>(1);
 
+  const [errors, setErrors] = useState({
+    name: "",
+    description: "",
+    price: "",
+    stock: "",
+    colors: "",
+    sizes: "",
+    shipping: "",
+    salePercentage: "",
+  });
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -43,9 +54,43 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     }
   };
 
-  const handleSubmit = () => {
-    const formData = new FormData();
+  const validateForm = () => {
+    const newErrors = {
+      name: "",
+      description: "",
+      price: "",
+      stock: "",
+      colors: "",
+      sizes: "",
+      shipping: "",
+      salePercentage: "",
+    };
 
+    if (!name) newErrors.name = "Product name is required.";
+    if (!description) newErrors.description = "Description is required.";
+    if (!price || isNaN(Number(price)) || Number(price) <= 0)
+      newErrors.price = "Valid price is required.";
+    if (!stock || isNaN(Number(stock)) || Number(stock) < 0)
+      newErrors.stock = "Valid stock number is required.";
+    if (!colors) newErrors.colors = "Colors are required.";
+    if (!sizes) newErrors.sizes = "Sizes are required.";
+    if (!shipping) newErrors.shipping = "Shipping details are required.";
+    if (
+      isOnSale &&
+      (!salePercentage ||
+        isNaN(Number(salePercentage)) ||
+        Number(salePercentage) <= 0)
+    )
+      newErrors.salePercentage = "Valid sale percentage is required.";
+
+    setErrors(newErrors);
+    return Object.values(newErrors).every((error) => error === "");
+  };
+
+  const handleSubmit = () => {
+    if (!validateForm()) return;
+
+    const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
@@ -79,9 +124,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.name ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">
@@ -91,9 +140,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.description ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">Price</label>
@@ -101,9 +154,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="number"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.price ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.price && (
+              <p className="text-red-500 text-sm mt-1">{errors.price}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">Stock</label>
@@ -111,9 +168,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="number"
               value={stock}
               onChange={(e) => setStock(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.stock ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.stock && (
+              <p className="text-red-500 text-sm mt-1">{errors.stock}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">Colors</label>
@@ -121,9 +182,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="text"
               value={colors}
               onChange={(e) => setColors(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.colors ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.colors && (
+              <p className="text-red-500 text-sm mt-1">{errors.colors}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">Sizes</label>
@@ -131,9 +196,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="text"
               value={sizes}
               onChange={(e) => setSizes(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.sizes ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.sizes && (
+              <p className="text-red-500 text-sm mt-1">{errors.sizes}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">Shipping</label>
@@ -141,9 +210,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               type="text"
               value={shipping}
               onChange={(e) => setShipping(e.target.value)}
-              className="w-full px-3 py-2 border rounded"
-              required
+              className={`w-full px-3 py-2 border rounded ${
+                errors.shipping ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {errors.shipping && (
+              <p className="text-red-500 text-sm mt-1">{errors.shipping}</p>
+            )}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium mb-2">Category</label>
@@ -151,7 +224,6 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               value={categoryId}
               onChange={(e) => setCategoryId(parseInt(e.target.value, 10))}
               className="w-full px-3 py-2 border rounded"
-              required
             >
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -178,9 +250,15 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
                 type="number"
                 value={salePercentage}
                 onChange={(e) => setSalePercentage(e.target.value)}
-                className="w-full px-3 py-2 border rounded"
-                required
+                className={`w-full px-3 py-2 border rounded ${
+                  errors.salePercentage ? "border-red-500" : "border-gray-300"
+                }`}
               />
+              {errors.salePercentage && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.salePercentage}
+                </p>
+              )}
             </div>
           )}
           <div className="col-span-1">
