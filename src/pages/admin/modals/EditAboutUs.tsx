@@ -4,15 +4,19 @@ import { AboutUsProps } from "../../../types/aboutUs";
 interface EditAboutUsProps {
   product: AboutUsProps;
   onClose: () => void;
+  onSave: (id: number, updatedData: AboutUsProps) => void;
 }
 
-const EditAboutUs: React.FC<EditAboutUsProps> = ({ product, onClose }) => {
+const EditAboutUs: React.FC<EditAboutUsProps> = ({
+  product,
+  onClose,
+  onSave,
+}) => {
   const [title, setTitle] = useState(product.title);
   const [content, setContent] = useState(product.content);
 
   const handleSave = () => {
-    // Add save logic here
-    console.log("Save", { title, content });
+    onSave(product.id, { id: product.id, title, content });
   };
 
   return (

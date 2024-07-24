@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { getAboutUsData } from "../../services/aboutUs";
+import { getAboutUsData, updateAboutUsData } from "../../services/aboutUs";
 import { Link } from "react-router-dom";
 import AddAboutUs from "./modals/AddAboutUs";
 import { AboutUsProps } from "../../types/aboutUs";
 import EditIcon from "../../assets/edit_icon.png";
 import EditAboutUs from "./modals/EditAboutUs";
+import Swal from "sweetalert2";
 
 const AdminAbout = () => {
   const [aboutUsData, setAboutUsData] = useState<AboutUsProps[]>([]);
@@ -23,6 +24,35 @@ const AdminAbout = () => {
     };
     fetchAboutUsData();
   }, []);
+
+  const handleUpdateAboutUs = async (id: number, updatedData: AboutUsProps) => {
+    try {
+      await updateAboutUsData(id, updatedData);
+      setAboutUsData((prevData) =>
+        prevData.map((section) =>
+          section.id === id ? { ...section, ...updatedData } : section
+        )
+      );
+      Swal.fire({
+        title: "Success!",
+        text: "About us information updated successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      setIsEditAboutUsModalOpen(null);
+    } catch (error) {
+      console.error("Failed to update about us data:", error);
+
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update About Us information",
+        icon: "error",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto p-4">
@@ -80,6 +110,7 @@ const AdminAbout = () => {
         <EditAboutUs
           product={isEditAboutUsModalOpen}
           onClose={() => setIsEditAboutUsModalOpen(null)}
+          onSave={handleUpdateAboutUs}
         />
       )}
     </div>
