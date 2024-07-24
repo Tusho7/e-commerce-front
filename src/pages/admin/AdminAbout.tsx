@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { getAboutUsData, updateAboutUsData } from "../../services/aboutUs";
+import {
+  deleteAboutUsData,
+  getAboutUsData,
+  updateAboutUsData,
+} from "../../services/aboutUs";
 import { Link } from "react-router-dom";
 import AddAboutUs from "./modals/AddAboutUs";
 import { AboutUsProps } from "../../types/aboutUs";
 import EditIcon from "../../assets/edit_icon.png";
 import EditAboutUs from "./modals/EditAboutUs";
 import Swal from "sweetalert2";
+import DeleteIcon from "../../assets/delete_icon.png";
 
 const AdminAbout = () => {
   const [aboutUsData, setAboutUsData] = useState<AboutUsProps[]>([]);
@@ -57,6 +62,44 @@ const AdminAbout = () => {
     setAboutUsData((prevData) => [...prevData, newData]);
   };
 
+  const handleDeleteAboutUs = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteAboutUsData(id);
+        setAboutUsData((prevData) =>
+          prevData.filter((section) => section.id !== id)
+        );
+        Swal.fire({
+          title: "Deleted!",
+          text: "About Us section deleted successfully",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete about us data:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete About Us section",
+          icon: "error",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -83,12 +126,20 @@ const AdminAbout = () => {
           <div key={section.id} className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-semibold">{section.title}</h2>
-              <img
-                src={EditIcon}
-                alt="edit_icon"
-                className="w-7 h-7 cursor-pointer"
-                onClick={() => setIsEditAboutUsModalOpen(section)}
-              />
+              <div className="flex gap-4">
+                <img
+                  src={EditIcon}
+                  alt="edit_icon"
+                  className="w-7 h-7 cursor-pointer"
+                  onClick={() => setIsEditAboutUsModalOpen(section)}
+                />
+                <img
+                  src={DeleteIcon}
+                  alt="delete_icon"
+                  className="w-7 h-7 cursor-pointer"
+                  onClick={() => handleDeleteAboutUs(section.id)}
+                />
+              </div>
             </div>
             <p className="text-gray-700">{section.content}</p>
             {section.title === "Contact Us" && (

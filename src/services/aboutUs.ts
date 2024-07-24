@@ -15,3 +15,7 @@ export const updateAboutUsData = async (
 export const createAboutUs = async (newData: AboutUsProps) => {
   return await axiosInstance.post("/add_aboutus", newData);
 };
+
+export const deleteAboutUsData = async (id: number) => {
+  return await axiosInstance.delete(`/delete_aboutus/${id}`);
+};
