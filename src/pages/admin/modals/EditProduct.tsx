@@ -13,10 +13,42 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   onClose,
 }) => {
   const [formData, setFormData] = useState<Product | null>(null);
+  const [isOnSale, setIsOnSale] = useState<boolean>(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    setFormData(product || null);
+    if (product) {
+      setFormData(product);
+      setIsOnSale(product.isOnSale || false);
+    } else {
+      setFormData(null);
+      setIsOnSale(false);
+    }
   }, [product]);
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!formData?.name) newErrors.name = "Name is required.";
+    if (!formData?.price || isNaN(Number(formData?.price)))
+      newErrors.price = "Valid price is required.";
+    if (!formData?.stock || isNaN(Number(formData?.stock)))
+      newErrors.stock = "Valid stock quantity is required.";
+
+    if (isOnSale && !formData?.salePercentage) {
+      newErrors.salePercentage =
+        "Sale percentage is required when 'On Sale' is checked.";
+    } else if (
+      isOnSale &&
+      formData?.salePercentage &&
+      isNaN(Number(formData.salePercentage))
+    ) {
+      newErrors.salePercentage = "Valid sale percentage is required.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) =>
@@ -25,13 +57,18 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setIsOnSale(checked);
     setFormData((prev) =>
-      prev ? { ...prev, [e.target.name]: e.target.checked } : null
+      prev ? { ...prev, [e.target.name]: checked } : null
     );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validate()) return; // Only proceed if validation passes
+
     if (formData) {
       try {
         //@ts-expect-error - TypeScript does not recognize the FormData type
@@ -73,8 +110,13 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 name="name"
                 value={formData?.name || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                className={`w-full px-4 py-2 border ${
+                  errors.name ? "border-red-500" : "border-gray-300"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black`}
               />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
@@ -121,8 +163,13 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 name="price"
                 value={formData?.price || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                className={`w-full px-4 py-2 border ${
+                  errors.price ? "border-red-500" : "border-gray-300"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black`}
               />
+              {errors.price && (
+                <p className="text-red-500 text-sm mt-1">{errors.price}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
@@ -137,8 +184,13 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 name="stock"
                 value={formData?.stock || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                className={`w-full px-4 py-2 border ${
+                  errors.stock ? "border-red-500" : "border-gray-300"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black`}
               />
+              {errors.stock && (
+                <p className="text-red-500 text-sm mt-1">{errors.stock}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
@@ -177,7 +229,7 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 type="checkbox"
                 id="isOnSale"
                 name="isOnSale"
-                checked={formData?.isOnSale || false}
+                checked={isOnSale}
                 onChange={handleCheckboxChange}
                 className="h-5 w-5 text-blue-500 border-gray-300 rounded focus:ring-blue-500 "
               />
@@ -188,27 +240,36 @@ const EditProductModal: React.FC<EditProductModalProps> = ({
                 On Sale
               </label>
             </div>
+            {isOnSale && (
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-medium mb-2"
+                  htmlFor="salePercentage"
+                >
+                  Sale Percentage
+                </label>
+                <input
+                  type="number"
+                  id="salePercentage"
+                  name="salePercentage"
+                  value={formData?.salePercentage || ""}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-2 border ${
+                    errors.salePercentage ? "border-red-500" : "border-gray-300"
+                  } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black`}
+                />
+                {errors.salePercentage && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.salePercentage}
+                  </p>
+                )}
+              </div>
+            )}
             <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-medium mb-2"
-                htmlFor="salePercentage"
-              >
-                Sale Percentage
-              </label>
-              <input
-                type="number"
-                id="salePercentage"
-                name="salePercentage"
-                value={formData?.salePercentage || ""}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-medium mb-2">
+              <label className=" text-gray-700 text-sm font-medium mb-2">
                 Product Image
               </label>
-              <div className="flex justify-center">
+              <div className="flex justify-start">
                 <img
                   src={
                     formData?.images?.set[0]
