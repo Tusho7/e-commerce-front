@@ -22,6 +22,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminAbout from "./pages/admin/AdminAbout";
+import AdminContact from "./pages/admin/AdminContact";
 
 function App() {
   return (
@@ -56,6 +57,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminUsers />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin_contact"
+          element={
+            <PrivateAdminRoutes>
+              <AdminContact />
             </PrivateAdminRoutes>
           }
         />
