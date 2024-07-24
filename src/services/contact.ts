@@ -1,4 +1,5 @@
 import axiosInstance from "../plugins/axios/index";
+import { ContactUsProps } from "../types/contactUs";
 
 export const contact = async ({
   name,
@@ -18,4 +19,8 @@ export const getContactUsData = async () => {
 
 export const deleteContact = async (id: number) => {
   return await axiosInstance.delete(`/delete_contact/${id}`);
+};
+
+export const editContacUs = async (id: number, data: ContactUsProps) => {
+  return await axiosInstance.put(`/edit_contact_us/${id}`, data);
 };
