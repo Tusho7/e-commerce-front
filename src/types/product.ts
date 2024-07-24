@@ -21,9 +21,7 @@ export interface Product {
   salePercentage: number | null;
   inCart: boolean;
   cart: Product[];
-  images: {
-    set: string[];
-  };
+  images: { set: string[] };
   wishlist: WishlistItem[];
 }
 

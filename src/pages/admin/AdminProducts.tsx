@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { deleteProductById, getProducts } from "../../services/products";
+import {
+  createProduct,
+  deleteProductById,
+  getProducts,
+} from "../../services/products";
 import Table from "./Table";
 import { Product } from "../../types/product";
 import { Link } from "react-router-dom";
@@ -7,11 +11,13 @@ import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import EditProductModal from "./modals/EditProduct";
 import Swal from "sweetalert2";
+import AddProductModal from "./modals/AddProduct";
 
 const AdminProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -53,6 +59,23 @@ const AdminProducts = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const closeAddProductModal = () => {
+    setIsAddProductModalOpen(false);
+  };
+
+  const handleAddProduct = async (newProduct: FormData) => {
+    try {
+      await createProduct(newProduct);
+      Swal.fire("Added!", "The product has been added.", "success");
+      const updatedProducts = await getProducts();
+      setProducts(updatedProducts.data);
+    } catch (error) {
+      Swal.fire("Error!", "Failed to add the product.", "error");
+      console.error("Add product error:", error);
+    }
+    closeAddProductModal();
   };
 
   const columns = React.useMemo(
@@ -122,12 +145,20 @@ const AdminProducts = () => {
         <h1 className="text-2xl lg:text-5xl font-extrabold text-gray-300">
           Products
         </h1>
-        <Link
-          to="/admin_dashboard"
-          className="bg-indigo-600 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
-        >
-          Go to Main Page
-        </Link>
+        <div>
+          <button
+            onClick={() => setIsAddProductModalOpen(true)}
+            className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all mr-4"
+          >
+            Add Product
+          </button>
+          <Link
+            to="/admin_dashboard"
+            className="bg-indigo-600 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
+          >
+            Go to Main Page
+          </Link>
+        </div>
       </div>
 
       <div>
@@ -136,6 +167,13 @@ const AdminProducts = () => {
 
       {isModalOpen && selectedProduct && (
         <EditProductModal product={selectedProduct} onClose={closeModal} />
+      )}
+
+      {isAddProductModalOpen && (
+        <AddProductModal
+          onClose={closeAddProductModal}
+          onAddProduct={handleAddProduct}
+        />
       )}
     </div>
   );

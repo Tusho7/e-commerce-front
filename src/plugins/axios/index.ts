@@ -5,23 +5,15 @@ const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json" || "multipart/form-data",
     Accept: "application/json" || "multipart/form-data",
-  },
-});
-
-export const formDataInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "multipart/form-data",
-    Accept: "multipart/form-data",
   },
 });
 
 instance.interceptors.request.use(
   async function (config) {
     if (config.method === "post" || config.method === "put") {
+      ("");
+    } else {
       config.data = JSON.stringify(config.data);
     }
     return config;
