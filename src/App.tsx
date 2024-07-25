@@ -25,6 +25,7 @@ import AdminAbout from "./pages/admin/AdminAbout";
 import AdminContact from "./pages/admin/AdminContact";
 import AdminFaq from "./pages/admin/AdminFaq";
 import AdminCareers from "./pages/admin/AdminCareers";
+import AdminPrivacyPolicy from "./pages/admin/AdminPrivacyPolicy";
 
 function App() {
   return (
@@ -86,6 +87,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminCareers />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin_privacy"
+          element={
+            <PrivateAdminRoutes>
+              <AdminPrivacyPolicy />
             </PrivateAdminRoutes>
           }
         />
