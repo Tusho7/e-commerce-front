@@ -3,12 +3,16 @@ import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import { Link } from "react-router-dom";
 import { CareerProps } from "../../types/careerProps";
-import { getCareerData } from "../../services/careers";
+import { editCareer, getCareerData } from "../../services/careers";
 import AddCareer from "./modals/AddCareer";
+import EditCareer from "./modals/EditCareer";
+import Swal from "sweetalert2";
 
 const AdminCareers = () => {
   const [careersData, setCareersData] = useState<CareerProps[]>([]);
   const [isAddCareerModalOpen, setIsAddCareerModalOpen] = useState(false);
+  const [isEditCareerModalOpen, setIsEditCareerModalOpen] =
+    useState<CareerProps | null>(null);
 
   useEffect(() => {
     const fetchCareersData = async () => {
@@ -24,6 +28,34 @@ const AdminCareers = () => {
 
   const handleAddCareer = (newData: CareerProps) => {
     setCareersData((prevData) => [...prevData, newData]);
+  };
+
+  const handleUpdateCareer = async (id: number, updatedData: CareerProps) => {
+    try {
+      await editCareer(id, updatedData);
+      setCareersData((prevData) =>
+        prevData.map((section) =>
+          section.id === id ? { ...section, ...updatedData } : section
+        )
+      );
+      Swal.fire({
+        title: "Success!",
+        text: "About Us information updated successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      setIsEditCareerModalOpen(null);
+    } catch (error) {
+      console.error("Failed to update about us data:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update About Us information",
+        icon: "error",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
   };
 
   return (
@@ -62,6 +94,7 @@ const AdminCareers = () => {
                 src={EditIcon}
                 alt="Edit"
                 className="w-6 h-6 cursor-pointer"
+                onClick={() => setIsEditCareerModalOpen(career)}
               />
               <img
                 src={DeleteIcon}
@@ -77,6 +110,14 @@ const AdminCareers = () => {
         <AddCareer
           onClose={() => setIsAddCareerModalOpen(false)}
           onAdd={handleAddCareer}
+        />
+      )}
+
+      {isEditCareerModalOpen && (
+        <EditCareer
+          career={isEditCareerModalOpen}
+          onClose={() => setIsEditCareerModalOpen(null)}
+          onSave={handleUpdateCareer}
         />
       )}
     </div>
