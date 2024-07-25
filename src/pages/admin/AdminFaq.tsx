@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { getFaqs } from "../../services/faqs";
+import { editFaq, getFaqs } from "../../services/faqs";
 import { Link } from "react-router-dom";
 import { Faq } from "../../types/faq";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import AddFaq from "./modals/AddFaq";
+import EditFaq from "./modals/EditFaq";
+import Swal from "sweetalert2";
 
 const AdminFaq = () => {
   const [faqData, setFaqData] = useState<Faq[]>([]);
@@ -19,7 +21,7 @@ const AdminFaq = () => {
         const response = await getFaqs();
         setFaqData(response.data);
       } catch (error) {
-        console.error("Failed to fetch about us data:", error);
+        console.error("Failed to fetch faq data data:", error);
       }
     };
     fetchFaqData();
@@ -27,6 +29,20 @@ const AdminFaq = () => {
 
   const handleAddFAq = (newData: Faq) => {
     setFaqData((prevData) => [...prevData, newData]);
+  };
+
+  const handleEditFaq = async (updatedData: Faq) => {
+    try {
+      await editFaq(updatedData.id, updatedData);
+      setFaqData((prevData) =>
+        prevData.map((faq) => (faq.id === updatedData.id ? updatedData : faq))
+      );
+      setIsEditFaqModalOpen(null);
+      Swal.fire("Success!", "Faq information has been updated.", "success");
+    } catch (error) {
+      console.error("Failed to edit faq:", error);
+      Swal.fire("Error!", "Failed to update faq information.", "error");
+    }
   };
 
   return (
@@ -76,6 +92,14 @@ const AdminFaq = () => {
 
       {isFaqModalOpen && (
         <AddFaq onClose={() => setIsFaqModalOpen(false)} onAdd={handleAddFAq} />
+      )}
+
+      {isEditFaqModalOpen && (
+        <EditFaq
+          faq={isEditFaqModalOpen}
+          onClose={() => setIsEditFaqModalOpen(null)}
+          onSave={handleEditFaq}
+        />
       )}
     </div>
   );
