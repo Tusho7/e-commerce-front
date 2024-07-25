@@ -4,9 +4,11 @@ import DeleteIcon from "../../assets/delete_icon.png";
 import { Link } from "react-router-dom";
 import { CareerProps } from "../../types/careerProps";
 import { getCareerData } from "../../services/careers";
+import AddCareer from "./modals/AddCareer";
 
 const AdminCareers = () => {
   const [careersData, setCareersData] = useState<CareerProps[]>([]);
+  const [isAddCareerModalOpen, setIsAddCareerModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCareersData = async () => {
@@ -20,6 +22,10 @@ const AdminCareers = () => {
     fetchCareersData();
   }, []);
 
+  const handleAddCareer = (newData: CareerProps) => {
+    setCareersData((prevData) => [...prevData, newData]);
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -27,8 +33,11 @@ const AdminCareers = () => {
           Careers Information
         </h1>
         <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
-          <button className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4">
-            Add Contact Us
+          <button
+            onClick={() => setIsAddCareerModalOpen(true)}
+            className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4"
+          >
+            Add Careers
           </button>
           <Link
             to="/admin_dashboard"
@@ -63,6 +72,13 @@ const AdminCareers = () => {
           </div>
         ))}
       </div>
+
+      {isAddCareerModalOpen && (
+        <AddCareer
+          onClose={() => setIsAddCareerModalOpen(false)}
+          onAdd={handleAddCareer}
+        />
+      )}
     </div>
   );
 };
