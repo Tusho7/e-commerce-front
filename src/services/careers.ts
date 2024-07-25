@@ -12,3 +12,7 @@ export const createCareer = async (data: CareerProps) => {
 export const editCareer = async (id: number, data: CareerProps) => {
   return await axiosInstance.put(`/edit_career/${id}`, data);
 };
+
+export const deleteCareerById = async (id: number) => {
+  return await axiosInstance.delete(`/delete_career/${id}`);
+};

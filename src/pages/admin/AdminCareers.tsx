@@ -3,7 +3,11 @@ import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import { Link } from "react-router-dom";
 import { CareerProps } from "../../types/careerProps";
-import { editCareer, getCareerData } from "../../services/careers";
+import {
+  deleteCareerById,
+  editCareer,
+  getCareerData,
+} from "../../services/careers";
 import AddCareer from "./modals/AddCareer";
 import EditCareer from "./modals/EditCareer";
 import Swal from "sweetalert2";
@@ -58,6 +62,44 @@ const AdminCareers = () => {
     }
   };
 
+  const handleDeleteCareer = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteCareerById(id);
+        setCareersData((prevData) =>
+          prevData.filter((section) => section.id !== id)
+        );
+        Swal.fire({
+          title: "Deleted!",
+          text: "Career deleted successfully",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete career data:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete Career",
+          icon: "error",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -87,7 +129,9 @@ const AdminCareers = () => {
           >
             <div className="flex flex-col">
               <h2 className="text-xl font-semibold">Title: {career.title}</h2>
-              <p className="text-gray-700 mt-2">Content: {career.content}</p>
+              <p className="text-gray-700 mt-2 max-w-[950px]">
+                Content: {career.content}
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <img
@@ -100,6 +144,7 @@ const AdminCareers = () => {
                 src={DeleteIcon}
                 alt="Delete"
                 className="w-6 h-6 cursor-pointer"
+                onClick={() => handleDeleteCareer(career.id)}
               />
             </div>
           </div>
