@@ -12,3 +12,7 @@ export const createFaq = async (faq: Faq) => {
 export const editFaq = async (id: number, faq: Faq) => {
   return await axiosInstance.put(`/edit_faq/${id}`, faq);
 };
+
+export const deleteFaq = async (id: number) => {
+  return await axiosInstance.delete(`/delete_faq/${id}`);
+};
