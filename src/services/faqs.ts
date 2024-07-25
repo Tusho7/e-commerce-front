@@ -8,3 +8,7 @@ export const getFaqs = async () => {
 export const createFaq = async (faq: Faq) => {
   return await axiosInstance.post("/add_faq", faq);
 };
+
+export const editFaq = async (id: number, faq: Faq) => {
+  return await axiosInstance.put(`/edit_faq/${id}`, faq);
+};
