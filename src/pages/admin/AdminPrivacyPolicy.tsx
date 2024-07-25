@@ -4,9 +4,11 @@ import DeleteIcon from "../../assets/delete_icon.png";
 import { Link } from "react-router-dom";
 import { PrivacyPolicyProps } from "../../types/privacyPolicy";
 import { getprivacyPolicy } from "../../services/privacypolicy";
+import AddPrivacyPolicy from "./modals/AddPrivacyPolicy";
 
 const AdminPrivacyPolicy = () => {
   const [privacyData, setPrivacyData] = useState<PrivacyPolicyProps[]>([]);
+  const [isAddPrivacyModalOpen, setIsAddPrivacyModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchPrivacyData = async () => {
@@ -20,15 +22,22 @@ const AdminPrivacyPolicy = () => {
     fetchPrivacyData();
   }, []);
 
+  const handleAddPrivacyPolicy = (newData: PrivacyPolicyProps) => {
+    setPrivacyData((prevData) => [...prevData, newData]);
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
         <h1 className="text-2xl lg:text-5xl font-extrabold text-gray-300 w-[160px] lg:w-[670px]">
-          Careers Information
+          Privacy Policy Information
         </h1>
         <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
-          <button className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4">
-            Add Careers
+          <button
+            onClick={() => setIsAddPrivacyModalOpen(true)}
+            className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4"
+          >
+            Add Privacy Policy
           </button>
           <Link
             to="/admin_dashboard"
@@ -65,6 +74,13 @@ const AdminPrivacyPolicy = () => {
           </div>
         ))}
       </div>
+
+      {isAddPrivacyModalOpen && (
+        <AddPrivacyPolicy
+          onClose={() => setIsAddPrivacyModalOpen(false)}
+          onAdd={handleAddPrivacyPolicy}
+        />
+      )}
     </div>
   );
 };
