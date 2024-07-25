@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { editFaq, getFaqs } from "../../services/faqs";
+import { deleteFaq, editFaq, getFaqs } from "../../services/faqs";
 import { Link } from "react-router-dom";
 import { Faq } from "../../types/faq";
 import EditIcon from "../../assets/edit_icon.png";
@@ -45,6 +45,44 @@ const AdminFaq = () => {
     }
   };
 
+  const handleDeleteFaq = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteFaq(id);
+        setFaqData((prevData) =>
+          prevData.filter((section) => section.id !== id)
+        );
+        Swal.fire({
+          title: "Deleted!",
+          text: "Faq deleted successfully",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete faq data:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete Faq section",
+          icon: "error",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -82,6 +120,7 @@ const AdminFaq = () => {
                   src={DeleteIcon}
                   alt="delete_icon"
                   className="w-7 h-7 cursor-pointer"
+                  onClick={() => handleDeleteFaq(section.id)}
                 />
               </div>
             </div>
