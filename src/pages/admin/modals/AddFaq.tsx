@@ -14,7 +14,7 @@ const AddFaq: React.FC<AddFaqProps> = ({ onClose, onAdd }) => {
 
   const handleAdd = async () => {
     try {
-      const newFaq: Faq = { question, answer };
+      const newFaq: Faq = { id: 0, question, answer };
       await createFaq(newFaq);
       onAdd(newFaq);
       Swal.fire({
