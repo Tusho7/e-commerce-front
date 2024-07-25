@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { createAboutUs } from "../../../services/aboutUs";
 import { CareerProps } from "../../../types/careerProps";
+import { createCareer } from "../../../services/careers";
 
 interface AddCareerProps {
   onClose: () => void;
@@ -15,7 +15,7 @@ const AddCareer: React.FC<AddCareerProps> = ({ onClose, onAdd }) => {
   const handleAdd = async () => {
     try {
       const newCareer: CareerProps = { id: 0, title, content };
-      await createAboutUs(newCareer);
+      await createCareer(newCareer);
       onAdd(newCareer);
       Swal.fire({
         title: "Success!",
