@@ -3,8 +3,12 @@ import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import { Link } from "react-router-dom";
 import { PrivacyPolicyProps } from "../../types/privacyPolicy";
-import { getprivacyPolicy } from "../../services/privacypolicy";
+import {
+  deletePrivacyPolicy,
+  getprivacyPolicy,
+} from "../../services/privacypolicy";
 import AddPrivacyPolicy from "./modals/AddPrivacyPolicy";
+import Swal from "sweetalert2";
 
 const AdminPrivacyPolicy = () => {
   const [privacyData, setPrivacyData] = useState<PrivacyPolicyProps[]>([]);
@@ -24,6 +28,44 @@ const AdminPrivacyPolicy = () => {
 
   const handleAddPrivacyPolicy = (newData: PrivacyPolicyProps) => {
     setPrivacyData((prevData) => [...prevData, newData]);
+  };
+
+  const handleDeleteAboutUs = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deletePrivacyPolicy(id);
+        setPrivacyData((prevData) =>
+          prevData.filter((section) => section.id !== id)
+        );
+        Swal.fire({
+          title: "Deleted!",
+          text: "Privacy policy section deleted successfully",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete privacy policy data:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete Privacy policy section",
+          icon: "error",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    }
   };
 
   return (
@@ -48,15 +90,15 @@ const AdminPrivacyPolicy = () => {
         </div>
       </div>
       <div className="space-y-6">
-        {privacyData.map((career) => (
+        {privacyData.map((privacy) => (
           <div
-            key={career.id}
+            key={privacy.id}
             className="bg-white p-6 rounded-lg shadow-lg flex justify-between items-center"
           >
             <div className="flex flex-col">
-              <h2 className="text-xl font-semibold">Title: {career.title}</h2>
+              <h2 className="text-xl font-semibold">Title: {privacy.title}</h2>
               <p className="text-gray-700 mt-2 max-w-[950px]">
-                Content: {career.content}
+                Content: {privacy.content}
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -69,6 +111,7 @@ const AdminPrivacyPolicy = () => {
                 src={DeleteIcon}
                 alt="Delete"
                 className="w-6 h-6 cursor-pointer"
+                onClick={() => handleDeleteAboutUs(privacy.id)}
               />
             </div>
           </div>
