@@ -8,3 +8,7 @@ export const getCareerData = async () => {
 export const createCareer = async (data: CareerProps) => {
   return await axiosInstance.post("/add_career", data);
 };
+
+export const editCareer = async (id: number, data: CareerProps) => {
+  return await axiosInstance.put(`/edit_career/${id}`, data);
+};
