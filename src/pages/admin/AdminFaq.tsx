@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Faq } from "../../types/faq";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
+import AddFaq from "./modals/AddFaq";
 
 const AdminFaq = () => {
   const [faqData, setFaqData] = useState<Faq[]>([]);
@@ -24,7 +25,9 @@ const AdminFaq = () => {
     fetchFaqData();
   }, []);
 
-  console.log(faqData);
+  const handleAddFAq = (newData: Faq) => {
+    setFaqData((prevData) => [...prevData, newData]);
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto p-4">
@@ -70,6 +73,10 @@ const AdminFaq = () => {
           </div>
         ))}
       </div>
+
+      {isFaqModalOpen && (
+        <AddFaq onClose={() => setIsFaqModalOpen(false)} onAdd={handleAddFAq} />
+      )}
     </div>
   );
 };
