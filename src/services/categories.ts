@@ -12,3 +12,10 @@ export const createCategory = async (category: Category) => {
 export const deleteCategory = async (categoryId: number) => {
   return await axiosInstance.delete(`/delete_category/${categoryId}`);
 };
+
+export const updateCategoryNameById = async (
+  id: number,
+  updatedData: Category
+) => {
+  return await axiosInstance.put(`/update_category_name/${id}`, updatedData);
+};

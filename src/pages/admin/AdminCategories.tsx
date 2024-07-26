@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
-import { deleteCategory, getCategories } from "../../services/categories";
+import {
+  deleteCategory,
+  getCategories,
+  updateCategoryNameById,
+} from "../../services/categories";
 import { Category } from "../../types/category";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import AddCategory from "./modals/AddCategory";
 import Swal from "sweetalert2";
+import EditCategory from "./modals/EditCategory";
 
 const AdminCategories = () => {
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+  const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] =
+    useState<Category | null>(null);
 
   useEffect(() => {
     const fetchCategoriesData = async () => {
@@ -65,6 +72,34 @@ const AdminCategories = () => {
     }
   };
 
+  const handleUpdateCategory = async (id: number, updatedData: Category) => {
+    try {
+      await updateCategoryNameById(id, updatedData);
+      setCategoriesData((prevData) =>
+        prevData.map((section) =>
+          section.id === id ? { ...section, ...updatedData } : section
+        )
+      );
+      Swal.fire({
+        title: "Success!",
+        text: "Category updated successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      setIsEditCategoryModalOpen(null);
+    } catch (error) {
+      console.error("Failed to update category:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update Category",
+        icon: "error",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -96,6 +131,7 @@ const AdminCategories = () => {
                   src={EditIcon}
                   alt="edit_icon"
                   className="w-7 h-7 cursor-pointer"
+                  onClick={() => setIsEditCategoryModalOpen(section)}
                 />
                 <img
                   src={DeleteIcon}
@@ -113,6 +149,14 @@ const AdminCategories = () => {
         <AddCategory
           onAdd={handleAddCategory}
           onClose={() => setIsAddCategoryModalOpen(false)}
+        />
+      )}
+
+      {isEditCategoryModalOpen && (
+        <EditCategory
+          content={isEditCategoryModalOpen}
+          onClose={() => setIsEditCategoryModalOpen(null)}
+          onSave={handleUpdateCategory}
         />
       )}
     </div>
