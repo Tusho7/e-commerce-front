@@ -8,3 +8,7 @@ export const getTermsData = async () => {
 export const createTerms = async (data: TermsProps) => {
   return await axiosInstance.post("/create_terms_and_conditions", data);
 };
+
+export const deleteTerms = async (id: number) => {
+  return await axiosInstance.delete(`/delete_terms_and_conditions/${id}`);
+};
