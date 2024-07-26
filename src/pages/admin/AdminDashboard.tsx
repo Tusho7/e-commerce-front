@@ -26,6 +26,7 @@ const AdminDashboard = () => {
 
   const items = [
     { title: "Users", color: "bg-blue-500", path: "/admin_users" },
+    { title: "Categories", color: "bg-yellow-500", path: "/admin_categories" },
     { title: "Products", color: "bg-purple-500", path: "/admin_products" },
     { title: "About us", color: "bg-red-500", path: "/admin_about" },
     { title: "Contact", color: "bg-green-500", path: "/admin_contact" },
@@ -33,6 +34,9 @@ const AdminDashboard = () => {
     { title: "Careers", color: "bg-indigo-500", path: "/admin_careers" },
     { title: "Privacy Policy", color: "bg-pink-500", path: "/admin_privacy" },
     { title: "Terms & Conditions", color: "bg-teal-500", path: "/admin_terms" },
+    { title: "Messages", color: "bg-blue-300", path: "/admin_messages" },
+    { title: "Reviews", color: "bg-purple-300", path: "/admin_reviews" },
+    { title: "Admins", color: "bg-red-300", path: "/admin_admins" },
     { title: "Settings", color: "bg-orange-500", path: "/admin_settings" },
     { title: "Logout", color: "bg-gray-500", path: "", onClick: handleLogout },
   ];

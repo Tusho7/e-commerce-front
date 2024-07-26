@@ -27,6 +27,7 @@ import AdminFaq from "./pages/admin/AdminFaq";
 import AdminCareers from "./pages/admin/AdminCareers";
 import AdminPrivacyPolicy from "./pages/admin/AdminPrivacyPolicy";
 import AdminTerms from "./pages/admin/AdminTerms";
+import AdminCategories from "./pages/admin/AdminCategories";
 
 function App() {
   return (
@@ -43,6 +44,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminDashboard />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin_categories"
+          element={
+            <PrivateAdminRoutes>
+              <AdminCategories />
             </PrivateAdminRoutes>
           }
         />
