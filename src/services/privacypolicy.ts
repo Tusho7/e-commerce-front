@@ -12,3 +12,10 @@ export const createPrivacyPolicy = async (data: PrivacyPolicyProps) => {
 export const deletePrivacyPolicy = async (id: number) => {
   return await axiosInstance.delete(`/delete_privacy_policy/${id}`);
 };
+
+export const editPrivacyPolicy = async (
+  id: number,
+  data: PrivacyPolicyProps
+) => {
+  return await axiosInstance.put(`/update_privacy_policy/${id}`, data);
+};

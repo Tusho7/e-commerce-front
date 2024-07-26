@@ -5,14 +5,18 @@ import { Link } from "react-router-dom";
 import { PrivacyPolicyProps } from "../../types/privacyPolicy";
 import {
   deletePrivacyPolicy,
+  editPrivacyPolicy,
   getprivacyPolicy,
 } from "../../services/privacypolicy";
 import AddPrivacyPolicy from "./modals/AddPrivacyPolicy";
 import Swal from "sweetalert2";
+import EditPrivacyPolicy from "./modals/EditPrivacyPolicy";
 
 const AdminPrivacyPolicy = () => {
   const [privacyData, setPrivacyData] = useState<PrivacyPolicyProps[]>([]);
   const [isAddPrivacyModalOpen, setIsAddPrivacyModalOpen] = useState(false);
+  const [isEditAboutUsModalOpen, setIsEditAboutUsModalOpen] =
+    useState<PrivacyPolicyProps | null>(null);
 
   useEffect(() => {
     const fetchPrivacyData = async () => {
@@ -68,6 +72,37 @@ const AdminPrivacyPolicy = () => {
     }
   };
 
+  const handleUpdatePrivacyPolicy = async (
+    id: number,
+    updatedData: PrivacyPolicyProps
+  ) => {
+    try {
+      await editPrivacyPolicy(id, updatedData);
+      setPrivacyData((prevData) =>
+        prevData.map((section) =>
+          section.id === id ? { ...section, ...updatedData } : section
+        )
+      );
+      Swal.fire({
+        title: "Success!",
+        text: "Privacy Policy information updated successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      setIsEditAboutUsModalOpen(null);
+    } catch (error) {
+      console.error("Failed to update privacy policy data:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update Privacy Policy information",
+        icon: "error",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -106,6 +141,7 @@ const AdminPrivacyPolicy = () => {
                 src={EditIcon}
                 alt="Edit"
                 className="w-6 h-6 cursor-pointer"
+                onClick={() => setIsEditAboutUsModalOpen(privacy)}
               />
               <img
                 src={DeleteIcon}
@@ -122,6 +158,14 @@ const AdminPrivacyPolicy = () => {
         <AddPrivacyPolicy
           onClose={() => setIsAddPrivacyModalOpen(false)}
           onAdd={handleAddPrivacyPolicy}
+        />
+      )}
+
+      {isEditAboutUsModalOpen && (
+        <EditPrivacyPolicy
+          privacy={isEditAboutUsModalOpen}
+          onClose={() => setIsEditAboutUsModalOpen(null)}
+          onSave={handleUpdatePrivacyPolicy}
         />
       )}
     </div>
