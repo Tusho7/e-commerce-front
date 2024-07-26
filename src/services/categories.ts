@@ -8,3 +8,7 @@ export const getCategories = async () => {
 export const createCategory = async (category: Category) => {
   return await axiosInstance.post("/create_category", category);
 };
+
+export const deleteCategory = async (categoryId: number) => {
+  return await axiosInstance.delete(`/delete_category/${categoryId}`);
+};
