@@ -4,9 +4,11 @@ import { Category } from "../../types/category";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
+import AddCategory from "./modals/AddCategory";
 
 const AdminCategories = () => {
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCategoriesData = async () => {
@@ -20,6 +22,10 @@ const AdminCategories = () => {
     fetchCategoriesData();
   }, []);
 
+  const handleAddCategory = async (newCategory: Category) => {
+    setCategoriesData((prevData) => [...prevData, newCategory]);
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -27,7 +33,10 @@ const AdminCategories = () => {
           Categories
         </h1>
         <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
-          <button className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4">
+          <button
+            onClick={() => setIsAddCategoryModalOpen(true)}
+            className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4"
+          >
             Add Category
           </button>
           <Link
@@ -59,6 +68,13 @@ const AdminCategories = () => {
           </div>
         ))}
       </div>
+
+      {isAddCategoryModalOpen && (
+        <AddCategory
+          onAdd={handleAddCategory}
+          onClose={() => setIsAddCategoryModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
