@@ -4,9 +4,11 @@ import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import { getTermsData } from "../../services/terms";
 import { TermsProps } from "../../types/terms";
+import AddTerms from "./modals/AddTerms";
 
 const AdminTerms = () => {
   const [termsData, setTermsData] = useState<TermsProps[]>([]);
+  const [isAddTermsModalOpen, setIsAddTermsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTermsData = async () => {
@@ -20,6 +22,10 @@ const AdminTerms = () => {
     fetchTermsData();
   }, []);
 
+  const handleAddTerms = (newData: TermsProps) => {
+    setTermsData((prevData) => [...prevData, newData]);
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -27,7 +33,10 @@ const AdminTerms = () => {
           Terms & Conditions Information
         </h1>
         <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
-          <button className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4">
+          <button
+            onClick={() => setIsAddTermsModalOpen(true)}
+            className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4"
+          >
             Add Terms & Conditions
           </button>
           <Link
@@ -60,6 +69,13 @@ const AdminTerms = () => {
           </div>
         ))}
       </div>
+
+      {isAddTermsModalOpen && (
+        <AddTerms
+          onClose={() => setIsAddTermsModalOpen(false)}
+          onAdd={handleAddTerms}
+        />
+      )}
     </div>
   );
 };
