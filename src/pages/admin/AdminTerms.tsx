@@ -2,14 +2,21 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
-import { deleteTerms, getTermsData } from "../../services/terms";
+import {
+  deleteTerms,
+  getTermsData,
+  updateTermsData,
+} from "../../services/terms";
 import { TermsProps } from "../../types/terms";
 import AddTerms from "./modals/AddTerms";
 import Swal from "sweetalert2";
+import EditTerms from "./modals/EditTerms";
 
 const AdminTerms = () => {
   const [termsData, setTermsData] = useState<TermsProps[]>([]);
   const [isAddTermsModalOpen, setIsAddTermsModalOpen] = useState(false);
+  const [isEditTermsModalOpen, setIsEditTermsModalOpen] =
+    useState<TermsProps | null>(null);
 
   useEffect(() => {
     const fetchTermsData = async () => {
@@ -65,6 +72,34 @@ const AdminTerms = () => {
     }
   };
 
+  const handleUpdateTerms = async (id: number, updatedData: TermsProps) => {
+    try {
+      await updateTermsData(id, updatedData);
+      setTermsData((prevData) =>
+        prevData.map((section) =>
+          section.id === id ? { ...section, ...updatedData } : section
+        )
+      );
+      Swal.fire({
+        title: "Success!",
+        text: "About Us information updated successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      setIsEditTermsModalOpen(null);
+    } catch (error) {
+      console.error("Failed to update about us data:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update About Us information",
+        icon: "error",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -96,6 +131,7 @@ const AdminTerms = () => {
                   src={EditIcon}
                   alt="edit_icon"
                   className="w-7 h-7 cursor-pointer"
+                  onClick={() => setIsEditTermsModalOpen(section)}
                 />
                 <img
                   src={DeleteIcon}
@@ -114,6 +150,14 @@ const AdminTerms = () => {
         <AddTerms
           onClose={() => setIsAddTermsModalOpen(false)}
           onAdd={handleAddTerms}
+        />
+      )}
+
+      {isEditTermsModalOpen && (
+        <EditTerms
+          product={isEditTermsModalOpen}
+          onClose={() => setIsEditTermsModalOpen(null)}
+          onSave={handleUpdateTerms}
         />
       )}
     </div>

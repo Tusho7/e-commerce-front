@@ -12,3 +12,7 @@ export const createTerms = async (data: TermsProps) => {
 export const deleteTerms = async (id: number) => {
   return await axiosInstance.delete(`/delete_terms_and_conditions/${id}`);
 };
+
+export const updateTermsData = async (id: number, data: TermsProps) => {
+  return await axiosInstance.put(`/update_terms_and_conditions/${id}`, data);
+};
