@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
-import { getTermsData } from "../../services/terms";
+import { deleteTerms, getTermsData } from "../../services/terms";
 import { TermsProps } from "../../types/terms";
 import AddTerms from "./modals/AddTerms";
+import Swal from "sweetalert2";
 
 const AdminTerms = () => {
   const [termsData, setTermsData] = useState<TermsProps[]>([]);
@@ -24,6 +25,44 @@ const AdminTerms = () => {
 
   const handleAddTerms = (newData: TermsProps) => {
     setTermsData((prevData) => [...prevData, newData]);
+  };
+
+  const handleDeleteTerms = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteTerms(id);
+        setTermsData((prevData) =>
+          prevData.filter((section) => section.id !== id)
+        );
+        Swal.fire({
+          title: "Deleted!",
+          text: "Terms section deleted successfully",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete terms data:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete Terms section",
+          icon: "error",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    }
   };
 
   return (
@@ -62,6 +101,7 @@ const AdminTerms = () => {
                   src={DeleteIcon}
                   alt="delete_icon"
                   className="w-7 h-7 cursor-pointer"
+                  onClick={() => handleDeleteTerms(section.id)}
                 />
               </div>
             </div>
