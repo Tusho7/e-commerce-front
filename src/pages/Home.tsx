@@ -42,14 +42,19 @@ const Home = () => {
         handleDropdown={handleDropdown}
         dropdown={dropdown}
       />
-      <ProductList
-        active={active}
-        filteredProducts={filteredProducts}
-        setFilteredProducts={setFilteredProducts}
-        updateTopModels={setTopModelsData}
-      />
-      <TopModels products={topModelsData} />
-      <Reviews />
+      <div className="min-h-[100vh]">
+        <ProductList
+          active={active}
+          filteredProducts={filteredProducts}
+          setFilteredProducts={setFilteredProducts}
+          updateTopModels={setTopModelsData}
+        />
+        {topModelsData && topModelsData.length > 0 && (
+          <TopModels products={topModelsData} />
+        )}
+        <Reviews />
+      </div>
+
       <Footer />
     </>
   );
