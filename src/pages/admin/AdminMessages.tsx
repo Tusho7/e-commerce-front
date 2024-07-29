@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { getMessages } from "../../services/messages";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { deleteMessage, getMessages } from "../../services/messages";
+import { FiChevronDown, FiChevronUp, FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Message } from "../../types/messages";
+import Swal from "sweetalert2";
 
 const AdminMessages = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -24,6 +25,31 @@ const AdminMessages = () => {
     setExpandedMessageIds((prev) =>
       prev.includes(id) ? prev.filter((mid) => mid !== id) : [...prev, id]
     );
+  };
+
+  const handleDelete = async (id: number) => {
+    const confirmResult = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (confirmResult.isConfirmed) {
+      try {
+        await deleteMessage(id);
+        setMessages((prevMessages) =>
+          prevMessages.filter((message) => message.id !== id)
+        );
+        Swal.fire("Deleted!", "The message has been deleted.", "success");
+      } catch (error) {
+        console.error("Failed to delete the message:", error);
+        Swal.fire("Error!", "Failed to delete the message.", "error");
+      }
+    }
   };
 
   return (
@@ -55,10 +81,20 @@ const AdminMessages = () => {
               key={message.id}
               className="bg-gray-50 hover:bg-gray-100 transition-shadow shadow-lg rounded-lg p-6 border border-gray-200"
             >
-              <h2 className="text-xl font-semibold mb-2">
-                <span className="block text-gray-700">Name:</span>{" "}
-                {message.name}
-              </h2>
+              <section className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold mb-2">
+                  <span className="block text-gray-700">Name:</span>{" "}
+                  {message.name}
+                </h2>
+
+                <button
+                  onClick={() => handleDelete(message.id)}
+                  className="text-red-500 flex items-center"
+                >
+                  <FiTrash2 />
+                </button>
+              </section>
+
               <p className="text-gray-600 mb-2">
                 <span className="block text-gray-700">Email:</span>{" "}
                 {message.email}
