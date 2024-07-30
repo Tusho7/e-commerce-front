@@ -159,7 +159,7 @@ const Products = ({
               </p>
               {product.isOnSale && (
                 <p className="text-xs md:text-sm text-red-500">
-                  Sale:{" "}
+                  New Price:{" "}
                   {calculateSalePrice(product.price, product.salePercentage)}$
                 </p>
               )}
