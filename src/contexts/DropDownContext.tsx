@@ -28,7 +28,7 @@ export const DropdownProvider = ({ children }: { children: ReactNode }) => {
   const handleClick = (category: Category) => {
     setActive(category.name);
     const filtered = products.filter(
-      (product) => product.categoryId === category.id || product.isOnSale
+      (product) => product.categoryId === category.id
     );
     setFilteredProducts(filtered);
   };
@@ -51,7 +51,7 @@ export const DropdownProvider = ({ children }: { children: ReactNode }) => {
           if (defaultCategory) {
             const filtered = productsData.data.filter(
               (product: { categoryId: number; isOnSale: boolean }) =>
-                product.categoryId === defaultCategory.id || product.isOnSale
+                product.categoryId === defaultCategory.id
             );
             setFilteredProducts(filtered);
           }

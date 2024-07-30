@@ -119,6 +119,15 @@ const Products = ({
     }
   };
 
+  const calculateSalePrice = (price: string, salePercentage: number | null) => {
+    const priceNumber = parseFloat(price);
+    if (salePercentage !== null && !isNaN(priceNumber)) {
+      const discount = (priceNumber * salePercentage) / 100;
+      return (priceNumber - discount).toFixed(2);
+    }
+    return price;
+  };
+
   return (
     <div className="pt-4 mb-10 pl-4 flex flex-col gap-2 text-white md:px-8 md:gap-7 max-w-[1200px] mx-auto">
       <h1 className="text-2xl md:text-3xl">Product List</h1>
@@ -145,9 +154,15 @@ const Products = ({
               <p className="text-xs mb-2 md:text-sm">
                 {truncateDescription(removeQuotes(product.description))}
               </p>
-              <p className="text-xs font-bold md:text-sm text-center">
-                {removeQuotes(product.price)}
+              <p className="text-xs font-bold md:text-sm text-start">
+                {removeQuotes(product.price)} $
               </p>
+              {product.isOnSale && (
+                <p className="text-xs md:text-sm text-red-500">
+                  Sale:{" "}
+                  {calculateSalePrice(product.price, product.salePercentage)}$
+                </p>
+              )}
               <p className="text-xs md:text-sm">Stock: {product.stock}</p>
 
               <section className="flex justify-between items-center gap-5 mt-3">
