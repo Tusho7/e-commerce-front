@@ -20,12 +20,7 @@ export const removeFromCart = async (
   userId: number | undefined,
   productId: number
 ) => {
-  return await axiosInstance.delete("/remove_from_cart", {
-    data: {
-      userId: userId,
-      productId: productId,
-    },
-  });
+  return await axiosInstance.delete(`/remove_from_cart/${userId}/${productId}`);
 };
 
 export const getUserCart = async (userId: number | undefined) => {
