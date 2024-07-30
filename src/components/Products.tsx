@@ -154,11 +154,15 @@ const Products = ({
               <p className="text-xs mb-2 md:text-sm">
                 {truncateDescription(removeQuotes(product.description))}
               </p>
-              <p className="text-xs font-bold md:text-sm text-start">
+              <p
+                className={`text-xs font-bold md:text-sm text-start ${
+                  product.isOnSale ? "line-through text-red-500" : ""
+                }`}
+              >
                 {removeQuotes(product.price)} $
               </p>
               {product.isOnSale && (
-                <p className="text-xs md:text-sm text-red-500">
+                <p className="text-xs md:text-sm text-green-500">
                   New Price:{" "}
                   {calculateSalePrice(product.price, product.salePercentage)}$
                 </p>
