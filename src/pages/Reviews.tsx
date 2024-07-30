@@ -23,7 +23,7 @@ const Reviews = () => {
   }
 
   return (
-    <div className="relative overflow-hidden w-full my-20">
+    <div className="relative overflow-hidden w-full mb-20 mt-10">
       <div className="flex animate-slide">
         {reviews.concat(reviews).map((review, index) => (
           <div key={index} className="flex-none w-full md:w-1/4 px-4">
