@@ -11,9 +11,8 @@ export const removeWishlist = async (
   productId: number,
   userId: number | undefined
 ) => {
-  return await axiosInstance.delete("/delete_wishlist/", {
-    data: { productId, userId },
-  });
+  console.log("Payload: ", { productId, userId });
+  return await axiosInstance.delete(`/delete_wishlist/${userId}/${productId}`);
 };
 
 export const getWishlistByUserId = async (userId: number | undefined) => {

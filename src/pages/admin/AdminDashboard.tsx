@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import WeatherComponent from "../../components/Weather";
+// import WeatherComponent from "../../components/Weather";
 import { useAdmin } from "../../contexts/UseAdmin";
 import { Logout } from "../../services/admin/api/Auth";
 
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      <WeatherComponent />
+      {/* <WeatherComponent /> */}
     </div>
   );
 };
