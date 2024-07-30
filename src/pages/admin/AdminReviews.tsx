@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import EditIcon from "../../assets/edit_icon.png";
 import DeleteIcon from "../../assets/delete_icon.png";
 import { Review } from "../../types/review";
-import { getReviews } from "../../services/reviews";
+import { deleteReview, getReviews } from "../../services/reviews";
+import Swal from "sweetalert2";
 
 const AdminReviews = () => {
   const [reviewData, setReviewData] = useState<Review[]>([]);
@@ -20,6 +20,44 @@ const AdminReviews = () => {
     fetchReviewData();
   }, []);
 
+  const handleDeleteReview = async (id: number) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteReview(id);
+        setReviewData((prevData) =>
+          prevData.filter((section) => section.id !== id)
+        );
+        Swal.fire({
+          title: "Deleted!",
+          text: "Review deleted successfully",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Failed to delete review:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete Review",
+          icon: "error",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    }
+  };
+
   return (
     <div className="max-w-[1200px] mx-auto p-4">
       <div className="flex justify-between items-center mb-12">
@@ -27,9 +65,6 @@ const AdminReviews = () => {
           Review Information
         </h1>
         <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
-          <button className="bg-green-500 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-green-600 transition-all lg:mr-4">
-            Add Review
-          </button>
           <Link
             to="/admin_dashboard"
             className="bg-indigo-600 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
@@ -47,14 +82,10 @@ const AdminReviews = () => {
               </h2>
               <div className="flex gap-4">
                 <img
-                  src={EditIcon}
-                  alt="edit_icon"
-                  className="w-7 h-7 cursor-pointer"
-                />
-                <img
                   src={DeleteIcon}
                   alt="delete_icon"
                   className="w-7 h-7 cursor-pointer"
+                  onClick={() => handleDeleteReview(review.id)}
                 />
               </div>
             </div>
