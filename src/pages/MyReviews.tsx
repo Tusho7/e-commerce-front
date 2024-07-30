@@ -31,15 +31,15 @@ const MyReviews = ({ reviewData, setReviewData }: MyReviewsProps) => {
   };
 
   return (
-    <div className="p-4 text-white">
+    <div className="py-4 text-white">
       <h2 className="text-2xl font-bold mb-4">My Reviews</h2>
       {reviewData.length === 0 ? (
         <p className="text-gray-400">You have not written any reviews yet.</p>
       ) : (
         <ul className="space-y-4">
-          {reviewData.map((review) => (
+          {reviewData.map((review, index) => (
             <li
-              key={review.id}
+              key={index}
               className="bg-gray-800 p-4 rounded-lg flex flex-col gap-2 justify-between items-start"
             >
               <div>
@@ -59,7 +59,7 @@ const MyReviews = ({ reviewData, setReviewData }: MyReviewsProps) => {
         </ul>
       )}
       <button
-        onClick={() => window.history.back()}
+        onClick={() => window.location.reload()}
         className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 mt-4"
       >
         Back to Profile

@@ -25,13 +25,15 @@ const Profile = () => {
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createReview({ quote: reviewText }, user?.user.id);
+      const response = await createReview({ quote: reviewText }, userId);
+      const newReview = response.data.newTestimonial as Review;
       Swal.fire({
         icon: "success",
         title: "Review added successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
+      setReviewData((prevReviews) => [newReview, ...prevReviews]);
       setReviewText("");
     } catch (error) {
       console.error("Failed to add review:", error);
@@ -57,8 +59,8 @@ const Profile = () => {
   }, [userId]);
 
   return (
-    <div>
-      <header className="flex justify-between items-center p-4">
+    <div className="p-4 md:px-8 max-w-[1200px] mx-auto">
+      <header className="flex justify-between items-center pb-4">
         <Link
           to="/home"
           className="text-white text-sm font-semibold hover:text-gray-300 transition duration-300"
@@ -75,7 +77,7 @@ const Profile = () => {
       </header>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
-      <div className="p-4 flex flex-col gap-10  min-h-screen">
+      <div className="py-4 flex flex-col gap-10  min-h-screen ">
         {showMyReviews ? (
           <MyReviews reviewData={reviewData} setReviewData={setReviewData} />
         ) : (
