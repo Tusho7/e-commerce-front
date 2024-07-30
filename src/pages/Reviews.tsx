@@ -32,6 +32,7 @@ const Reviews = () => {
     autoplay: true,
     autoplaySpeed: 0,
     cssEase: "linear",
+    rows: 1,
     responsive: [
       {
         breakpoint: 1024,
@@ -48,6 +49,10 @@ const Reviews = () => {
     ],
   };
 
+  if (reviews.length === 0) {
+    return <p className="text-center text-white">No reviews available</p>;
+  }
+
   return (
     <div>
       {reviews.length > 0 && (
@@ -56,28 +61,47 @@ const Reviews = () => {
         </h1>
       )}
 
-      <Slider {...settings}>
-        {reviews.map((review) => (
-          <div key={review.id} className="my-10">
-            <div className="bg-white p-6 rounded-lg shadow-lg mx-auto h-[350px] mr-5 xl:mr-0 max-w-lg flex flex-col justify-between items-center">
-              <section className="flex flex-col gap-3 items-center justify-center">
-                <img
-                  src={`${import.meta.env.VITE_API_STORAGE}${
-                    review?.user.profilePicture
-                  }`}
-                  alt={`${review.user.firstName} ${review.user.lastName}`}
-                  className="rounded-full w-16 h-16 object-cover mb-4 mx-auto border-2 border-blue-500"
-                />
-                <p className="italic text-gray-600 mb-3">{review.quote}</p>
-              </section>
+      {reviews.length === 1 ? (
+        <div className="bg-white p-6 rounded-lg shadow-lg mx-auto h-[350px] max-w-lg flex flex-col justify-between items-center">
+          <section className="flex flex-col gap-3 items-center justify-center">
+            <img
+              src={`${import.meta.env.VITE_API_STORAGE}${
+                reviews[0].user.profilePicture
+              }`}
+              alt={`${reviews[0].user.firstName} ${reviews[0].user.lastName}`}
+              className="rounded-full w-16 h-16 object-cover mb-4 mx-auto border-2 border-blue-500"
+            />
+            <p className="italic text-gray-600 mb-3">{reviews[0].quote}</p>
+          </section>
 
-              <p className="font-bold text-gray-800 text-lg">
-                - {review.user.firstName} {review.user.lastName}
-              </p>
+          <p className="font-bold text-gray-800 text-lg">
+            - {reviews[0].user.firstName} {reviews[0].user.lastName}
+          </p>
+        </div>
+      ) : (
+        <Slider {...settings}>
+          {reviews.map((review) => (
+            <div key={review.id} className="my-10">
+              <div className="bg-white p-6 rounded-lg shadow-lg mx-auto h-[350px] mr-5 xl:mr-0 max-w-lg flex flex-col justify-between items-center">
+                <section className="flex flex-col gap-3 items-center justify-center">
+                  <img
+                    src={`${import.meta.env.VITE_API_STORAGE}${
+                      review.user.profilePicture
+                    }`}
+                    alt={`${review.user.firstName} ${review.user.lastName}`}
+                    className="rounded-full w-16 h-16 object-cover mb-4 mx-auto border-2 border-blue-500"
+                  />
+                  <p className="italic text-gray-600 mb-3">{review.quote}</p>
+                </section>
+
+                <p className="font-bold text-gray-800 text-lg">
+                  - {review.user.firstName} {review.user.lastName}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };
