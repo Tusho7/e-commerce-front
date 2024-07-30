@@ -83,8 +83,8 @@ const Settings = () => {
   };
 
   return (
-    <div className="pb-4 max-w-[1200px] mx-auto">
-      <div className="text-white py-4 flex justify-between items-center">
+    <div className="">
+      <div className="text-white p-4 flex justify-between items-center pb-4 max-w-[1200px] mx-auto">
         <div className="flex justify-between items-center gap-10 text-sm md:text-base">
           <Link to="/home">Home</Link>
         </div>

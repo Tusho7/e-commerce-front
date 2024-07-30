@@ -139,7 +139,7 @@ const Favorites = () => {
 
   return (
     <React.Fragment>
-      <div className="text-white py-4 flex justify-between items-center max-w-[1200px] mx-auto">
+      <div className="text-white p-4 flex justify-between items-center max-w-[1200px] mx-auto">
         <div className="flex justify-between items-center gap-10 text-sm md:text-base ">
           <Link to="/home">Home</Link>
         </div>
@@ -158,7 +158,7 @@ const Favorites = () => {
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
-      <div className="py-4 px-4 min-h-screen md:px-8 max-w-[1200px] mx-auto">
+      <div className="p-4 min-h-screen max-w-[1200px] mx-auto">
         {wishlistsData.length > 0 ? (
           <div className="flex flex-wrap justify-between gap-10">
             {wishlistsData.map((item) => (

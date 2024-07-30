@@ -71,7 +71,7 @@ const Profile = () => {
 
   return (
     <div className="">
-      <div className="text-white py-4 flex justify-between items-center  max-w-[1200px] mx-auto">
+      <div className="text-white p-4 flex justify-between items-center  max-w-[1200px] mx-auto">
         <div className="flex justify-between items-center gap-10 text-sm md:text-base">
           <Link to="/home">Home</Link>
         </div>
@@ -90,7 +90,7 @@ const Profile = () => {
       </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
-      <div className="py-4 flex flex-col gap-10  min-h-screen  max-w-[1200px] mx-auto">
+      <div className="p-4 flex flex-col gap-10  min-h-screen  max-w-[1200px] mx-auto">
         {showMyReviews ? (
           <MyReviews reviewData={reviewData} setReviewData={setReviewData} />
         ) : (
