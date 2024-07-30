@@ -113,7 +113,7 @@ const Header = ({ categories, active, handleClick }: HeaderProps) => {
               user?.user.profilePicture
             }`}
             alt="profile_picture"
-            className="rounded-full w-14 h-14"
+            className="rounded-full w-10 h-10"
           />
         </div>
 
