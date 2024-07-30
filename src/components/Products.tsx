@@ -60,7 +60,6 @@ const Products = ({
         setFilteredProducts(updatedProducts);
       }
     } catch (error) {
-      console.log("Failed to update cart: ", error);
       Swal.fire({
         icon: "error",
         title: "Failed to update cart",
@@ -115,7 +114,12 @@ const Products = ({
         updateTopModels(topModelsData.data);
       }
     } catch (error) {
-      console.log("Failed to update wishlist: ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to update product",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 

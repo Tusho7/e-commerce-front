@@ -118,7 +118,6 @@ const Favorites = () => {
 
       setWishlistsData(updatedProducts);
     } catch (error) {
-      console.log("Failed to update cart: ", error);
       Swal.fire({
         icon: "error",
         title: "Failed to update cart",

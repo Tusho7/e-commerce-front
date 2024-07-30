@@ -25,7 +25,6 @@ const FaqPage = () => {
       try {
         const response = await getFaqs();
         setFaqData(response.data);
-        console.log(response);
       } catch (error) {
         console.error("Error fetching FAQs:", error);
       }
