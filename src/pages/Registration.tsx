@@ -73,7 +73,7 @@ const Registration = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r bg-[#0E1028]">
       {loading && <Loading />}
-      <div className="w-full max-w-[340px] md:max-w-lg bg-[#1A1E46] p-5 rounded-lg shadow-lg text-white">
+      <div className="w-full md:max-w-[450px]  bg-[#1A1E46] p-5 rounded-lg shadow-lg text-white">
         <section className="flex flex-col justify-center items-center">
           <h2 className="text-3xl font-bold text-center">რეგისტრაცია</h2>
           <img src={shoesPicture} alt="shoes" className="w-20 h-20" />
