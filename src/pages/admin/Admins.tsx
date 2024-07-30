@@ -4,10 +4,12 @@ import { Admin } from "../../types/admin";
 import { Link } from "react-router-dom";
 import DeleteIcon from "../../assets/delete_icon.png";
 import Swal from "sweetalert2";
+import { useAdmin } from "../../contexts/UseAdmin";
 
 const Admins = () => {
+  const admin = useAdmin();
   const [adminsData, setAdminsData] = useState<Admin[]>([]);
-
+  const adminId = admin?.admin?.id;
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
@@ -92,12 +94,14 @@ const Admins = () => {
                 </div>
               </div>
               <div className="flex gap-4">
-                <img
-                  src={DeleteIcon}
-                  alt="delete_icon"
-                  className="w-8 h-8 cursor-pointer hover:opacity-75 transition duration-300"
-                  onClick={() => handleDeleteAdmin(admin.id)}
-                />
+                {adminId !== admin.id && (
+                  <img
+                    src={DeleteIcon}
+                    alt="delete_icon"
+                    className="w-8 h-8 cursor-pointer hover:opacity-75 transition duration-300"
+                    onClick={() => handleDeleteAdmin(admin.id)}
+                  />
+                )}
               </div>
             </li>
           ))}
