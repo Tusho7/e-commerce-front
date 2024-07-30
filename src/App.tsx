@@ -30,6 +30,7 @@ import AdminTerms from "./pages/admin/AdminTerms";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminMessages from "./pages/admin/AdminMessages";
 import AdminReviews from "./pages/admin/AdminReviews";
+import Admins from "./pages/admin/Admins";
 
 function App() {
   return (
@@ -136,6 +137,15 @@ function App() {
           element={
             <PrivateAdminRoutes>
               <AdminReviews />
+            </PrivateAdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admins"
+          element={
+            <PrivateAdminRoutes>
+              <Admins />
             </PrivateAdminRoutes>
           }
         />

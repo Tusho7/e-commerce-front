@@ -36,7 +36,7 @@ const AdminDashboard = () => {
     { title: "Terms & Conditions", color: "bg-teal-500", path: "/admin_terms" },
     { title: "Messages", color: "bg-blue-300", path: "/admin_messages" },
     { title: "Reviews", color: "bg-purple-300", path: "/admin_reviews" },
-    { title: "Admins", color: "bg-red-300", path: "/admin_admins" },
+    { title: "Admins", color: "bg-red-300", path: "/admins" },
     { title: "Settings", color: "bg-orange-500", path: "/admin_settings" },
     { title: "Logout", color: "bg-gray-500", path: "", onClick: handleLogout },
   ];
