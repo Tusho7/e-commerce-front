@@ -8,6 +8,7 @@ import { useUser } from "../contexts/UseUser";
 import { createReview, getMyReviws } from "../services/reviews";
 import MyReviews from "./MyReviews";
 import { Review } from "../types/review";
+import { logoutUser } from "../services/api/Auth";
 
 const Profile = () => {
   const { user } = useUser();
@@ -58,30 +59,42 @@ const Profile = () => {
     fetch();
   }, [userId]);
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="p-4 md:px-8 max-w-[1200px] mx-auto">
-      <header className="flex justify-between items-center pb-4">
-        <Link
-          to="/home"
-          className="text-white text-sm font-semibold hover:text-gray-300 transition duration-300"
-        >
-          Home
-        </Link>
-        <div onClick={handleDropdown}>
-          <img
-            src={UserIcon}
-            alt="user_icon"
-            className="w-6 h-6 cursor-pointer"
-          />
+    <div className="">
+      <div className="text-white py-4 flex justify-between items-center  max-w-[1200px] mx-auto">
+        <div className="flex justify-between items-center gap-10 text-sm md:text-base">
+          <Link to="/home">Home</Link>
         </div>
-      </header>
+
+        <div onClick={handleDropdown} className="md:hidden">
+          <img src={UserIcon} alt="user_icon" className="w-6 h-6" />
+        </div>
+
+        <div className="hidden md:flex md:gap-4 md:items-center ">
+          <Link to="/profile">Profile</Link>
+          <Link to="/favorites">My Favorites</Link>
+          <Link to="/cart">Cart</Link>
+          <Link to="/settings">Settings</Link>
+          <p onClick={handleLogout}>Logout</p>
+        </div>
+      </div>
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
-      <div className="py-4 flex flex-col gap-10  min-h-screen ">
+      <div className="py-4 flex flex-col gap-10  min-h-screen  max-w-[1200px] mx-auto">
         {showMyReviews ? (
           <MyReviews reviewData={reviewData} setReviewData={setReviewData} />
         ) : (
-          <section className="rounded-lg  text-white">
+          <section className="rounded-lg  text-white ">
             <div className="flex items-center gap-4 mb-4">
               <img
                 src={UserIcon}
