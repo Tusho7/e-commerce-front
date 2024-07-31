@@ -1,27 +1,6 @@
-import { useEffect, useState } from "react";
-import { Review } from "../types/review";
-import { getReviews } from "../services/reviews";
+import { ReviewProps } from "../types/review";
 
-const Reviews = () => {
-  const [reviews, setReviews] = useState<Review[]>([]);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await getReviews();
-        setReviews(response.data);
-      } catch (error) {
-        console.error("Failed to fetch reviews:", error);
-      }
-    };
-
-    fetchReviews();
-  }, []);
-
-  if (reviews.length === 0) {
-    return <p className="text-center text-white">No reviews available</p>;
-  }
-
+const Reviews = ({ reviews }: ReviewProps) => {
   return (
     <div className="relative overflow-hidden w-full mb-20 mt-10">
       <div className="flex animate-slide">

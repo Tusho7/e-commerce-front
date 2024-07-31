@@ -8,3 +8,7 @@ export interface Review {
   };
   createdAt: string;
 }
+
+export interface ReviewProps {
+  reviews: Review[];
+}

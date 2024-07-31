@@ -7,6 +7,8 @@ import { UseDropdown } from "../contexts/UseDropdown";
 import { topModels } from "../services/topModels";
 import Reviews from "./Reviews";
 import { Product } from "../types/product";
+import { Review } from "../types/review";
+import { getReviews } from "../services/reviews";
 
 const Home = () => {
   const {
@@ -20,17 +22,20 @@ const Home = () => {
   } = UseDropdown();
 
   const [topModelsData, setTopModelsData] = useState<Product[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
-    const fetchTopModels = async () => {
+    const fetchDatas = async () => {
       try {
         const productsData = await topModels();
         setTopModelsData(productsData.data);
+        const response = await getReviews();
+        setReviews(response.data);
       } catch (error) {
         console.error("Failed to fetch top models:", error);
       }
     };
-    fetchTopModels();
+    fetchDatas();
   }, []);
 
   return (
@@ -52,7 +57,8 @@ const Home = () => {
         {topModelsData && topModelsData.length > 0 && (
           <TopModels products={topModelsData} />
         )}
-        <Reviews />
+
+        {reviews && reviews.length > 0 && <Reviews reviews={reviews} />}
       </div>
 
       <Footer />
