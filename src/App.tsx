@@ -213,7 +213,7 @@ function App() {
           path="/reviews"
           element={
             <PrivateRoute>
-              <Reviews />
+              <Reviews reviews={[]} />
             </PrivateRoute>
           }
         />
