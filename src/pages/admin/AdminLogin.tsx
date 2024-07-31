@@ -20,7 +20,7 @@ const AdminLogin = () => {
       localStorage.setItem("isAdminLogin", "true");
       const { data } = await getAdmin();
       setAdmin(data);
-      navigate("/admin_dashboard");
+      navigate("/admin/admin_dashboard");
     } catch (error) {
       console.log(error);
     } finally {

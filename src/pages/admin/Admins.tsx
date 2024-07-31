@@ -67,7 +67,7 @@ const Admins = () => {
           Admins List
         </h1>
         <Link
-          to="/admin_dashboard"
+          to="/admin/admin_dashboard"
           className="bg-indigo-600 text-white text-sm py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
         >
           Go to Main Page

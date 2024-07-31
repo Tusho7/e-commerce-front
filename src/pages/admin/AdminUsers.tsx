@@ -130,7 +130,7 @@ const AdminUsers = () => {
       <div className="flex justify-between items-center mb-12">
         <h1 className="text-5xl font-extrabold text-gray-300">All Users</h1>
         <Link
-          to="/admin_dashboard"
+          to="/admin/admin_dashboard"
           className="bg-indigo-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
         >
           Go to Main Page

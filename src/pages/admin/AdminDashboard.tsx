@@ -18,27 +18,52 @@ const AdminDashboard = () => {
     try {
       await Logout();
       localStorage.clear();
-      navigate("/admin_login");
+      navigate("/admin");
     } catch (error) {
       console.error("Failed to logout:", error);
     }
   };
 
   const items = [
-    { title: "Users", color: "bg-blue-500", path: "/admin_users" },
-    { title: "Categories", color: "bg-yellow-500", path: "/admin_categories" },
-    { title: "Products", color: "bg-purple-500", path: "/admin_products" },
-    { title: "About us", color: "bg-red-500", path: "/admin_about" },
-    { title: "Contact", color: "bg-green-500", path: "/admin_contact" },
-    { title: "Faq", color: "bg-yellow-500", path: "/admin_faq" },
-    { title: "Careers", color: "bg-indigo-500", path: "/admin_careers" },
-    { title: "Privacy Policy", color: "bg-pink-500", path: "/admin_privacy" },
-    { title: "Terms & Conditions", color: "bg-teal-500", path: "/admin_terms" },
-    { title: "Messages", color: "bg-blue-300", path: "/admin_messages" },
-    { title: "Reviews", color: "bg-purple-300", path: "/admin_reviews" },
-    { title: "Admins", color: "bg-red-300", path: "/admins" },
-    { title: "Settings", color: "bg-orange-500", path: "/admin_settings" },
-    { title: "Logout", color: "bg-gray-500", path: "", onClick: handleLogout },
+    { title: "Users", color: "bg-blue-500", path: "/admin/admin_users" },
+    {
+      title: "Categories",
+      color: "bg-yellow-500",
+      path: "/admin/admin_categories",
+    },
+    {
+      title: "Products",
+      color: "bg-purple-500",
+      path: "/admin/admin_products",
+    },
+    { title: "About us", color: "bg-red-500", path: "/admin/admin_about" },
+    { title: "Contact", color: "bg-green-500", path: "/admin/admin_contact" },
+    { title: "Faq", color: "bg-yellow-500", path: "/admin/admin_faq" },
+    { title: "Careers", color: "bg-indigo-500", path: "/admin/admin_careers" },
+    {
+      title: "Privacy Policy",
+      color: "bg-pink-500",
+      path: "/admin/admin_privacy",
+    },
+    {
+      title: "Terms & Conditions",
+      color: "bg-teal-500",
+      path: "/admin/admin_terms",
+    },
+    { title: "Messages", color: "bg-blue-300", path: "/admin/admin_messages" },
+    { title: "Reviews", color: "bg-purple-300", path: "/admin/admin_reviews" },
+    { title: "Admins", color: "bg-red-300", path: "/admin/admins" },
+    {
+      title: "Settings",
+      color: "bg-orange-500",
+      path: "/admin/admin_settings",
+    },
+    {
+      title: "Logout",
+      color: "bg-gray-500",
+      path: "/admin",
+      onClick: handleLogout,
+    },
   ];
 
   return (

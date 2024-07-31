@@ -60,7 +60,7 @@ const AdminMessages = () => {
         </h1>
         <div className="flex flex-col gap-2 text-center justify-start items-start lg:flex-row">
           <Link
-            to="/admin_dashboard"
+            to="/admin/admin_dashboard"
             className="bg-indigo-600 text-white text-xs py-1 px-1 lg:py-2 lg:px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition-all"
           >
             Go to Main Page
