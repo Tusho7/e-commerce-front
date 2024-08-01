@@ -23,6 +23,9 @@
 - <img src="./readme/tailwind.png" width="25" style="top: 8px" /> Tailwind CSS @ 3.4.4 - Utility-first CSS framework.
 - <img src="./readme/axios.png" width="25" style="top: 8px" /> Axios @ 1.7.2 - Promise based HTTP client for the browser and Node.js.
 - <img src="./readme/sweetalert.png" width="25" style="top: 8px" /> sweetalert2 @ 11.12.2 - A beautiful replacement for JavaScript's alert.
+- <img src="./readme/react-table.jpeg" width="25" style="top: 8px" /> React Table @ 7.8.0 - Hooks for building powerful tables and datagrids.
+- <img src="./readme/framer-motion.jpeg" width="25" style="top: 8px" /> Framer Motion @ 11.3.8 - Animation library for React.
+- <img src="./readme/react-router.png" width="25" style="top: 8px" /> React Router DOM @ 6.24.1 - Declarative routing for React.js.
 
 #
 
