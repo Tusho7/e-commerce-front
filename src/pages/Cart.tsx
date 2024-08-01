@@ -110,11 +110,11 @@ const Cart = () => {
         </h2>
         {cartItems.length > 0 ? (
           <div className="text-white min-h-screen">
-            <ul className=" flex justify-between flex-wrap gap-10 h-[700px]">
+            <ul className=" flex justify-between items-start flex-wrap gap-10 ">
               {cartItems.map((item) => (
                 <li
                   key={item.id}
-                  className="flex flex-col items-center justify-center gap-3 border rounded-lg bg-[#1F2937] border-gray-700 shadow-lg transition-transform transform hover:scale-105 max-w-[500px] mx-auto mt-0"
+                  className="flex flex-col items-start justify-start gap-3 border rounded-lg bg-[#1F2937] border-gray-700 shadow-lg transition-transform transform hover:scale-105 max-w-[500px]  mt-0"
                 >
                   <section className="flex justify-between items-center p-4">
                     <div className="flex gap-4 items-center">
