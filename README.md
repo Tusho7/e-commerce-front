@@ -22,7 +22,7 @@
 - <img src="./readme/typescript.png" width="25" style="top: 8px" /> TypeScript @ 5.2.2 - Typed superset of JavaScript.
 - <img src="./readme/tailwind.png" width="25" style="top: 8px" /> Tailwind CSS @ 3.4.4 - Utility-first CSS framework.
 - <img src="./readme/axios.png" width="25" style="top: 8px" /> Axios @ 1.7.2 - Promise based HTTP client for the browser and Node.js.
-- <img src="./readme/sweetalert.png" width="25" style="top: 8px" /> sweetalert @ 2.1.2 - A beautiful replacement for JavaScript's alert.
+- <img src="./readme/sweetalert.png" width="25" style="top: 8px" /> sweetalert2 @ 11.12.2 - A beautiful replacement for JavaScript's alert.
 
 #
 
