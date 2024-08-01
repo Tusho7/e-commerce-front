@@ -179,8 +179,8 @@ const Favorites = () => {
                 </div>
 
                 <div className="text-white flex flex-col gap-[1px]">
-                  <h3 className="text-xs font-semibold">
-                    {removeQuotes(item.product.name)}
+                  <h3 className="text-xs font-semibold max-w-[130px]">
+                    {truncateDescription(removeQuotes(item.product.name))}
                   </h3>
                   <p className="text-sm mb-2">
                     {truncateDescription(
