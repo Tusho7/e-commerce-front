@@ -105,15 +105,12 @@ const Settings = () => {
       <div className="w-full h-[1px] bg-gray-700"></div>
       {dropdown && <DropDown />}
 
-      <div className="max-w-md mx-auto my-10 p-5 border border-gray-300 rounded-lg shadow-lg">
+      <div className="max-w-md mx-auto my-10 p-5 border border-gray-300 rounded-lg shadow-lg text-white">
         <h2 className="text-2xl font-semibold text-center mb-5">Settings</h2>
         {loading && <Loading />}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-sm font-medium ">
               Email
             </label>
             <input
@@ -128,10 +125,7 @@ const Settings = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="firstName" className="block text-sm font-medium ">
               First Name
             </label>
             <input
@@ -146,10 +140,7 @@ const Settings = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="lastName" className="block text-sm font-medium ">
               Last Name
             </label>
             <input
@@ -164,10 +155,7 @@ const Settings = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-sm font-medium ">
               Password
             </label>
             <input
