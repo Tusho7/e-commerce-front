@@ -105,7 +105,9 @@ const Header = ({ categories, active, handleClick }: HeaderProps) => {
             <Link to="/favorites">My Favorites</Link>
             <Link to="/cart">Cart</Link>
             <Link to="/settings">Settings</Link>
-            <p onClick={handleLogout}>Logout</p>
+            <p onClick={handleLogout} className="cursor-pointer">
+              Logout
+            </p>
           </section>
 
           <img
